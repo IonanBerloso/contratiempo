@@ -8,7 +8,9 @@ commit y push. Ninguna falló.
 
 ### Versión recomendada
 
-**r20** (commit `ea0365c`, `dist/index.html`). Es la última y también la mejor. La ronda 20 fue de
+**r20** (commit `ea0365c`, `dist/index.html`), publicada como artifact privado de claude.ai:
+https://claude.ai/artifact/8YEehhc11sY4BxHMiR5Qfa (para que la vean otras personas hay que
+compartirla desde su menú «Compartir»). Es la última y también la mejor. La ronda 20 fue de
 poda y no cambió nada visible: sus capturas son idénticas a las de la ronda 19. El código ocupa
 19.896 líneas, el 79 % del techo de 25.139.
 

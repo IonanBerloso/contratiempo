@@ -65,6 +65,13 @@ rondas está en `RONDAS.md` y el informe en `INFORME.md`.
   `src/styles/theme.css` — variables de color claro/oscuro.
 - Las fuentes vienen de Google Fonts (como en el original); sin red se usan las de reserva.
 
+## Publicar
+
+- `npm run artifact` genera `dist/artifact.html`: el mismo build sin `doctype`/`head`/`body`, porque
+  claude.ai añade ese esqueleto. Es lo que se publica en el artifact
+  https://claude.ai/artifact/8YEehhc11sY4BxHMiR5Qfa con las capacidades `downloads`, `sample`,
+  `room` (tema `duo.hit` abierto a `interact`; `clase.cmd` solo la coreógrafa) y `assets`.
+
 ## Pruebas
 
 - `npm test` = build + `tests/smoke.mjs` (Playwright, Chromium del sistema): carga sin errores de
