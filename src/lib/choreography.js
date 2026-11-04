@@ -1,5 +1,6 @@
+import { classDateLabels, countEights } from "./time.js";
 import { SAMPLE_CLIPS } from "../data/clips.js";
-import { LAST_CLASS_DATE } from "../data/lastClass.js";
+import { DEFAULT_CLASS_DATE } from "../data/lastClass.js";
 import { joinSpanishList, pluralizeCount } from "./format.js";
 import { rhythmToLoop } from "./txalaparta.js";
 function computeBlockRanges(blocks) {
@@ -14,9 +15,6 @@ function computeBlockRanges(blocks) {
     nextEight += block.len;
   });
   return ranges;
-}
-export function countEights(blocks) {
-  return blocks.reduce((sum, block) => sum + block.len, 0);
 }
 function buildFullChoreoMusic(choreo, ranges, rhythms, instruments) {
   const totalEights = choreo.blocks.reduce((sum, blk) => sum + blk.len, 0);
@@ -157,11 +155,17 @@ export function missedClassGroups(choreos, clipsById, lastClass, dancerId) {
     }))
     .filter((group) => group.items.length);
 }
+// Date labels of the last class; saves from before the date was editable use the sample date.
+export const lastClassDate = (lastClass) =>
+  classDateLabels(lastClass.date || DEFAULT_CLASS_DATE);
 export function buildClassSummaryMessage(choreos, clipsById, lastClass) {
   const worked = choreos.filter((candidate) =>
     lastClass.worked.includes(candidate.id),
   );
-  const lines = [`*Clase ${LAST_CLASS_DATE.long.replace(/^el /, "del ")}*`, ""];
+  const lines = [
+    `*Clase ${lastClassDate(lastClass).long.replace(/^el /, "del ")}*`,
+    "",
+  ];
   if (worked.length) {
     lines.push("Hemos trabajado:");
     for (let choreo of worked) {

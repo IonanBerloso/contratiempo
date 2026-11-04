@@ -1,7 +1,6 @@
 // Dancer banner: 'Al día' if she came, otherwise 'Faltaste…' with the ordered list of new clips/personal notes and review progress.
 import { CLIP_ANGLE_LABELS } from "../data/clips.js";
-import { LAST_CLASS_DATE } from "../data/lastClass.js";
-import { missedClassGroups } from "../lib/choreography.js";
+import { lastClassDate, missedClassGroups } from "../lib/choreography.js";
 import { findDancerById } from "../lib/dancers.js";
 import { Icon } from "./ui/Icon.jsx";
 export function MissedClassSummary({
@@ -15,6 +14,7 @@ export function MissedClassSummary({
   const dancer = findDancerById(me);
   const wasAbsent = lastClass.absent.includes(me);
   const seenIds = seen[me] || [];
+  const classDate = lastClassDate(lastClass);
   const groups = missedClassGroups(choreos, clipsById, lastClass, me);
   const allItems = groups.flatMap((groupEntry) => groupEntry.items);
   const seenCount = allItems.filter((catchItem) =>
@@ -29,7 +29,7 @@ export function MissedClassSummary({
         </span>
         <p className="min-w-0 flex-1 text-sm text-ink">
           {"Viniste a la última clase, "}
-          {LAST_CLASS_DATE.long}
+          {classDate.long}
           {". Lo que se cambió ese día lleva la etiqueta "}
           <span className="tag-new">Nuevo</span>
           {" por si quieres repasarlo."}
@@ -42,11 +42,11 @@ export function MissedClassSummary({
       <div className="catch-head">
         <p className="f-label">
           {"Última clase · "}
-          {LAST_CLASS_DATE.short}
+          {classDate.short}
         </p>
         <h2 className="f-display mt-1 text-[2.2rem] uppercase leading-[0.92] [text-wrap:balance]">
           {"Faltaste "}
-          {LAST_CLASS_DATE.day}
+          {classDate.day}
           {", "}
           {dancer.name}
         </h2>

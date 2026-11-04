@@ -2,16 +2,16 @@
 import { useEffect, useRef, useState } from "react";
 import { CLIP_ANGLE_LABELS } from "../data/clips.js";
 import { DANCERS } from "../data/dancers.js";
-import { countEights } from "../lib/choreography.js";
+import {
+  choreoDurationSec,
+  clipDurationSeconds,
+  countEights,
+  formatMinSec,
+} from "../lib/time.js";
 import { findDancerById } from "../lib/dancers.js";
 import { formatClockTenths } from "../lib/format.js";
 import { prefersReducedMotion } from "../lib/dom.js";
 import { clamp } from "../lib/math.js";
-import {
-  choreoDurationSec,
-  clipDurationSeconds,
-  formatMinSec,
-} from "../lib/time.js";
 import { ClipThumbnailGlyph } from "./ui/ClipThumbnailGlyph.jsx";
 import { ConfirmButton } from "./ui/ConfirmButton.jsx";
 import { Icon } from "./ui/Icon.jsx";

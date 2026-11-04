@@ -47,6 +47,11 @@ for (const vp of Object.keys(VIEWPORTS)) {
       });
     }
     if (view === 'coreo' && vp === 'desktop') {
+      await step(page, errors, vp, `${tag} class date drives the summary`, async () => {
+        await page.getByLabel('¿Qué día fue?').fill('2026-11-03');
+        const first = (await page.locator('textarea').first().inputValue()).split('\n')[0];
+        if (!/martes 3 de noviembre/.test(first)) throw new Error('summary says ' + first);
+      });
       await step(page, errors, vp, `${tag} backup downloads outside claude.ai`, async () => {
         const [dl] = await Promise.all([
           page.waitForEvent('download', { timeout: 5000 }),

@@ -1,8 +1,11 @@
 // Choreographer's after-class log: who was absent, which choreographies were worked, editable WhatsApp summary with copy/open.
 import { useMemo, useRef, useState } from "react";
 import { DANCERS } from "../data/dancers.js";
-import { LAST_CLASS_DATE } from "../data/lastClass.js";
-import { buildClassSummaryMessage } from "../lib/choreography.js";
+import {
+  buildClassSummaryMessage,
+  lastClassDate,
+} from "../lib/choreography.js";
+import { DEFAULT_CLASS_DATE } from "../data/lastClass.js";
 import { Icon } from "./ui/Icon.jsx";
 export function LastClassLog({ choreos, clipsById, lastClass, setLastClass }) {
   const generatedText = useMemo(
@@ -55,12 +58,27 @@ export function LastClassLog({ choreos, clipsById, lastClass, setLastClass }) {
       <div>
         <p className="f-label">
           {"Después de clase · "}
-          {LAST_CLASS_DATE.short}
+          {lastClassDate(lastClass).short}
         </p>
         <h2 className="f-display mt-1 text-[1.9rem] uppercase leading-none">
           Última clase
         </h2>
       </div>
+      <label className="flex flex-wrap items-center gap-2 text-[13px] font-semibold text-ink">
+        ¿Qué día fue?
+        <input
+          type="date"
+          className="field w-auto"
+          value={lastClass.date || DEFAULT_CLASS_DATE}
+          onChange={(ev) =>
+            ev.target.value &&
+            setLastClass((prev) => ({ ...prev, date: ev.target.value }))
+          }
+        />
+        <span className="font-normal text-muted">
+          Las que faltaron verán «Faltaste {lastClassDate(lastClass).day}».
+        </span>
+      </label>
       <div className="flex flex-col gap-2">
         <p className="text-[13px] font-semibold text-ink">¿Quién faltó?</p>
         <div className="flex flex-wrap gap-2">

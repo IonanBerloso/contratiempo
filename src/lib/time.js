@@ -1,4 +1,6 @@
-import { countEights } from "./choreography.js";
+export function countEights(blocks) {
+  return blocks.reduce((sum, block) => sum + block.len, 0);
+}
 export function estimateTempoFromTaps(taps) {
   const count = taps.length;
   if (count < 2) return null;
@@ -47,6 +49,39 @@ export function formatShortDate(dateStr) {
   const [year, month, day] = dateStr.split("-").map(Number);
   const date = new Date(year, month - 1, day);
   return `${WEEKDAY_ABBR[date.getDay()]} ${day} ${MONTH_ABBR[month - 1]}`;
+}
+const WEEKDAY_FULL = [
+  "domingo",
+  "lunes",
+  "martes",
+  "miércoles",
+  "jueves",
+  "viernes",
+  "sábado",
+];
+const MONTH_FULL = [
+  "enero",
+  "febrero",
+  "marzo",
+  "abril",
+  "mayo",
+  "junio",
+  "julio",
+  "agosto",
+  "septiembre",
+  "octubre",
+  "noviembre",
+  "diciembre",
+];
+// "jue 22 oct", "el jueves 22 de octubre", "el jueves 22" for a YYYY-MM-DD date.
+export function classDateLabels(dateStr) {
+  const [year, month, day] = dateStr.split("-").map(Number);
+  const weekday = WEEKDAY_FULL[new Date(year, month - 1, day).getDay()];
+  return {
+    short: formatShortDate(dateStr),
+    long: `el ${weekday} ${day} de ${MONTH_FULL[month - 1]}`,
+    day: `el ${weekday} ${day}`,
+  };
 }
 export function daysLeftLabel(days) {
   return days == null

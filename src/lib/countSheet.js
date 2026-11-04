@@ -1,7 +1,6 @@
 import { DANCERS } from "../data/dancers.js";
-import { countEights } from "./choreography.js";
+import { countEights, formatShortDate } from "./time.js";
 import { stageDepthLabel, stageNumberLabel } from "./stage.js";
-import { formatShortDate } from "./time.js";
 const escapeHtml = (value) =>
   String(value == null ? "" : value)
     .replace(/&/g, "&amp;")

@@ -1,8 +1,8 @@
 // Repertoire section: grid of choreography cards with status, novelties count, days to show and block/eight/bpm summary.
 import { useState } from "react";
 import { DANCERS } from "../data/dancers.js";
-import { countEights, listNewForDancer } from "../lib/choreography.js";
-import { daysUntil } from "../lib/time.js";
+import { listNewForDancer } from "../lib/choreography.js";
+import { countEights, daysUntil } from "../lib/time.js";
 function RepertoireMiniStage({ positions, highlight }) {
   return (
     <span className="mini-stage" aria-hidden="true">

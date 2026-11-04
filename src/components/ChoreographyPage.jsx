@@ -1,5 +1,5 @@
 // Choreography detail page: player, stage map, block breakdown, show info.
-import { countEights } from "../lib/choreography.js";
+import { countEights } from "../lib/time.js";
 import { buildCountSheet } from "../lib/countSheet.js";
 import { BlockBreakdown } from "./BlockBreakdown.jsx";
 import { NextShowPanel } from "./NextShowPanel.jsx";
