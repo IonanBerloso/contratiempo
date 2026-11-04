@@ -1,5 +1,76 @@
 # Informe de las rondas de mejora
 
+## Informe final (cierre en la ronda 20)
+
+Se cierra en la ronda 20 por decisión de quien encargó el trabajo (el plan era llegar a 50). Hay 20
+rondas hechas: 16 de mejora y 4 de poda. Todas terminaron con la app funcionando, los tests en verde,
+commit y push. Ninguna falló.
+
+### Versión recomendada
+
+**r20** (commit `ea0365c`, `dist/index.html`). Es la última y también la mejor. La ronda 20 fue de
+poda y no cambió nada visible: sus capturas son idénticas a las de la ronda 19. El código ocupa
+19.896 líneas, el 79 % del techo de 25.139.
+
+### Las 5 mejoras más importantes, explicadas para la coreógrafa
+
+1. **La alumna que falta repasa lo que se hizo de principio a fin sin perderse.** Desde «Faltaste el
+   martes 3» abre el primer vídeo. Abajo le sale «Repaso de la clase · 2 de 8 · Siguiente: …» y va
+   pasando con un botón, en el orden en que le conviene estudiarlo. Antes tenía que volver al inicio
+   después de cada vídeo.
+2. **Cada alumna ve su sitio en todos los bloques a la vez.** En el mapa del escenario, cada bloque
+   lleva su marca: «Intro: 6 dcha · Estrofa: 1 dcha · Final: 0 centro». Los pasos que marca con «Me
+   cuesta» le aparecen juntos en el inicio, en «Lo que te cuesta», para practicarlos directamente.
+3. **Preparar un bloque nuevo es rápido y se puede corregir.** Al añadir un bloque se abre ya listo
+   para escribirle el nombre. Se puede subir o bajar de sitio (un puente entre la estrofa y el
+   estribillo) y quitar si sobra. Antes solo se podía poner al final y no se podía borrar.
+4. **Cada clase se apunta con su fecha y empieza limpia.** En «Última clase» eliges el día. Las que
+   faltaron leen ese día y el mensaje para WhatsApp también lo dice. Con un botón quitas las marcas de
+   «Nuevo» de la clase anterior antes de marcar lo de hoy.
+5. **La pantalla grande sirve para dar la clase desde el portátil.** La barra espaciadora pone y
+   quita la música (antes te sacaba de la pantalla grande). Las flechas ← → saltan al bloque anterior
+   o siguiente. Al ensayar un bloque se ve su formación al lado de las cuentas. Al parar, el botón ya
+   no tapa los números.
+
+También: todo se lee bien con el móvil en modo oscuro, las casillas del taller de txalaparta son lo
+bastante grandes para el dedo, y fuera de claude.ai siguen funcionando la hoja de cuentas, la copia de
+seguridad, el audio del taller y «Proponer una respuesta de herren».
+
+### Ideas descartadas y por qué
+
+- **Que los vídeos y la canción subidos no se borren al cerrar la pestaña.** Se podría guardar en el
+  propio navegador, pero las reglas piden guardarlo todo en localStorage, que no admite vídeos, y son
+  vídeos de menores en un móvil que puede ser compartido. Es una decisión para la coreógrafa, no para
+  tomarla por ella (pregunta 1).
+- **Hacer funcionar el mando del móvil fuera de claude.ai.** Para que dos aparatos se hablen hace falta
+  un servidor, y está prohibido. En su lugar, las flechas del teclado (mejora 5).
+- **Quitar botones del reproductor** (escalera, compararme, bucle A–B, voz…). Puede que sobren para
+  una alumna de 14 años en el móvil, pero quitar algo sin saber qué usan sería adivinar (pregunta 2).
+- **Esconder «Modo clase» a las bailarinas.** Puede que lo usen en casa con la tele (pregunta 5).
+- **Partir el taller de txalaparta en piezas más pequeñas.** Es la parte más difícil de mantener, pero
+  a la coreógrafa no le cambia nada. Queda para cuando haya que tocarlo.
+- **Añadir más funciones** (estadísticas, retos, avisos…). Ninguna tenía respuesta clara a «quién la
+  usa, cuándo y qué problema resuelve», así que no se hizo.
+
+### Preguntas para la coreógrafa antes de la versión definitiva
+
+1. ¿Quieres que los vídeos de pasos y la canción **se queden guardados** en el móvil o en el ordenador
+   entre un día y otro? Hoy se pierden al cerrar la pestaña. Si es que sí, ¿también en móviles que
+   comparten las chicas con su familia?
+2. ¿Qué botones del reproductor **usan de verdad** las chicas en casa: velocidad, espejo, escalera,
+   compararme, repetir un trozo, metrónomo, voz?
+3. Cuando ensayan en casa, ¿piensan el escenario **desde el público o desde el escenario**? ¿Cuál
+   debería salir primero en el mapa?
+4. ¿Cómo comparte hoy las cosas con el grupo? ¿Le vale el **resumen para WhatsApp** tal como sale?
+5. En clase, ¿proyecta **desde un portátil o desde una tele**? ¿Usaría el móvil como mando? ¿Las
+   bailarinas usan «Modo clase» en casa?
+6. En el taller de txalaparta, ¿crean el ritmo **juntas en un móvil o cada una en el suyo**? ¿Hace
+   falta el modo de dos móviles?
+7. ¿Las familias están de acuerdo con que las alumnas usen **«Compararme»** con un vídeo suyo? El vídeo
+   no sale del móvil, pero conviene que lo sepan.
+8. ¿Cómo y cada cuánto se dan y se cambian los **códigos de acceso**? ¿Puede una alumna tener el
+   código de otra?
+
 ## Corte r20 (rondas 11–20)
 
 ### Lo que ha mejorado de verdad desde r10
