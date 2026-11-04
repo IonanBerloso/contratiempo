@@ -143,6 +143,14 @@ export function listNewForDancer(choreo, clips, dancerId) {
   }
   return items;
 }
+// What a dancer who missed the last class should review, grouped by choreography and in study
+// order. Shared by the "Faltaste…" list and the review bar so both number items the same way.
+export function missedClassGroups(choreos, clipsById, lastClass, dancerId) {
+  return choreos
+    .filter((choreo) => lastClass.worked.includes(choreo.id) && choreo.status !== "Borrador")
+    .map((choreo) => ({ choreo, items: listNewForDancer(choreo, clipsById[choreo.id] || [], dancerId) }))
+    .filter((group) => group.items.length);
+}
 export function buildClassSummaryMessage(choreos, clipsById, lastClass) {
   const worked = choreos.filter((candidate) =>
     lastClass.worked.includes(candidate.id),

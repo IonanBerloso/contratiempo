@@ -6,7 +6,7 @@ import {
   setAudioMuted,
   unlockAudio,
 } from "./lib/audio.js";
-import { buildChoreoMedia, buildStepBankIndex } from "./lib/choreography.js";
+import { buildChoreoMedia, buildStepBankIndex, missedClassGroups } from "./lib/choreography.js";
 import { findDancerById } from "./lib/dancers.js";
 import { isComfortablyInView, prefersReducedMotion, useMediaQuery } from "./lib/dom.js";
 import { isSpeechSupported } from "./lib/speech.js";
@@ -25,6 +25,7 @@ import { ImprovRouletteRunner } from "./components/ImprovRouletteRunner.jsx";
 import { LastClassLog } from "./components/LastClassLog.jsx";
 import { MissedClassSummary } from "./components/MissedClassSummary.jsx";
 import { PracticeStatsPanel } from "./components/PracticeStatsPanel.jsx";
+import { ReviewBar } from "./components/ReviewBar.jsx";
 import { RepertoireGrid } from "./components/RepertoireGrid.jsx";
 import { StepBankPanel } from "./components/StepBankPanel.jsx";
 import { StepDictionary } from "./components/StepDictionary.jsx";
@@ -200,6 +201,7 @@ export function App() {
   const goHome = () => {
     setChoreoId(null);
     setTallerId(null);
+    setReviewPos(null);
     window.scrollTo(0, 0);
   };
   const workshopRhythm =
@@ -373,6 +375,29 @@ export function App() {
       scrollToRef(playerRef, true);
     } else {
       window.scrollTo(0, 0);
+    }
+  };
+  // Going through the "Faltaste…" list in order (dancer view): position in the flat list.
+  const [reviewPos, setReviewPos] = useState(null);
+  const reviewItems = useMemo(
+    () =>
+      dancerId
+        ? missedClassGroups(choreos, clipsByChoreo, lastClass, dancerId).flatMap((group) =>
+            group.items.map((item) => ({ choreoId: group.choreo.id, item })),
+          )
+        : [],
+    [choreos, clipsByChoreo, lastClass, dancerId],
+  );
+  const openReviewItem = (index) => {
+    const entry = reviewItems[index];
+    if (!entry) return;
+    setReviewPos(index);
+    const { choreoId: itemChoreoId, item } = entry;
+    if (item.kind === "clip") {
+      openChoreo(itemChoreoId, { blockId: item.clip.block, clipId: item.clip.id, play: true });
+    } else {
+      markSeen(item.id);
+      openChoreo(itemChoreoId, { blockId: item.block.id, focus: "map" });
     }
   };
   const updateChoreo = useCallback(
@@ -1052,20 +1077,7 @@ export function App() {
                     clipsById={clipsByChoreo}
                     lastClass={lastClass}
                     seen={seen}
-                    onPlay={(playChoreoId, clipToStart) =>
-                      openChoreo(playChoreoId, {
-                        blockId: clipToStart.block,
-                        clipId: clipToStart.id,
-                        play: true,
-                      })
-                    }
-                    onNote={(noteChoreoId, noteBlockId, noteClipId) => {
-                      markSeen(noteClipId);
-                      openChoreo(noteChoreoId, {
-                        blockId: noteBlockId,
-                        focus: "map",
-                      });
-                    }}
+                    onOpenItem={openReviewItem}
                   />
                   <UpcomingShowCard
                     choreos={choreos}
@@ -1151,7 +1163,13 @@ export function App() {
               : "Restaurar datos de ejemplo"}
           </button>
         </footer>
+        {!isCoreo && dancerId && choreoId && reviewPos != null && (
+          <div className="review-bar-space" aria-hidden="true" />
+        )}
       </main>
+      {!isCoreo && dancerId && choreoId && (
+        <ReviewBar items={reviewItems} pos={reviewPos} onGo={openReviewItem} onClose={goHome} />
+      )}
     </div>
   );
 }

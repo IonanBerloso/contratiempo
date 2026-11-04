@@ -1,7 +1,7 @@
 // Dancer banner: 'Al día' if she came, otherwise 'Faltaste…' with the ordered list of new clips/personal notes and review progress.
 import { CLIP_ANGLE_LABELS } from "../data/clips.js";
 import { LAST_CLASS_DATE } from "../data/lastClass.js";
-import { listNewForDancer } from "../lib/choreography.js";
+import { missedClassGroups } from "../lib/choreography.js";
 import { findDancerById } from "../lib/dancers.js";
 import { Icon } from "./ui/Icon.jsx";
 export function MissedClassSummary({
@@ -10,27 +10,12 @@ export function MissedClassSummary({
   clipsById,
   lastClass,
   seen,
-  onPlay,
-  onNote,
+  onOpenItem,
 }) {
   const dancer = findDancerById(me);
   const wasAbsent = lastClass.absent.includes(me);
   const seenIds = seen[me] || [];
-  const groups = choreos
-    .filter(
-      (workedChoreo) =>
-        lastClass.worked.includes(workedChoreo.id) &&
-        workedChoreo.status !== "Borrador",
-    )
-    .map((visibleChoreo) => ({
-      choreo: visibleChoreo,
-      items: listNewForDancer(
-        visibleChoreo,
-        clipsById[visibleChoreo.id] || [],
-        me,
-      ),
-    }))
-    .filter((group) => group.items.length);
+  const groups = missedClassGroups(choreos, clipsById, lastClass, me);
   const allItems = groups.flatMap((groupEntry) => groupEntry.items);
   const seenCount = allItems.filter((catchItem) =>
     seenIds.includes(catchItem.id),
@@ -92,6 +77,7 @@ export function MissedClassSummary({
             <p className="f-label">{choreoGroup.choreo.title}</p>
             <ol className="catch-list">
               {choreoGroup.items.map((entry) => {
+                const index = itemNumber;
                 itemNumber += 1;
                 const isSeen = seenIds.includes(entry.id);
                 return (
@@ -99,15 +85,7 @@ export function MissedClassSummary({
                     <button
                       type="button"
                       className={`catch-item ${isSeen ? "is-seen" : ""}`}
-                      onClick={() =>
-                        entry.kind === "clip"
-                          ? onPlay(choreoGroup.choreo.id, entry.clip)
-                          : onNote(
-                              choreoGroup.choreo.id,
-                              entry.block.id,
-                              entry.id,
-                            )
-                      }
+                      onClick={() => onOpenItem(index)}
                     >
                       <span className="catch-num f-display">{itemNumber}</span>
                       <span className="min-w-0 flex-1">

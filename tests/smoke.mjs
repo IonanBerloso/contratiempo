@@ -35,6 +35,17 @@ for (const vp of Object.keys(VIEWPORTS)) {
     await step(page, errors, vp, `${tag} load + switch view`, () => setView(page, view));
     check(await page.getByRole('region', { name: 'Repertorio' }).isVisible(), `${tag} repertoire visible`);
 
+    if (view === 'bailarina') {
+      await step(page, errors, vp, `${tag} review bar walks the "Faltaste" list`, async () => {
+        await page.locator('.catch-item').first().click();
+        const bar = page.getByRole('region', { name: 'Repaso de la última clase' });
+        await bar.getByText(/1 de \d+/).waitFor({ timeout: 3000 });
+        await bar.getByRole('button', { name: 'Siguiente' }).click();
+        await bar.getByText(/2 de \d+/).waitFor({ timeout: 3000 });
+        await bar.getByRole('button', { name: 'Cerrar el repaso' }).click();
+        await page.getByRole('region', { name: 'Repertorio' }).waitFor();
+      });
+    }
     await step(page, errors, vp, `${tag} open choreography`, async () => {
       await page.locator('.rep-card').first().click();
       await page.getByRole('region', { name: 'Reproductor de práctica' }).waitFor();
