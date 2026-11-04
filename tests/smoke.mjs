@@ -113,6 +113,15 @@ for (const vp of Object.keys(VIEWPORTS)) {
       await settle(page, 400);
       if (await page.locator('.player-big').count()) throw new Error('Escape did not leave big-screen mode');
     });
+    if (view === 'bailarina') {
+      await step(page, errors, vp, `${tag} «Me cuesta» shows up on her home screen`, async () => {
+        await page.getByRole('button', { name: /Me cuesta/ }).first().click();
+        await page.getByRole('button', { name: 'Contratiempo: volver al repertorio' }).click();
+        const items = page.getByRole('region', { name: 'Lo que te cuesta' }).locator('.catch-item');
+        if ((await items.count()) !== 1) throw new Error('expected 1 hard step');
+        await page.locator('.rep-card').first().click();
+      });
+    }
     await step(page, errors, vp, `${tag} back to repertoire`, async () => {
       await page.getByRole('button', { name: 'Contratiempo: volver al repertorio' }).click();
       await page.getByRole('region', { name: 'Repertorio' }).waitFor();

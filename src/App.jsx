@@ -33,6 +33,7 @@ import { LastClassLog } from "./components/LastClassLog.jsx";
 import { MissedClassSummary } from "./components/MissedClassSummary.jsx";
 import { PracticeStatsPanel } from "./components/PracticeStatsPanel.jsx";
 import { ReviewBar } from "./components/ReviewBar.jsx";
+import { HardStepsPanel } from "./components/HardStepsPanel.jsx";
 import { ConfirmButton } from "./components/ui/ConfirmButton.jsx";
 import { RepertoireGrid } from "./components/RepertoireGrid.jsx";
 import { StepBankPanel } from "./components/StepBankPanel.jsx";
@@ -1136,6 +1137,18 @@ export function App() {
                     onFull={(fullChoreoId) =>
                       openChoreo(fullChoreoId, {
                         clipId: `full-${fullChoreoId}`,
+                        play: true,
+                      })
+                    }
+                  />
+                  <HardStepsPanel
+                    choreos={choreos}
+                    clipsById={clipsByChoreo}
+                    hardIds={(hard || {})[dancerId] || []}
+                    onOpenClip={(clipChoreoId, clipToOpen) =>
+                      openChoreo(clipChoreoId, {
+                        blockId: clipToOpen.block,
+                        clipId: clipToOpen.id,
                         play: true,
                       })
                     }
