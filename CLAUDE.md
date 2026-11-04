@@ -46,9 +46,9 @@ rondas está en `RONDAS.md` y el informe en `INFORME.md`.
 
 ## Techo de tamaño
 
-- Líneas de `src/` en v0: **ver RONDAS.md, fila 0** (contadas con `npm run lines`).
-- **Techo = líneas de v0 × 1,3** (ver el número exacto en RONDAS.md, fila 0). Si `src/` lo pasa, la
-  ronda siguiente es de poda.
+- Líneas de `src/` en v0: **19.338** (JS, JSX y CSS; contadas con `npm run lines`).
+- **Techo = 19.338 × 1,3 = 25.139 líneas.** Si `src/` lo pasa, la ronda es de poda aunque no le
+  toque.
 
 ## Proyecto
 

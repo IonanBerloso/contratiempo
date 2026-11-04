@@ -1,4 +1,4 @@
-var ACCESS_CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+const ACCESS_CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
 export function generateAccessCode(existingCodes) {
   for (;;) {
     let candidate = "";

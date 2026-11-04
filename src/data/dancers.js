@@ -1,4 +1,4 @@
-export var DANCERS = [
+export const DANCERS = [
   {
     id: "laura",
     name: "Laura",
@@ -25,7 +25,7 @@ export var DANCERS = [
   },
   {
     id: "sofia",
-    name: "Sof\xEDa",
+    name: "Sofía",
     tape: "#8B5CF6",
     ink: "#FFFFFF",
   },
@@ -36,7 +36,7 @@ export var DANCERS = [
     ink: "#1A1A1A",
   },
 ];
-export var DEMO_ACCESS_CODES = {
+export const DEMO_ACCESS_CODES = {
   laura: "K7P2",
   irati: "R4M9",
   nerea: "B2X6",

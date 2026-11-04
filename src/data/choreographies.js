@@ -1,77 +1,76 @@
-export var SAMPLE_CHOREOS = [
+export const SAMPLE_CHOREOS = [
   {
     id: "otono",
-    title: "Oto\xF1o en swing",
+    title: "Otoño en swing",
     bpm: 132,
-    swing: !0,
+    swing: true,
     status: "En ensayo",
     show: {
       name: "Festival de Navidad",
       date: "2026-12-19",
     },
-    week: "Limpiar el canon del estribillo. Repasad el v\xEDdeo despacio antes del jueves.",
+    week: "Limpiar el canon del estribillo. Repasad el vídeo despacio antes del jueves.",
     blocks: [
       {
         id: "o1",
-        done: !0,
+        done: true,
         name: "Intro",
         len: 3,
         formation: "Fila",
-        isNew: !1,
+        isNew: false,
         notes:
-          "Ocho 1: entramos por el hombro derecho de una en una, cada media cuenta. Ochos 2 y 3: paso b\xE1sico de tiempo a derecha e izquierda. Peso adelante y rodillas sueltas: que suene limpio, no fuerte.",
+          "Ocho 1: entramos por el hombro derecho de una en una, cada media cuenta. Ochos 2 y 3: paso básico de tiempo a derecha e izquierda. Peso adelante y rodillas sueltas: que suene limpio, no fuerte.",
         personal: {
-          ane: "Sales la primera: arranca en el \xABy\xBB del 8, no esperes al 1.",
+          ane: "Sales la primera: arranca en el «y» del 8, no esperes al 1.",
           sofia:
             "Cuando llegues a tu marca, para en seco. Nada de pasitos de ajuste.",
         },
       },
       {
         id: "o2",
-        done: !0,
+        done: true,
         name: "Estrofa",
         len: 4,
-        formation: "Cu\xF1a",
-        isNew: !1,
+        formation: "Cuña",
+        isNew: false,
         notes:
-          "En el ocho 4 pasamos de la fila a la cu\xF1a en cuatro tiempos, andando sobre la punta. Despu\xE9s, cepillado doble y cambio de peso a cada lado, y rueda de tal\xF3n. La rueda son cuatro sonidos iguales, sin acentos.",
+          "En el ocho 4 pasamos de la fila a la cuña en cuatro tiempos, andando sobre la punta. Después, cepillado doble y cambio de peso a cada lado, y rueda de talón. La rueda son cuatro sonidos iguales, sin acentos.",
         personal: {
           irati:
-            "Tu rueda de tal\xF3n corre. Pract\xEDcala a 0,75\xD7 con el metr\xF3nomo hasta que suene pareja.",
-          laura:
-            "En la cu\xF1a vas delante: t\xFA marcas el pulso, que se te oiga.",
+            "Tu rueda de talón corre. Practícala a 0,75× con el metrónomo hasta que suene pareja.",
+          laura: "En la cuña vas delante: tú marcas el pulso, que se te oiga.",
         },
       },
       {
         id: "o3",
-        done: !0,
+        done: true,
         name: "Estribillo",
         len: 4,
         formation: "Diagonal en canon",
-        isNew: !0,
+        isNew: true,
         notes:
-          "La diagonal entra en canon en el ocho 8: cada una sale una cuenta despu\xE9s de la anterior, empezando por Ane al fondo. Luego dos rozados, redoble y golpe, primero a la derecha y despu\xE9s a la izquierda. Mirada al p\xFAblico desde el primer rozado.",
+          "La diagonal entra en canon en el ocho 8: cada una sale una cuenta después de la anterior, empezando por Ane al fondo. Luego dos rozados, redoble y golpe, primero a la derecha y después a la izquierda. Mirada al público desde el primer rozado.",
         personal: {
           laura:
             "Te he cambiado de sitio: ahora vas la tercera de la diagonal, entre Irati y Maialen.",
           nerea:
             "Eres la quinta del canon: sales en el 5 y llegas a tu sitio en el 7.",
           maialen:
-            "Cuidado con el redoble a la izquierda: el \xFAltimo tal\xF3n se te come.",
+            "Cuidado con el redoble a la izquierda: el último talón se te come.",
         },
       },
       {
         id: "o4",
         name: "Break y final",
         len: 3,
-        formation: "Semic\xEDrculo y solo",
-        isNew: !1,
+        formation: "Semicírculo y solo",
+        isNew: false,
         acapella: [2, 3],
         notes:
-          "Ocho 12: vamos al semic\xEDrculo en seis tiempos y Nerea se queda delante. Ochos 13 y 14: break a capella, sin m\xFAsica. Paradiddles alternando pies y tres golpes; el resto marca el pulso con talones. Pose final en el 8 y aguantamos dos tiempos.",
+          "Ocho 12: vamos al semicírculo en seis tiempos y Nerea se queda delante. Ochos 13 y 14: break a capella, sin música. Paradiddles alternando pies y tres golpes; el resto marca el pulso con talones. Pose final en el 8 y aguantamos dos tiempos.",
         personal: {
           nerea:
-            "El break delante es tuyo. Si te pierdes, vuelve al tal\xF3n en el 1.",
+            "El break delante es tuyo. Si te pierdes, vuelve al talón en el 1.",
           ane: "Marca el pulso con talones bajito, que se oiga a Nerea por encima.",
         },
       },
@@ -115,7 +114,7 @@ export var SAMPLE_CHOREOS = [
     id: "tren",
     title: "Tren de medianoche",
     bpm: 120,
-    swing: !1,
+    swing: false,
     status: "En ensayo",
     show: {
       name: "Festival de Navidad",
@@ -125,13 +124,13 @@ export var SAMPLE_CHOREOS = [
     blocks: [
       {
         id: "t1",
-        done: !0,
+        done: true,
         name: "La salida",
         len: 2,
         formation: "Columna",
-        isNew: !1,
+        isNew: false,
         notes:
-          "Empezamos en columna, como vagones. Golpes lentos que arrancan el tren y luego cepillado y paso cada vez m\xE1s ligero. Brazos de biela pegados al cuerpo.",
+          "Empezamos en columna, como vagones. Golpes lentos que arrancan el tren y luego cepillado y paso cada vez más ligero. Brazos de biela pegados al cuerpo.",
         personal: {
           laura:
             "Eres la locomotora: vas la primera de la columna y marcas la velocidad.",
@@ -139,28 +138,27 @@ export var SAMPLE_CHOREOS = [
       },
       {
         id: "t2",
-        done: !0,
+        done: true,
         name: "El traqueteo",
         len: 4,
-        formation: "Dos v\xEDas",
-        isNew: !0,
+        formation: "Dos vías",
+        isNew: true,
         notes:
-          "Nuevo: la columna se abre en dos v\xEDas de tres. El traqueteo es cepillado doble y paso, sin parar, \xABta-ca-TA\xBB. Que no se acelere: el tren va constante.",
+          "Nuevo: la columna se abre en dos vías de tres. El traqueteo es cepillado doble y paso, sin parar, «ta-ca-TA». Que no se acelere: el tren va constante.",
         personal: {
           nerea:
-            "Vas en la v\xEDa de tu izquierda, en medio. Maialen va delante de ti: id a la vez.",
-          laura:
-            "En las dos v\xEDas vas la primera de la v\xEDa de tu derecha.",
+            "Vas en la vía de tu izquierda, en medio. Maialen va delante de ti: id a la vez.",
+          laura: "En las dos vías vas la primera de la vía de tu derecha.",
         },
       },
       {
         id: "t3",
-        name: "Llegada al and\xE9n",
+        name: "Llegada al andén",
         len: 2,
-        formation: "And\xE9n",
-        isNew: !1,
+        formation: "Andén",
+        isNew: false,
         notes:
-          "Frenamos poco a poco: cada ocho m\xE1s lento con talones. Terminamos en l\xEDnea delante, como en el and\xE9n.",
+          "Frenamos poco a poco: cada ocho más lento con talones. Terminamos en línea delante, como en el andén.",
         personal: {},
       },
     ],
@@ -195,7 +193,7 @@ export var SAMPLE_CHOREOS = [
     id: "fin",
     title: "Fin de curso",
     bpm: 128,
-    swing: !1,
+    swing: false,
     status: "Borrador",
     blocks: [
       {
@@ -203,9 +201,9 @@ export var SAMPLE_CHOREOS = [
         name: "Idea de inicio",
         len: 2,
         formation: "Por decidir",
-        isNew: !1,
+        isNew: false,
         notes:
-          "Idea: empezar a oscuras, solo con el sonido de los pies. Falta elegir canci\xF3n.",
+          "Idea: empezar a oscuras, solo con el sonido de los pies. Falta elegir canción.",
         personal: {},
       },
     ],
@@ -224,13 +222,13 @@ export var SAMPLE_CHOREOS = [
     id: "txala",
     title: "Txalaparta",
     bpm: 104,
-    swing: !1,
+    swing: false,
     status: "En ensayo",
     show: {
       name: "Fiesta de la escuela",
       date: "2026-11-27",
     },
-    week: "Cada una aprende su papel del Di\xE1logo en el taller de txalaparta, con \xABPracticar mi papel\xBB.",
+    week: "Cada una aprende su papel del Diálogo en el taller de txalaparta, con «Practicar mi papel».",
     links: [
       {
         id: "k1",
@@ -251,44 +249,44 @@ export var SAMPLE_CHOREOS = [
         },
         {
           time: "18:15",
-          what: "Actuaci\xF3n",
+          what: "Actuación",
         },
       ],
       costume:
-        "Camiseta blanca, pantal\xF3n negro y zapatos de claqu\xE9. Pelo recogido.",
+        "Camiseta blanca, pantalón negro y zapatos de claqué. Pelo recogido.",
       notes: {
-        nerea: "Llevas el pa\xF1uelo rojo del solo del break.",
+        nerea: "Llevas el pañuelo rojo del solo del break.",
       },
       auth: {
-        laura: !0,
-        irati: !0,
-        nerea: !1,
-        maialen: !0,
-        sofia: !1,
-        ane: !0,
+        laura: true,
+        irati: true,
+        nerea: false,
+        maialen: true,
+        sofia: false,
+        ane: true,
       },
     },
     blocks: [
       {
         id: "x1",
-        done: !0,
+        done: true,
         name: "Entrada",
         len: 2,
         formation: "Dos filas enfrentadas",
-        isNew: !1,
+        isNew: false,
         notes:
           "Dos filas enfrentadas, como los dos lados de la txalaparta: la fila de delante es ttakun y la del fondo, herren. Entramos marcando el pulso con talones.",
         personal: {},
       },
       {
         id: "x2",
-        name: "Di\xE1logo",
+        name: "Diálogo",
         len: 2,
         formation: "Pregunta y respuesta",
-        isNew: !1,
+        isNew: false,
         rhythmId: "rx1",
         notes:
-          "Sobre el ritmo que creamos en el taller. La fila ttakun marca el pulso y la fila herren contesta en los huecos. Los pasos de cada cuenta est\xE1n apuntados en el taller.",
+          "Sobre el ritmo que creamos en el taller. La fila ttakun marca el pulso y la fila herren contesta en los huecos. Los pasos de cada cuenta están apuntados en el taller.",
         personal: {},
       },
     ],

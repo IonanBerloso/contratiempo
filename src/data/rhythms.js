@@ -1,6 +1,6 @@
 function buildDialogueRhythmLayers() {
-  let ttakunStrikes = [],
-    herrenStrikes = [];
+  const ttakunStrikes = [];
+  const herrenStrikes = [];
   for (let beat = 0; beat < 7; beat++)
     ttakunStrikes.push(
       {
@@ -37,19 +37,19 @@ function buildDialogueRhythmLayers() {
     {
       id: "l1",
       label: "Ttakun",
-      muted: !1,
+      muted: false,
       strikes: ttakunStrikes,
     },
     {
       id: "l2",
       label: "Herren",
-      muted: !1,
+      muted: false,
       strikes: herrenStrikes,
     },
     {
       id: "l3",
       label: "Golpe final, las dos",
-      muted: !1,
+      muted: false,
       strikes: [
         {
           b: 7,
@@ -75,10 +75,10 @@ function buildDialogueRhythmLayers() {
     },
   ];
 }
-export var SAMPLE_RHYTHMS = [
+export const SAMPLE_RHYTHMS = [
   {
     id: "rx1",
-    name: "Di\xE1logo de ejemplo",
+    name: "Diálogo de ejemplo",
     bpm: 104,
     eights: 1,
     material: "madera",
@@ -102,7 +102,7 @@ export var SAMPLE_RHYTHMS = [
     bpm: 100,
     eights: 1,
     material: "ambas",
-    feet: !0,
+    feet: true,
     snap: "8",
     author: "profe",
     layers: buildMixedMaterialRhythmLayers(),
@@ -110,7 +110,7 @@ export var SAMPLE_RHYTHMS = [
   },
 ];
 function buildMixedMaterialRhythmLayers() {
-  let woodStrikes = [];
+  const woodStrikes = [];
   for (let beat = 0; beat < 7; beat++)
     woodStrikes.push({
       b: beat,
@@ -118,7 +118,7 @@ function buildMixedMaterialRhythmLayers() {
       p: "tk",
       m: "w",
     });
-  let stoneStrikes = [0, 1, 2, 4, 5, 6].map((herrenBeat) => ({
+  const stoneStrikes = [0, 1, 2, 4, 5, 6].map((herrenBeat) => ({
     b: herrenBeat + 0.5,
     plank: herrenBeat % 3,
     p: "hr",
@@ -128,19 +128,19 @@ function buildMixedMaterialRhythmLayers() {
     {
       id: "m1",
       label: "Ttakun en madera",
-      muted: !1,
+      muted: false,
       strikes: woodStrikes,
     },
     {
       id: "m2",
       label: "Herren en piedra",
-      muted: !1,
+      muted: false,
       strikes: stoneStrikes,
     },
     {
       id: "m3",
       label: "Pies",
-      muted: !1,
+      muted: false,
       strikes: [
         {
           b: 3,
@@ -167,7 +167,7 @@ function buildMixedMaterialRhythmLayers() {
     {
       id: "m4",
       label: "Golpe final",
-      muted: !1,
+      muted: false,
       strikes: [
         {
           b: 7,

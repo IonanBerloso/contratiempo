@@ -1,4 +1,4 @@
-export var TAP_SOUND_KEYS = [
+export const TAP_SOUND_KEYS = [
   "step",
   "ball",
   "brush",
@@ -10,7 +10,7 @@ export var TAP_SOUND_KEYS = [
   "stamp",
   "hop",
 ];
-export var TAP_STEP_KEYS = [
+export const TAP_STEP_KEYS = [
   "flap",
   "shuffle",
   "ballChange",
@@ -23,7 +23,7 @@ export var TAP_STEP_KEYS = [
   "step",
   "heel",
 ];
-export var TAP_STEP_TERMS = {
+export const TAP_STEP_TERMS = {
   flap: "flap",
   shuffle: "shuffle",
   ballChange: "ball change",
@@ -36,7 +36,7 @@ export var TAP_STEP_TERMS = {
   step: "step",
   heel: "heel drop",
 };
-export var DEFAULT_TAP_VOCAB = {
+export const DEFAULT_TAP_VOCAB = {
   sounds: {
     step: {
       name: "paso",
@@ -51,19 +51,19 @@ export var DEFAULT_TAP_VOCAB = {
       abbr: "Ce",
     },
     spank: {
-      name: "cepillado atr\xE1s",
+      name: "cepillado atrás",
       abbr: "CA",
     },
     scuff: {
-      name: "rozado de tal\xF3n",
+      name: "rozado de talón",
       abbr: "Ro",
     },
     heel: {
-      name: "tal\xF3n",
+      name: "talón",
       abbr: "Ta",
     },
     dig: {
-      name: "clavado de tal\xF3n",
+      name: "clavado de talón",
       abbr: "Cl",
     },
     toe: {
@@ -90,7 +90,7 @@ export var DEFAULT_TAP_VOCAB = {
       name: "cambio de peso",
     },
     paddle: {
-      name: "rueda de tal\xF3n",
+      name: "rueda de talón",
     },
     cramp: {
       name: "redoble",
@@ -111,7 +111,7 @@ export var DEFAULT_TAP_VOCAB = {
       name: "paso",
     },
     heel: {
-      name: "tal\xF3n",
+      name: "talón",
     },
   },
 };

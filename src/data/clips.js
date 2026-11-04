@@ -14,7 +14,7 @@ import {
   tapStep,
   tapTimeStepPhrase,
 } from "../lib/footwork.js";
-var chorusFootworkPhrase = (beat, foot) => [
+const chorusFootworkPhrase = (beat, foot) => [
   tapRiff(beat, foot),
   tapStep(beat + 0.5, foot),
   tapRiff(beat + 1, oppositeFoot(foot)),
@@ -22,14 +22,14 @@ var chorusFootworkPhrase = (beat, foot) => [
   tapCrampRoll(beat + 2, foot),
   tapStamp(beat + 3, foot),
 ];
-export var SAMPLE_CLIPS = [
+export const SAMPLE_CLIPS = [
   {
     id: "c2",
     block: "o1",
     rel: 1,
     bpm: 132,
-    isNew: !1,
-    title: "Entrada desde el hombro y colocaci\xF3n en fila",
+    isNew: false,
+    title: "Entrada desde el hombro y colocación en fila",
     ...buildStageMoveTrack({
       counts: 8,
       from: "entrada",
@@ -45,10 +45,10 @@ export var SAMPLE_CLIPS = [
     rel: 2,
     angle: "frente",
     bpm: 132,
-    swing: !0,
+    swing: true,
     counts: 16,
-    isNew: !1,
-    title: "Paso b\xE1sico de tiempo, a derecha e izquierda",
+    isNew: false,
+    title: "Paso básico de tiempo, a derecha e izquierda",
     ...buildFootworkTrack([
       tapTimeStepPhrase(-1, "R"),
       tapTimeStepPhrase(3, "L"),
@@ -62,8 +62,8 @@ export var SAMPLE_CLIPS = [
     block: "o2",
     rel: 1,
     bpm: 132,
-    isNew: !1,
-    title: "Transici\xF3n de la fila a la cu\xF1a",
+    isNew: false,
+    title: "Transición de la fila a la cuña",
     ...buildStageMoveTrack({
       counts: 8,
       from: "o1",
@@ -78,8 +78,8 @@ export var SAMPLE_CLIPS = [
     angle: "lado",
     bpm: 88,
     counts: 8,
-    isNew: !1,
-    title: "Cepillado doble y rueda de tal\xF3n, explicado despacio",
+    isNew: false,
+    title: "Cepillado doble y rueda de talón, explicado despacio",
     ...buildFootworkTrack([
       tapShuffle(0, "R"),
       tapBallChange(1, "R"),
@@ -96,8 +96,8 @@ export var SAMPLE_CLIPS = [
     block: "o3",
     rel: 1,
     bpm: 132,
-    isNew: !0,
-    title: "Canon en diagonal: qui\xE9n sale en cada cuenta",
+    isNew: true,
+    title: "Canon en diagonal: quién sale en cada cuenta",
     ...buildStageMoveTrack({
       counts: 8,
       from: "o2",
@@ -114,7 +114,7 @@ export var SAMPLE_CLIPS = [
     angle: "lado",
     bpm: 96,
     counts: 8,
-    isNew: !0,
+    isNew: true,
     title: "Paso de pies del estribillo explicado despacio",
     ...buildFootworkTrack([
       chorusFootworkPhrase(0, "R"),
@@ -127,9 +127,9 @@ export var SAMPLE_CLIPS = [
     rel: 2,
     angle: "frente",
     bpm: 132,
-    swing: !0,
+    swing: true,
     counts: 16,
-    isNew: !0,
+    isNew: true,
     title: "Estribillo completo a tempo",
     ...buildFootworkTrack([
       chorusFootworkPhrase(0, "R"),
@@ -143,8 +143,8 @@ export var SAMPLE_CLIPS = [
     block: "o4",
     rel: 1,
     bpm: 132,
-    isNew: !1,
-    title: "Del estribillo al semic\xEDrculo",
+    isNew: false,
+    title: "Del estribillo al semicírculo",
     ...buildStageMoveTrack({
       counts: 8,
       from: "o3",
@@ -159,8 +159,8 @@ export var SAMPLE_CLIPS = [
     angle: "lado",
     bpm: 120,
     counts: 8,
-    acapella: !0,
-    isNew: !0,
+    acapella: true,
+    isNew: true,
     title: "Break a capella: paradiddles y golpes",
     ...buildFootworkTrack([
       tapParadiddle(0, "R"),
@@ -182,7 +182,7 @@ export var SAMPLE_CLIPS = [
     angle: "frente",
     bpm: 120,
     counts: 8,
-    isNew: !1,
+    isNew: false,
     title: "Arranque: golpes lentos y cepillado y paso",
     ...buildFootworkTrack([
       [tapStamp(0, "R")],
@@ -200,8 +200,8 @@ export var SAMPLE_CLIPS = [
     block: "t2",
     rel: 1,
     bpm: 120,
-    isNew: !0,
-    title: "La columna se abre en dos v\xEDas",
+    isNew: true,
+    title: "La columna se abre en dos vías",
     ...buildStageMoveTrack({
       counts: 8,
       from: "t1",
@@ -218,7 +218,7 @@ export var SAMPLE_CLIPS = [
     angle: "lado",
     bpm: 100,
     counts: 8,
-    isNew: !0,
+    isNew: true,
     title: "El traqueteo, explicado despacio",
     ...buildFootworkTrack(
       Array.from(
@@ -237,8 +237,8 @@ export var SAMPLE_CLIPS = [
     block: "t3",
     rel: 1,
     bpm: 120,
-    isNew: !1,
-    title: "Llegada al and\xE9n",
+    isNew: false,
+    title: "Llegada al andén",
     ...buildStageMoveTrack({
       counts: 8,
       from: "t2",
@@ -247,9 +247,9 @@ export var SAMPLE_CLIPS = [
     }),
   },
 ];
-export var CLIP_ANGLE_LABELS = {
+export const CLIP_ANGLE_LABELS = {
   frente: "De frente",
   lado: "De lado",
   escenario: "Plano del escenario",
-  musica: "Con m\xFAsica",
+  musica: "Con música",
 };
