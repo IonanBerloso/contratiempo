@@ -899,7 +899,7 @@ export function PracticePlayer({
         </div>
         {!isMusic && <VideoCountHud clip={clip} beat={beat} vocab={vocab} />}
         {!playing && (
-          <span className="bigplay" aria-hidden="true">
+          <span className={`bigplay ${isMusic ? "is-corner" : ""}`} aria-hidden="true">
             <Icon name="play" size={30} />
           </span>
         )}
