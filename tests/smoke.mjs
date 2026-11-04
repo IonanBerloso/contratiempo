@@ -46,6 +46,19 @@ for (const vp of Object.keys(VIEWPORTS)) {
       await player.getByRole('button', { name: /Pausa/ }).first().waitFor({ timeout: 3000 });
       await player.getByRole('button', { name: /Pausa/ }).first().click();
     });
+    await step(page, errors, vp, `${tag} big screen: Space plays without leaving it`, async () => {
+      const player = page.getByRole('region', { name: 'Reproductor de práctica' });
+      await player.getByRole('button', { name: 'Pantalla grande' }).click();
+      await settle(page, 400);
+      await page.keyboard.press('Space');
+      await settle(page, 800);
+      if (!(await page.locator('.player-big').count())) throw new Error('Space left big-screen mode');
+      await player.getByRole('button', { name: /Pausa/ }).first().waitFor({ timeout: 3000 });
+      await page.keyboard.press('Space');
+      await page.keyboard.press('Escape');
+      await settle(page, 400);
+      if (await page.locator('.player-big').count()) throw new Error('Escape did not leave big-screen mode');
+    });
     await step(page, errors, vp, `${tag} back to repertoire`, async () => {
       await page.getByRole('button', { name: 'Contratiempo: volver al repertorio' }).click();
       await page.getByRole('region', { name: 'Repertorio' }).waitFor();

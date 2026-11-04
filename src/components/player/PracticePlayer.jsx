@@ -294,6 +294,9 @@ export function PracticePlayer({
   function enterClassMode() {
     setClassMode(true);
     const panel = panelRef.current;
+    // Leave the focus on the panel, not on the button that just turned into
+    // "Salir de pantalla grande": otherwise Space exits instead of playing.
+    if (panel) panel.focus({ preventScroll: true });
     try {
       if (panel && panel.requestFullscreen && !document.fullscreenElement) {
         const fsPromise = panel.requestFullscreen();
@@ -729,6 +732,7 @@ export function PracticePlayer({
   return (
     <div
       ref={panelRef}
+      tabIndex={-1}
       className={`panel overflow-hidden ${classMode ? "player-big" : ""}`}
     >
       <div className="pl-head flex flex-wrap items-start justify-between gap-x-4 gap-y-1 px-4 pb-3 pt-4">
