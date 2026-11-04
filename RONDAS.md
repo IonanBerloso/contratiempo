@@ -5,3 +5,12 @@ Techo de tamaño: **25.139 líneas** de `src/` (v0 = 19.338 × 1,3). Rondas múl
 | # | Tipo | Qué cambió | Para quién | Líneas `src/` | Tests | Fuentes |
 |---|------|------------|------------|---------------|-------|---------|
 | 0 | Rescate (fase 0) | Código fuente reconstruido a partir de `original/index.html`: Vite + React 18.3.1 + Tailwind 3.4.17 + `vite-plugin-singlefile`. 75 módulos con nombres claros (`src/components`, `src/components/player`, `src/components/txalaparta`, `src/components/ui`, `src/data`, `src/lib`). Tres funciones duplicadas unificadas (`easeInOutQuad`, `positiveMod`, `plankLabel`, más `deepClone`). Capturas idénticas píxel a píxel al original en 20/20 escenarios (390×844 y 1280×800; coreógrafa y bailarina; portada, coreografía, taller, calentamiento, ruleta). | Mantenimiento | 19.338 | `npm test` 64/64 · `compare` 20/20 | — |
+
+## Tags
+
+El proxy de git de esta sesión rechaza subir tags (HTTP 403; solo deja empujar la rama
+`claude/affectionate-mayer-xz0cz7`). Los tags se crean en local y aquí queda el commit de cada uno:
+
+| Tag | Commit |
+|-----|--------|
+| v0 | 40e2eb8 |
