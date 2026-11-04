@@ -24,3 +24,4 @@ El proxy de git de esta sesión rechaza subir tags (HTTP 403; solo deja empujar 
 | Tag | Commit |
 |-----|--------|
 | v0 | 40e2eb8 |
+| r10 | c57b61f |
