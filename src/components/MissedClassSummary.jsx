@@ -20,6 +20,14 @@ export function MissedClassSummary({
   const seenCount = allItems.filter((catchItem) =>
     seenIds.includes(catchItem.id),
   ).length;
+  if (wasAbsent && !allItems.length)
+    return (
+      <section className="panel flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3">
+        <p className="min-w-0 flex-1 text-sm text-ink">
+          {`Faltaste ${classDate.long}, pero ese día no se marcó nada nuevo: repasa las coreografías como siempre.`}
+        </p>
+      </section>
+    );
   if (!wasAbsent)
     return (
       <section className="panel flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3">

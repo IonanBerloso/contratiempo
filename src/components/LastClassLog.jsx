@@ -6,8 +6,23 @@ import {
   lastClassDate,
 } from "../lib/choreography.js";
 import { DEFAULT_CLASS_DATE } from "../data/lastClass.js";
+import { ConfirmButton } from "./ui/ConfirmButton.jsx";
 import { Icon } from "./ui/Icon.jsx";
-export function LastClassLog({ choreos, clipsById, lastClass, setLastClass }) {
+export function LastClassLog({
+  choreos,
+  clipsById,
+  lastClass,
+  setLastClass,
+  onClearNew,
+}) {
+  const newBlocks = choreos.reduce(
+    (n, choreo) => n + choreo.blocks.filter((b) => b.isNew).length,
+    0,
+  );
+  const newClips = Object.values(clipsById).reduce(
+    (n, clips) => n + clips.filter((clip) => clip.isNew).length,
+    0,
+  );
   const generatedText = useMemo(
     () => buildClassSummaryMessage(choreos, clipsById, lastClass),
     [choreos, clipsById, lastClass],
@@ -79,6 +94,22 @@ export function LastClassLog({ choreos, clipsById, lastClass, setLastClass }) {
           Las que faltaron verán «Faltaste {lastClassDate(lastClass).day}».
         </span>
       </label>
+      {newBlocks + newClips > 0 && (
+        <div className="flex flex-wrap items-center gap-2 text-[13px] text-muted">
+          <span>
+            Marcado como <span className="tag-new">Nuevo</span>: {newBlocks}{" "}
+            {newBlocks === 1 ? "bloque" : "bloques"} y {newClips}{" "}
+            {newClips === 1 ? "vídeo" : "vídeos"}. Para apuntar otra clase,
+            empieza sin marcas:
+          </span>
+          <ConfirmButton
+            className="btn-xs"
+            label="Quitar las marcas de «Nuevo»"
+            confirmLabel="Pulsa otra vez para quitarlas"
+            onConfirm={onClearNew}
+          />
+        </div>
+      )}
       <div className="flex flex-col gap-2">
         <p className="text-[13px] font-semibold text-ink">¿Quién faltó?</p>
         <div className="flex flex-wrap gap-2">

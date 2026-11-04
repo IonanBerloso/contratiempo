@@ -632,6 +632,29 @@ export function App() {
       },
     }));
   };
+  // Before recording a new class: nothing from the previous one stays marked «Nuevo».
+  const clearNewMarks = () => {
+    setChoreos((prev) =>
+      prev.map((choreo) =>
+        choreo.blocks.some((b) => b.isNew)
+          ? {
+              ...choreo,
+              blocks: choreo.blocks.map((b) =>
+                b.isNew ? { ...b, isNew: false } : b,
+              ),
+            }
+          : choreo,
+      ),
+    );
+    setClipMeta((prev) => {
+      const next = { ...prev };
+      for (const clips of Object.values(clipsByChoreo))
+        for (const clip of clips)
+          if (clip.isNew)
+            next[clip.id] = { ...(next[clip.id] || {}), isNew: false };
+      return next;
+    });
+  };
   const setClipAngle = (angleClipId, angle) =>
     setClipMeta((prevMetaAngle) => ({
       ...prevMetaAngle,
@@ -1083,6 +1106,7 @@ export function App() {
                       clipsById={clipsByChoreo}
                       lastClass={lastClass}
                       setLastClass={setLastClass}
+                      onClearNew={clearNewMarks}
                     />
                     <DancerCodesPanel codes={codes} setCodes={setCodes} />
                   </div>

@@ -28,7 +28,9 @@ export function TxalapartaRhythmGrid({
   useEffect(() => {
     const gridEl = gridRef.current;
     if (!gridEl || typeof ResizeObserver == "undefined") return;
-    const resizeObserver = new ResizeObserver(([entry]) => setGridWidth(entry.contentRect.width));
+    const resizeObserver = new ResizeObserver(([entry]) =>
+      setGridWidth(entry.contentRect.width),
+    );
     resizeObserver.observe(gridEl);
     return () => resizeObserver.disconnect();
   }, []);

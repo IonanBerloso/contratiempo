@@ -52,6 +52,11 @@ for (const vp of Object.keys(VIEWPORTS)) {
         const first = (await page.locator('textarea').first().inputValue()).split('\n')[0];
         if (!/martes 3 de noviembre/.test(first)) throw new Error('summary says ' + first);
       });
+      await step(page, errors, vp, `${tag} clear «Nuevo» marks for a new class`, async () => {
+        await page.getByRole('button', { name: 'Quitar las marcas de «Nuevo»' }).click();
+        await page.getByRole('button', { name: 'Pulsa otra vez para quitarlas' }).click();
+        await page.getByRole('button', { name: 'Quitar las marcas de «Nuevo»' }).waitFor({ state: 'detached', timeout: 2000 });
+      });
       await step(page, errors, vp, `${tag} backup downloads outside claude.ai`, async () => {
         const [dl] = await Promise.all([
           page.waitForEvent('download', { timeout: 5000 }),
