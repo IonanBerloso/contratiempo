@@ -95,6 +95,10 @@ for (const vp of Object.keys(VIEWPORTS)) {
       await page.getByRole('button', { name: 'Taller de txalaparta' }).click();
       await page.locator('.tx-card, [aria-label*="txalaparta" i]').first().waitFor();
     });
+    await step(page, errors, vp, `${tag} herren proposal works without claude.ai`, async () => {
+      await page.getByRole('button', { name: /Proponer una respuesta de herren/ }).click();
+      await page.getByText(/Añadida una capa con \d+ golpes de herren/).waitFor({ timeout: 3000 });
+    });
     await step(page, errors, vp, `${tag} leave workshop`, async () => {
       await page.getByRole('button', { name: 'Contratiempo: volver al repertorio' }).click();
       await page.getByRole('region', { name: 'Repertorio' }).waitFor();

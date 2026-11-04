@@ -38,6 +38,7 @@ import {
   strikeToSound,
   txalapartaMaterialLabel,
   withRhythmMaterial,
+  proposeHerrenResponse,
 } from "../../lib/txalaparta.js";
 import { RealSoundPanel } from "./RealSoundPanel.jsx";
 import { RhythmBlockAssignPanel } from "./RhythmBlockAssignPanel.jsx";
@@ -1267,7 +1268,7 @@ export function TxalapartaWorkshop({
     });
   };
   const suggestHerren = async () => {
-    if (!sampler || suggestStatus === "thinking") return;
+    if (suggestStatus === "thinking") return;
     const rhythmNow = rhythmRef.current;
     const cols = columnsRef.current;
     const ttakunHits = [];
@@ -1305,12 +1306,12 @@ Golpes de ttakun ya grabados (b = tiempo dentro del bucle; col = columna):
 ${JSON.stringify(ttakunHits)}
 Propón los golpes de herren: entre ${loopBeats} y ${Math.round(loopBeats * 1.8)} golpes, con b múltiplo de 0.25 entre 0 y ${loopBeats - 0.25}, y col entre 0 y ${cols.length - 1}. Responde en los huecos del ttakun, no coincidas exactamente con él salvo en el último tiempo, y usa más de una columna.
 Responde solo con un array JSON de objetos {"b": número, "col": número}. Ejemplo: [{"b":0.5,"col":2},{"b":1.75,"col":3}]`;
-    setSuggestStatus("thinking");
+    // Inside claude.ai the "sample" AI answers; anywhere else, a rule-based proposal.
+    if (sampler) setSuggestStatus("thinking");
     try {
-      const reply = await sampler.json(promptText, {
-        modelTier: "quick",
-        cache: false,
-      });
+      const reply = sampler
+        ? await sampler.json(promptText, { modelTier: "quick", cache: false })
+        : proposeHerrenResponse(ttakunHits, loopBeats, cols.length);
       const seen = new Set();
       const herrenStrikes = [];
       for (let item of Array.isArray(reply) ? reply : []) {
@@ -2171,19 +2172,17 @@ Responde solo con un array JSON de objetos {"b": número, "col": número}. Ejemp
                 <span aria-hidden="true">+</span>
                 {" Ttakun básico"}
               </button>
-              {sampler && (
-                <button
-                  type="button"
-                  className="btn btn-xs"
-                  onClick={suggestHerren}
-                  disabled={suggestStatus === "thinking"}
-                >
-                  <Icon name="spark" size={13} />
-                  {suggestStatus === "thinking"
-                    ? "Pensando una respuesta…"
-                    : "Proponer una respuesta de herren"}
-                </button>
-              )}
+              <button
+                type="button"
+                className="btn btn-xs"
+                onClick={suggestHerren}
+                disabled={suggestStatus === "thinking"}
+              >
+                <Icon name="spark" size={13} />
+                {suggestStatus === "thinking"
+                  ? "Pensando una respuesta…"
+                  : "Proponer una respuesta de herren"}
+              </button>
             </div>
             {suggestStatus && suggestStatus !== "thinking" && (
               <p className="text-[12px] text-ink" role="status">

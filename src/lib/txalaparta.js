@@ -227,3 +227,66 @@ export function layerRoles(layer) {
     pi: layer.strikes.some((strike) => strike.p === "pi"),
   };
 }
+// Herren proposal without AI (used when window.claude's "sample" is not available). Follows how the
+// txalaparta is played: ttakun keeps paired strokes, and herren answers in the gap after each pair
+// with two strokes, one, or none (hutsune, never twice in a row); both meet on the last stroke.
+// ttakunHits: [{ b }] beats in the loop. Returns [{ b, col }] on a quarter-beat grid.
+export function proposeHerrenResponse(
+  ttakunHits,
+  loopBeats,
+  columnCount,
+  random = Math.random,
+) {
+  const quarters = loopBeats * 4;
+  const beats = [
+    ...new Set(ttakunHits.map((hit) => Math.round(hit.b * 4))),
+  ].sort((a, b) => a - b);
+  if (!beats.length || columnCount < 1) return [];
+  const pairs = [];
+  for (const q of beats) {
+    const last = pairs[pairs.length - 1];
+    if (last && last.count < 2 && q - last.end <= 2) {
+      last.end = q;
+      last.count++;
+    } else pairs.push({ start: q, end: q, count: 1 });
+  }
+  const taken = new Set(beats);
+  const proposal = [];
+  let col = Math.floor(random() * columnCount);
+  let restedLast = false;
+  pairs.forEach((pair, pairIdx) => {
+    const nextStart =
+      pairIdx + 1 < pairs.length
+        ? pairs[pairIdx + 1].start
+        : pairs[0].start + quarters;
+    const free = [];
+    for (let q = pair.end + 1; q < nextStart; q++)
+      if (!taken.has(q % quarters)) free.push(q % quarters);
+    if (!free.length) return;
+    const roll = random();
+    const count = restedLast
+      ? roll < 0.6
+        ? 1
+        : 2
+      : roll < 0.15
+        ? 0
+        : roll < 0.65
+          ? 1
+          : 2;
+    restedLast = count === 0;
+    const picks =
+      count === 0
+        ? []
+        : count === 1 || free.length === 1
+          ? [free[Math.floor(free.length / 2)]]
+          : [free[0], free[free.length - 1]];
+    for (const q of picks) {
+      proposal.push({ b: q / 4, col });
+      col =
+        (col + 1 + Math.floor(random() * Math.max(1, columnCount - 1))) %
+        columnCount;
+    }
+  });
+  proposal.push({ b: beats[beats.length - 1] / 4, col });
+  return proposal;
+}
