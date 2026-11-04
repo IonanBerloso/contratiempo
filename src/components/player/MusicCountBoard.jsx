@@ -103,6 +103,7 @@ export function MusicCountBoard({
   formations,
   highlight,
   flip,
+  showStage,
 }) {
   if (beat == null) return null;
   const isCountIn = beat < 0;
@@ -158,7 +159,7 @@ export function MusicCountBoard({
     </div>
   );
   return (
-    <div className={`board ${clip.full ? "is-full" : ""}`}>
+    <div className={`board ${showStage ? "is-full" : ""}`}>
       <span className="hud-chip board-src">
         {clip.full
           ? `Entera · bloque ${seg.i + 1} de ${clip.segments.length}`
@@ -169,7 +170,9 @@ export function MusicCountBoard({
       {isAcapella && (
         <span className="hud-chip is-on board-acap">A capella</span>
       )}
-      {clip.full ? (
+      {/* The formation is shown for the whole piece, and for a single block on the big screen,
+          where the stage map is not visible. */}
+      {showStage ? (
         <div className="board-full">
           {centerPanel}
           <BoardStage

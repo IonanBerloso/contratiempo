@@ -835,6 +835,7 @@ export function PracticePlayer({
               formations={formations}
               highlight={mode === "bailarina" ? myDancerId : null}
               flip={classMode && stageView}
+              showStage={clip.full || classMode}
             />
           ) : (
             !isUpload && (
