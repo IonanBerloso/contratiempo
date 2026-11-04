@@ -42,7 +42,9 @@ rondas está en `RONDAS.md` y el informe en `INFORME.md`.
 - Cada 10 rondas: `npm run build`, commit de `dist/index.html`, tag `r10`, `r20`…, y actualizar
   `INFORME.md`.
 - En las rondas normales no se hace commit de `dist/` (`git add -A ':!dist'`); solo en v0 y en los
-  tags de cada 10.
+  tags de cada 10. Después de cada commit de ronda, `git checkout -- dist/index.html` para dejar el
+  árbol limpio (el build de los tests lo modifica).
+- El proxy de git rechaza subir tags (403): se crean en local y su commit se apunta en RONDAS.md.
 
 ## Techo de tamaño
 
