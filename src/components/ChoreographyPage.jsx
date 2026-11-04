@@ -177,6 +177,9 @@ export function ChoreographyPage({
             me={me}
             seen={seen}
             updateBlock={actions.updateBlock}
+            onRemoveBlock={
+              choreo.blocks.length > 1 ? actions.removeBlock : null
+            }
             toggleNew={actions.toggleNew}
             setAngle={actions.setAngle}
             onUpload={actions.onUpload}

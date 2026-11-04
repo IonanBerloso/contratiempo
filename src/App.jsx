@@ -512,6 +512,28 @@ export function App() {
           : blockUpd,
       ),
     }));
+  // Removes a block with its formation and linked bank videos; its own clips just stop showing
+  // (clips are filtered by existing blocks), so "Restaurar datos de ejemplo" brings samples back.
+  const removeBlock = (removedId) => {
+    const blocks = choreos.find((c) => c.id === choreoId).blocks;
+    const idx = blocks.findIndex((b) => b.id === removedId);
+    if (blocks.length < 2 || idx < 0) return;
+    const neighborId = blocks[idx > 0 ? idx - 1 : 1].id;
+    updateChoreo(choreoId, (choreo) => {
+      const formations = { ...choreo.formations };
+      delete formations[removedId];
+      return {
+        ...choreo,
+        blocks: choreo.blocks.filter((b) => b.id !== removedId),
+        formations,
+        links: (choreo.links || []).filter((link) => link.block !== removedId),
+      };
+    });
+    setSelections((prev) => ({
+      ...prev,
+      [choreoId]: { blockId: neighborId, clipId: `m-${neighborId}` },
+    }));
+  };
   const addBlock = () => {
     const newBlockId = `${choreoId}-${Date.now().toString(36)}`;
     updateChoreo(choreoId, (choreoAdd) => {
@@ -999,6 +1021,7 @@ export function App() {
                 setPos: setDancerPos,
                 copyPrev: copyPrevFormation,
                 updateBlock,
+                removeBlock,
                 addBlock,
                 toggleNew,
                 setAngle: setClipAngle,

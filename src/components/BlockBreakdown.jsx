@@ -247,7 +247,9 @@ function BlockCard({
   hardCount,
   onToggleHard,
   autoEdit,
+  onRemoveBlock,
 }) {
+  const [confirmRemove, setConfirmRemove] = useState(false);
   const [bankOpen, setBankOpen] = useState(false);
   const [bankPick, setBankPick] = useState("");
   const usedClipIds = new Set(
@@ -477,7 +479,28 @@ function BlockCard({
               >
                 Cancelar
               </button>
+              {onRemoveBlock && (
+                <button
+                  type="button"
+                  className={`btn ml-auto ${confirmRemove ? "btn-warn" : ""}`}
+                  onClick={() =>
+                    confirmRemove
+                      ? onRemoveBlock(block.id)
+                      : setConfirmRemove(true)
+                  }
+                  onBlur={() => setConfirmRemove(false)}
+                >
+                  <Icon name="x" size={14} />
+                  {confirmRemove ? "Sí, quitar el bloque" : "Quitar bloque"}
+                </button>
+              )}
             </div>
+            {confirmRemove && (
+              <p className="text-[13px] text-muted" role="status">
+                Se borra con su formación, sus notas y sus vídeos. Pulsa otra
+                vez para confirmar.
+              </p>
+            )}
           </div>
         ) : (
           <>
