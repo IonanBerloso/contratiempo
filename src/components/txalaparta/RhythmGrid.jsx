@@ -11,6 +11,7 @@ import {
   plankPitchLabel,
   strikeTargetKey,
 } from "../../lib/txalaparta.js";
+import { useMediaQuery } from "../../lib/dom.js";
 export function TxalapartaRhythmGrid({
   rhythm,
   cols,
@@ -22,17 +23,23 @@ export function TxalapartaRhythmGrid({
   feetName,
 }) {
   const gridRef = useRef(null);
-  const [countsPerRow, setCountsPerRow] = useState(8);
+  const [gridWidth, setGridWidth] = useState(1000);
+  const touch = useMediaQuery("(pointer: coarse)");
   useEffect(() => {
     const gridEl = gridRef.current;
     if (!gridEl || typeof ResizeObserver == "undefined") return;
-    const resizeObserver = new ResizeObserver(([entry]) =>
-      setCountsPerRow(entry.contentRect.width < 560 ? 4 : 8),
-    );
+    const resizeObserver = new ResizeObserver(([entry]) => setGridWidth(entry.contentRect.width));
     resizeObserver.observe(gridEl);
     return () => resizeObserver.disconnect();
   }, []);
   const cellsPerBeat = Math.round(1 / q);
+  // With a mouse, 8 counts per row (4 below 560 px). With a finger, as many counts as keep each
+  // half-cell at least 28 px wide, so a strike lands where you tap (2 counts per row on a phone).
+  const countsPerRow = touch
+    ? [8, 4, 2].find((n) => (gridWidth - 72) / (n * cellsPerBeat) >= 28) || 2
+    : gridWidth < 560
+      ? 4
+      : 8;
   const strikeMap = useMemo(() => {
     const cellStates = new Map();
     for (let layer of rhythm.layers)
