@@ -69,8 +69,8 @@ for (const vp of Object.keys(VIEWPORTS)) {
       const id = `${vp}-${view}-${name}`;
       const A = await shoot(browser, baseline, vp, view, name);
       const B = await shoot(browser, candidate, vp, view, name);
-      fs.writeFileSync(path.join(root, outDir, `${id}-a.png`), A.buf);
-      fs.writeFileSync(path.join(root, outDir, `${id}-b.png`), B.buf);
+      fs.writeFileSync(path.resolve(root, outDir, `${id}-a.png`), A.buf);
+      fs.writeFileSync(path.resolve(root, outDir, `${id}-b.png`), B.buf);
       const d = await diff(browser, A.buf, B.buf);
       const ok = d.diff === 0 && !B.errors.length;
       if (!ok) failed++;

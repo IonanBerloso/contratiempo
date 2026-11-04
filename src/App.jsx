@@ -6,1006 +6,18 @@ import {
   useRef,
   useState,
 } from "react";
-var $l = {
-  short: "jue 22 oct",
-  long: "el jueves 22 de octubre",
-  day: "el jueves 22",
-};
-var b0 = {
-  absent: ["laura", "nerea"],
-  worked: ["otono", "tren"],
-};
-var Be = [
-  {
-    id: "laura",
-    name: "Laura",
-    tape: "#E2453C",
-    ink: "#FFFFFF",
-  },
-  {
-    id: "irati",
-    name: "Irati",
-    tape: "#EDB92E",
-    ink: "#1A1406",
-  },
-  {
-    id: "nerea",
-    name: "Nerea",
-    tape: "#2F6FE4",
-    ink: "#FFFFFF",
-  },
-  {
-    id: "maialen",
-    name: "Maialen",
-    tape: "#2E9E58",
-    ink: "#FFFFFF",
-  },
-  {
-    id: "sofia",
-    name: "Sof\xEDa",
-    tape: "#8B5CF6",
-    ink: "#FFFFFF",
-  },
-  {
-    id: "ane",
-    name: "Ane",
-    tape: "#F3F1EA",
-    ink: "#1A1A1A",
-  },
-];
-var k0 = {
-  laura: "K7P2",
-  irati: "R4M9",
-  nerea: "B2X6",
-  maialen: "H8T3",
-  sofia: "Z5C1",
-  ane: "W9F4",
-};
-var m0 = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
-function x0(e) {
-  for (;;) {
-    let t = "";
-    for (let n = 0; n < 4; n++) t += m0[Math.floor(Math.random() * m0.length)];
-    if (!e.includes(t)) return t;
-  }
-}
-var N0 = [
-  "step",
-  "ball",
-  "brush",
-  "spank",
-  "scuff",
-  "heel",
-  "dig",
-  "toe",
-  "stamp",
-  "hop",
-];
-var ni = [
-  "flap",
-  "shuffle",
-  "ballChange",
-  "paddle",
-  "cramp",
-  "riff",
-  "paradiddle",
-  "stamp",
-  "hop",
-  "step",
-  "heel",
-];
-var jc = {
-  flap: "flap",
-  shuffle: "shuffle",
-  ballChange: "ball change",
-  paddle: "paddle and roll",
-  cramp: "cramp roll",
-  riff: "riff",
-  paradiddle: "paradiddle",
-  stamp: "stamp",
-  hop: "hop",
-  step: "step",
-  heel: "heel drop",
-};
-var ai = {
-  sounds: {
-    step: {
-      name: "paso",
-      abbr: "Pa",
-    },
-    ball: {
-      name: "planta",
-      abbr: "Pl",
-    },
-    brush: {
-      name: "cepillado",
-      abbr: "Ce",
-    },
-    spank: {
-      name: "cepillado atr\xE1s",
-      abbr: "CA",
-    },
-    scuff: {
-      name: "rozado de tal\xF3n",
-      abbr: "Ro",
-    },
-    heel: {
-      name: "tal\xF3n",
-      abbr: "Ta",
-    },
-    dig: {
-      name: "clavado de tal\xF3n",
-      abbr: "Cl",
-    },
-    toe: {
-      name: "punta",
-      abbr: "Pu",
-    },
-    stamp: {
-      name: "golpe",
-      abbr: "Go",
-    },
-    hop: {
-      name: "salto",
-      abbr: "Sa",
-    },
-  },
-  steps: {
-    flap: {
-      name: "cepillado y paso",
-    },
-    shuffle: {
-      name: "cepillado doble",
-    },
-    ballChange: {
-      name: "cambio de peso",
-    },
-    paddle: {
-      name: "rueda de tal\xF3n",
-    },
-    cramp: {
-      name: "redoble",
-    },
-    riff: {
-      name: "rozado",
-    },
-    paradiddle: {
-      name: "paradiddle",
-    },
-    stamp: {
-      name: "golpe",
-    },
-    hop: {
-      name: "salto",
-    },
-    step: {
-      name: "paso",
-    },
-    heel: {
-      name: "tal\xF3n",
-    },
-  },
-};
-var He = (e, t, n) => ({
-  b: e,
-  f: t,
-  s: n,
-});
-var ka = (e) => (e === "R" ? "L" : "R");
-var qn = (e, t) => ({
-  key: e,
-  evs: t,
-});
-var mn = (e, t) => qn("stamp", [He(e, t, "stamp")]);
-var Ev = (e, t) => qn("hop", [He(e, t, "hop")]);
-var fo = (e, t) => qn("step", [He(e, t, "step")]);
-var h0 = (e, t) => qn("heel", [He(e, t, "heel")]);
-var ti = (e, t, n = 0.5) =>
-  qn("flap", [He(e, t, "brush"), He(e + n, t, "step")]);
-var Oc = (e, t, n = 0.5) =>
-  qn("shuffle", [He(e, t, "brush"), He(e + n, t, "spank")]);
-var g0 = (e, t, n = 0.5) =>
-  qn("ballChange", [He(e, t, "ball"), He(e + n, ka(t), "step")]);
-var v0 = (e, t, n = 0.25) =>
-  qn("paddle", [
-    He(e, t, "dig"),
-    He(e + n, t, "spank"),
-    He(e + 2 * n, ka(t), "heel"),
-    He(e + 3 * n, t, "toe"),
-  ]);
-var $v = (e, t, n = 0.25) =>
-  qn("cramp", [
-    He(e, t, "ball"),
-    He(e + n, ka(t), "ball"),
-    He(e + 2 * n, t, "heel"),
-    He(e + 3 * n, ka(t), "heel"),
-  ]);
-var y0 = (e, t, n = 0.25) =>
-  qn("riff", [He(e, t, "brush"), He(e + n, t, "scuff")]);
-var Js = (e, t, n = 0.25) =>
-  qn("paradiddle", [
-    He(e, t, "dig"),
-    He(e + n, t, "spank"),
-    He(e + 2 * n, t, "step"),
-    He(e + 3 * n, t, "heel"),
-  ]);
-var ei = (e, t) => [
-  mn(e, t),
-  Ev(e + 0.5, ka(t)),
-  fo(e + 1, t),
-  ti(e + 1.5, ka(t)),
-  fo(e + 2.5, t),
-];
-var co = (e, t) => [
-  y0(e, t),
-  fo(e + 0.5, t),
-  y0(e + 1, ka(t)),
-  fo(e + 1.5, ka(t)),
-  $v(e + 2, t),
-  mn(e + 3, t),
-];
-function El(e) {
-  let t = [],
-    n = [];
-  for (let a of e.flat()) {
-    t.push(...a.evs);
-    let l = a.evs.map((o) => o.b);
-    n.push({
-      key: a.key,
-      from: Math.min(...l),
-      to: Math.max(...l),
-    });
-  }
-  return (
-    t.sort((a, l) => a.b - l.b),
-    n.sort((a, l) => a.from - l.from),
-    {
-      type: "feet",
-      events: t,
-      spans: n,
-    }
-  );
-}
-function po({ counts, from, to, order = null, stagger = 0, move }) {
-  let r = (u) => (order ? order.indexOf(u) * stagger : 0),
-    s = [],
-    i = "R";
-  for (let u = 0; u < counts; u++)
-    Be.some((d) => {
-      let c = r(d.id);
-      return u >= c - 1e-9 && u < c + move;
-    }) && (s.push(He(u, i, "step")), (i = ka(i)));
-  return {
-    type: "stage",
-    angle: "escenario",
-    counts,
-    from,
-    to,
-    order,
-    stagger,
-    move,
-    events: s,
-    spans: [],
-  };
-}
-var w0 = [
-  {
-    id: "otono",
-    title: "Oto\xF1o en swing",
-    bpm: 132,
-    swing: !0,
-    status: "En ensayo",
-    show: {
-      name: "Festival de Navidad",
-      date: "2026-12-19",
-    },
-    week: "Limpiar el canon del estribillo. Repasad el v\xEDdeo despacio antes del jueves.",
-    blocks: [
-      {
-        id: "o1",
-        done: !0,
-        name: "Intro",
-        len: 3,
-        formation: "Fila",
-        isNew: !1,
-        notes:
-          "Ocho 1: entramos por el hombro derecho de una en una, cada media cuenta. Ochos 2 y 3: paso b\xE1sico de tiempo a derecha e izquierda. Peso adelante y rodillas sueltas: que suene limpio, no fuerte.",
-        personal: {
-          ane: "Sales la primera: arranca en el \xABy\xBB del 8, no esperes al 1.",
-          sofia:
-            "Cuando llegues a tu marca, para en seco. Nada de pasitos de ajuste.",
-        },
-      },
-      {
-        id: "o2",
-        done: !0,
-        name: "Estrofa",
-        len: 4,
-        formation: "Cu\xF1a",
-        isNew: !1,
-        notes:
-          "En el ocho 4 pasamos de la fila a la cu\xF1a en cuatro tiempos, andando sobre la punta. Despu\xE9s, cepillado doble y cambio de peso a cada lado, y rueda de tal\xF3n. La rueda son cuatro sonidos iguales, sin acentos.",
-        personal: {
-          irati:
-            "Tu rueda de tal\xF3n corre. Pract\xEDcala a 0,75\xD7 con el metr\xF3nomo hasta que suene pareja.",
-          laura:
-            "En la cu\xF1a vas delante: t\xFA marcas el pulso, que se te oiga.",
-        },
-      },
-      {
-        id: "o3",
-        done: !0,
-        name: "Estribillo",
-        len: 4,
-        formation: "Diagonal en canon",
-        isNew: !0,
-        notes:
-          "La diagonal entra en canon en el ocho 8: cada una sale una cuenta despu\xE9s de la anterior, empezando por Ane al fondo. Luego dos rozados, redoble y golpe, primero a la derecha y despu\xE9s a la izquierda. Mirada al p\xFAblico desde el primer rozado.",
-        personal: {
-          laura:
-            "Te he cambiado de sitio: ahora vas la tercera de la diagonal, entre Irati y Maialen.",
-          nerea:
-            "Eres la quinta del canon: sales en el 5 y llegas a tu sitio en el 7.",
-          maialen:
-            "Cuidado con el redoble a la izquierda: el \xFAltimo tal\xF3n se te come.",
-        },
-      },
-      {
-        id: "o4",
-        name: "Break y final",
-        len: 3,
-        formation: "Semic\xEDrculo y solo",
-        isNew: !1,
-        acapella: [2, 3],
-        notes:
-          "Ocho 12: vamos al semic\xEDrculo en seis tiempos y Nerea se queda delante. Ochos 13 y 14: break a capella, sin m\xFAsica. Paradiddles alternando pies y tres golpes; el resto marca el pulso con talones. Pose final en el 8 y aguantamos dos tiempos.",
-        personal: {
-          nerea:
-            "El break delante es tuyo. Si te pierdes, vuelve al tal\xF3n en el 1.",
-          ane: "Marca el pulso con talones bajito, que se oiga a Nerea por encima.",
-        },
-      },
-    ],
-    formations: {
-      o1: {
-        laura: [15, 52],
-        irati: [29, 52],
-        nerea: [43, 52],
-        maialen: [57, 52],
-        sofia: [71, 52],
-        ane: [85, 52],
-      },
-      o2: {
-        laura: [43, 76],
-        maialen: [57, 76],
-        irati: [30, 61],
-        nerea: [70, 61],
-        ane: [17, 46],
-        sofia: [83, 46],
-      },
-      o3: {
-        ane: [18, 22],
-        irati: [31, 34],
-        laura: [44, 46],
-        maialen: [57, 58],
-        nerea: [70, 70],
-        sofia: [83, 82],
-      },
-      o4: {
-        ane: [20, 48],
-        irati: [30, 30],
-        laura: [50, 22],
-        sofia: [70, 30],
-        maialen: [80, 48],
-        nerea: [50, 72],
-      },
-    },
-  },
-  {
-    id: "tren",
-    title: "Tren de medianoche",
-    bpm: 120,
-    swing: !1,
-    status: "En ensayo",
-    show: {
-      name: "Festival de Navidad",
-      date: "2026-12-19",
-    },
-    week: "",
-    blocks: [
-      {
-        id: "t1",
-        done: !0,
-        name: "La salida",
-        len: 2,
-        formation: "Columna",
-        isNew: !1,
-        notes:
-          "Empezamos en columna, como vagones. Golpes lentos que arrancan el tren y luego cepillado y paso cada vez m\xE1s ligero. Brazos de biela pegados al cuerpo.",
-        personal: {
-          laura:
-            "Eres la locomotora: vas la primera de la columna y marcas la velocidad.",
-        },
-      },
-      {
-        id: "t2",
-        done: !0,
-        name: "El traqueteo",
-        len: 4,
-        formation: "Dos v\xEDas",
-        isNew: !0,
-        notes:
-          "Nuevo: la columna se abre en dos v\xEDas de tres. El traqueteo es cepillado doble y paso, sin parar, \xABta-ca-TA\xBB. Que no se acelere: el tren va constante.",
-        personal: {
-          nerea:
-            "Vas en la v\xEDa de tu izquierda, en medio. Maialen va delante de ti: id a la vez.",
-          laura:
-            "En las dos v\xEDas vas la primera de la v\xEDa de tu derecha.",
-        },
-      },
-      {
-        id: "t3",
-        name: "Llegada al and\xE9n",
-        len: 2,
-        formation: "And\xE9n",
-        isNew: !1,
-        notes:
-          "Frenamos poco a poco: cada ocho m\xE1s lento con talones. Terminamos en l\xEDnea delante, como en el and\xE9n.",
-        personal: {},
-      },
-    ],
-    formations: {
-      t1: {
-        laura: [50, 82],
-        irati: [50, 70],
-        nerea: [50, 58],
-        maialen: [50, 46],
-        sofia: [50, 34],
-        ane: [50, 22],
-      },
-      t2: {
-        laura: [30, 75],
-        irati: [30, 55],
-        ane: [30, 35],
-        maialen: [70, 75],
-        nerea: [70, 55],
-        sofia: [70, 35],
-      },
-      t3: {
-        laura: [15, 74],
-        irati: [29, 74],
-        nerea: [43, 74],
-        maialen: [57, 74],
-        sofia: [71, 74],
-        ane: [85, 74],
-      },
-    },
-  },
-  {
-    id: "fin",
-    title: "Fin de curso",
-    bpm: 128,
-    swing: !1,
-    status: "Borrador",
-    blocks: [
-      {
-        id: "f1",
-        name: "Idea de inicio",
-        len: 2,
-        formation: "Por decidir",
-        isNew: !1,
-        notes:
-          "Idea: empezar a oscuras, solo con el sonido de los pies. Falta elegir canci\xF3n.",
-        personal: {},
-      },
-    ],
-    formations: {
-      f1: {
-        laura: [15, 60],
-        irati: [29, 60],
-        nerea: [43, 60],
-        maialen: [57, 60],
-        sofia: [71, 60],
-        ane: [85, 60],
-      },
-    },
-  },
-  {
-    id: "txala",
-    title: "Txalaparta",
-    bpm: 104,
-    swing: !1,
-    status: "En ensayo",
-    show: {
-      name: "Fiesta de la escuela",
-      date: "2026-11-27",
-    },
-    week: "Cada una aprende su papel del Di\xE1logo en el taller de txalaparta, con \xABPracticar mi papel\xBB.",
-    links: [
-      {
-        id: "k1",
-        src: "c1",
-        block: "x1",
-        rel: 1,
-      },
-    ],
-    logistics: {
-      schedule: [
-        {
-          time: "16:30",
-          what: "Llegada al camerino",
-        },
-        {
-          time: "17:00",
-          what: "Calentamiento y prueba en el escenario",
-        },
-        {
-          time: "18:15",
-          what: "Actuaci\xF3n",
-        },
-      ],
-      costume:
-        "Camiseta blanca, pantal\xF3n negro y zapatos de claqu\xE9. Pelo recogido.",
-      notes: {
-        nerea: "Llevas el pa\xF1uelo rojo del solo del break.",
-      },
-      auth: {
-        laura: !0,
-        irati: !0,
-        nerea: !1,
-        maialen: !0,
-        sofia: !1,
-        ane: !0,
-      },
-    },
-    blocks: [
-      {
-        id: "x1",
-        done: !0,
-        name: "Entrada",
-        len: 2,
-        formation: "Dos filas enfrentadas",
-        isNew: !1,
-        notes:
-          "Dos filas enfrentadas, como los dos lados de la txalaparta: la fila de delante es ttakun y la del fondo, herren. Entramos marcando el pulso con talones.",
-        personal: {},
-      },
-      {
-        id: "x2",
-        name: "Di\xE1logo",
-        len: 2,
-        formation: "Pregunta y respuesta",
-        isNew: !1,
-        rhythmId: "rx1",
-        notes:
-          "Sobre el ritmo que creamos en el taller. La fila ttakun marca el pulso y la fila herren contesta en los huecos. Los pasos de cada cuenta est\xE1n apuntados en el taller.",
-        personal: {},
-      },
-    ],
-    formations: {
-      x1: {
-        laura: [25, 72],
-        irati: [50, 72],
-        nerea: [75, 72],
-        maialen: [25, 32],
-        sofia: [50, 32],
-        ane: [75, 32],
-      },
-      x2: {
-        laura: [20, 68],
-        irati: [45, 68],
-        nerea: [70, 68],
-        maialen: [30, 36],
-        sofia: [55, 36],
-        ane: [80, 36],
-      },
-    },
-  },
-];
-var Bc = [
-  {
-    id: "c2",
-    block: "o1",
-    rel: 1,
-    bpm: 132,
-    isNew: !1,
-    title: "Entrada desde el hombro y colocaci\xF3n en fila",
-    ...po({
-      counts: 8,
-      from: "entrada",
-      to: "o1",
-      order: ["ane", "sofia", "maialen", "nerea", "irati", "laura"],
-      stagger: 0.5,
-      move: 3.5,
-    }),
-  },
-  {
-    id: "c1",
-    block: "o1",
-    rel: 2,
-    angle: "frente",
-    bpm: 132,
-    swing: !0,
-    counts: 16,
-    isNew: !1,
-    title: "Paso b\xE1sico de tiempo, a derecha e izquierda",
-    ...El([ei(-1, "R"), ei(3, "L"), ei(7, "R"), ei(11, "L"), [mn(15, "R")]]),
-  },
-  {
-    id: "c4",
-    block: "o2",
-    rel: 1,
-    bpm: 132,
-    isNew: !1,
-    title: "Transici\xF3n de la fila a la cu\xF1a",
-    ...po({
-      counts: 8,
-      from: "o1",
-      to: "o2",
-      move: 4,
-    }),
-  },
-  {
-    id: "c3",
-    block: "o2",
-    rel: 2,
-    angle: "lado",
-    bpm: 88,
-    counts: 8,
-    isNew: !1,
-    title: "Cepillado doble y rueda de tal\xF3n, explicado despacio",
-    ...El([
-      Oc(0, "R"),
-      g0(1, "R"),
-      Oc(2, "L"),
-      g0(3, "L"),
-      v0(4, "R"),
-      v0(5, "L"),
-      [fo(6, "R")],
-      [mn(7, "L")],
-    ]),
-  },
-  {
-    id: "c6",
-    block: "o3",
-    rel: 1,
-    bpm: 132,
-    isNew: !0,
-    title: "Canon en diagonal: qui\xE9n sale en cada cuenta",
-    ...po({
-      counts: 8,
-      from: "o2",
-      to: "o3",
-      order: ["ane", "irati", "laura", "maialen", "nerea", "sofia"],
-      stagger: 1,
-      move: 2,
-    }),
-  },
-  {
-    id: "c5",
-    block: "o3",
-    rel: 2,
-    angle: "lado",
-    bpm: 96,
-    counts: 8,
-    isNew: !0,
-    title: "Paso de pies del estribillo explicado despacio",
-    ...El([co(0, "R"), co(4, "L")]),
-  },
-  {
-    id: "c7",
-    block: "o3",
-    rel: 2,
-    angle: "frente",
-    bpm: 132,
-    swing: !0,
-    counts: 16,
-    isNew: !0,
-    title: "Estribillo completo a tempo",
-    ...El([co(0, "R"), co(4, "L"), co(8, "R"), co(12, "L")]),
-  },
-  {
-    id: "c9",
-    block: "o4",
-    rel: 1,
-    bpm: 132,
-    isNew: !1,
-    title: "Del estribillo al semic\xEDrculo",
-    ...po({
-      counts: 8,
-      from: "o3",
-      to: "o4",
-      move: 6,
-    }),
-  },
-  {
-    id: "c8",
-    block: "o4",
-    rel: 2,
-    angle: "lado",
-    bpm: 120,
-    counts: 8,
-    acapella: !0,
-    isNew: !0,
-    title: "Break a capella: paradiddles y golpes",
-    ...El([
-      Js(0, "R"),
-      Js(1, "L"),
-      Js(2, "R"),
-      Js(3, "L"),
-      [mn(4, "R")],
-      [mn(4.5, "L")],
-      [mn(5, "R")],
-      [h0(6, "L")],
-      [h0(6.5, "R")],
-      [mn(7, "R")],
-    ]),
-  },
-  {
-    id: "r1",
-    block: "t1",
-    rel: 1,
-    angle: "frente",
-    bpm: 120,
-    counts: 8,
-    isNew: !1,
-    title: "Arranque: golpes lentos y cepillado y paso",
-    ...El([
-      [mn(0, "R")],
-      [mn(1, "L")],
-      [mn(2, "R")],
-      [mn(3, "L")],
-      ti(4, "R"),
-      ti(5, "L"),
-      ti(6, "R"),
-      [mn(7, "L")],
-    ]),
-  },
-  {
-    id: "r2",
-    block: "t2",
-    rel: 1,
-    bpm: 120,
-    isNew: !0,
-    title: "La columna se abre en dos v\xEDas",
-    ...po({
-      counts: 8,
-      from: "t1",
-      to: "t2",
-      order: ["ane", "sofia", "irati", "nerea", "maialen", "laura"],
-      stagger: 0.5,
-      move: 4,
-    }),
-  },
-  {
-    id: "r3",
-    block: "t2",
-    rel: 2,
-    angle: "lado",
-    bpm: 100,
-    counts: 8,
-    isNew: !0,
-    title: "El traqueteo, explicado despacio",
-    ...El(
-      Array.from(
-        {
-          length: 8,
-        },
-        (e, t) => [
-          Oc(t, t % 2 ? "L" : "R", 0.25),
-          fo(t + 0.5, t % 2 ? "L" : "R"),
-        ],
-      ),
-    ),
-  },
-  {
-    id: "r4",
-    block: "t3",
-    rel: 1,
-    bpm: 120,
-    isNew: !1,
-    title: "Llegada al and\xE9n",
-    ...po({
-      counts: 8,
-      from: "t2",
-      to: "t3",
-      move: 4,
-    }),
-  },
-];
-var xa = {
-  frente: "De frente",
-  lado: "De lado",
-  escenario: "Plano del escenario",
-  musica: "Con m\xFAsica",
-};
-function Rv() {
-  let e = [],
-    t = [];
-  for (let a = 0; a < 7; a++)
-    e.push(
-      {
-        b: a,
-        plank: 0,
-        p: "tk",
-      },
-      {
-        b: a + 0.25,
-        plank: 1,
-        p: "tk",
-      },
-    );
-  for (let a of [0, 1, 3, 4, 5])
-    t.push({
-      b: a + 0.5,
-      plank: 3,
-      p: "hr",
-    });
-  for (let a of [2, 6])
-    t.push(
-      {
-        b: a + 0.5,
-        plank: 2,
-        p: "hr",
-      },
-      {
-        b: a + 0.75,
-        plank: 3,
-        p: "hr",
-      },
-    );
-  return [
-    {
-      id: "l1",
-      label: "Ttakun",
-      muted: !1,
-      strikes: e,
-    },
-    {
-      id: "l2",
-      label: "Herren",
-      muted: !1,
-      strikes: t,
-    },
-    {
-      id: "l3",
-      label: "Golpe final, las dos",
-      muted: !1,
-      strikes: [
-        {
-          b: 7,
-          plank: 0,
-          p: "tk",
-        },
-        {
-          b: 7,
-          plank: 1,
-          p: "tk",
-        },
-        {
-          b: 7,
-          plank: 2,
-          p: "hr",
-        },
-        {
-          b: 7,
-          plank: 3,
-          p: "hr",
-        },
-      ],
-    },
-  ];
-}
-var S0 = [
-  {
-    id: "rx1",
-    name: "Di\xE1logo de ejemplo",
-    bpm: 104,
-    eights: 1,
-    material: "madera",
-    snap: "16",
-    author: "profe",
-    layers: Rv(),
-    moves: [
-      "Paso al frente",
-      "",
-      "Palmas",
-      "",
-      "Giro",
-      "",
-      "Talones",
-      "Golpe y pose",
-    ],
-  },
-  {
-    id: "rx2",
-    name: "Madera, piedra y pies",
-    bpm: 100,
-    eights: 1,
-    material: "ambas",
-    feet: !0,
-    snap: "8",
-    author: "profe",
-    layers: Tv(),
-    moves: ["Entramos", "", "", "Golpe", "Giro", "", "", "Pose"],
-  },
-];
-function Tv() {
-  let e = [];
-  for (let l = 0; l < 7; l++)
-    e.push({
-      b: l,
-      plank: l % 2,
-      p: "tk",
-      m: "w",
-    });
-  let t = [0, 1, 2, 4, 5, 6].map((l) => ({
-    b: l + 0.5,
-    plank: l % 3,
-    p: "hr",
-    m: "s",
-  }));
-  return [
-    {
-      id: "m1",
-      label: "Ttakun en madera",
-      muted: !1,
-      strikes: e,
-    },
-    {
-      id: "m2",
-      label: "Herren en piedra",
-      muted: !1,
-      strikes: t,
-    },
-    {
-      id: "m3",
-      label: "Pies",
-      muted: !1,
-      strikes: [
-        {
-          b: 3,
-          plank: 0,
-          p: "pi",
-        },
-        {
-          b: 3.5,
-          plank: 1,
-          p: "pi",
-        },
-        {
-          b: 6.5,
-          plank: 3,
-          p: "pi",
-        },
-        {
-          b: 7,
-          plank: 0,
-          p: "pi",
-        },
-      ],
-    },
-    {
-      id: "m4",
-      label: "Golpe final",
-      muted: !1,
-      strikes: [
-        {
-          b: 7,
-          plank: 0,
-          p: "tk",
-          m: "w",
-        },
-        {
-          b: 7,
-          plank: 2,
-          p: "hr",
-          m: "s",
-        },
-      ],
-    },
-  ];
-}
+import { SAMPLE_CHOREOS } from "./data/choreographies.js";
+import { CLIP_ANGLE_LABELS, SAMPLE_CLIPS } from "./data/clips.js";
+import { DANCERS, DEMO_ACCESS_CODES } from "./data/dancers.js";
+import { LAST_CLASS_DATE, SAMPLE_LAST_CLASS } from "./data/lastClass.js";
+import { SAMPLE_RHYTHMS } from "./data/rhythms.js";
+import {
+  DEFAULT_TAP_VOCAB,
+  TAP_SOUND_KEYS,
+  TAP_STEP_KEYS,
+  TAP_STEP_TERMS,
+} from "./data/tapVocabulary.js";
+import { generateAccessCode } from "./lib/accessCodes.js";
 var be = null;
 var Mt = null;
 var br = null;
@@ -1794,7 +806,7 @@ function V0(e, t) {
     for (let r of o.strikes) r.b < n && !Sa(r, e, a, n) && l++;
   return l;
 }
-var Et = (e) => Be.find((t) => t.id === e);
+var Et = (e) => DANCERS.find((t) => t.id === e);
 function jv(e) {
   let t = {},
     n = 1;
@@ -1899,7 +911,7 @@ function Uv(e, t, n, a, l) {
 }
 function W0(e, t, n, a, l) {
   let o = jv(e.blocks),
-    r = [...Bc, ...t],
+    r = [...SAMPLE_CLIPS, ...t],
     s = r.filter((p) => o[p.block]);
   for (let p of e.links || []) {
     let d = r.find((c) => c.id === p.src);
@@ -1968,7 +980,7 @@ var vo = ([e]) => (Sr(e) === 0 ? "centro (0)" : `${Sr(e)} ${nd(e)}`);
 var Vv = (e, t, n) => `${e} ${e === 1 ? t : n}`;
 function G0(e, t, n) {
   let a = e.filter((o) => n.worked.includes(o.id)),
-    l = [`*Clase ${$l.long.replace(/^el /, "del ")}*`, ""];
+    l = [`*Clase ${LAST_CLASS_DATE.long.replace(/^el /, "del ")}*`, ""];
   if (a.length) {
     l.push("Hemos trabajado:");
     for (let o of a) {
@@ -2064,7 +1076,7 @@ function Y0(e, t) {
         choreo: l,
         block: o,
       };
-  return [...Bc, ...t]
+  return [...SAMPLE_CLIPS, ...t]
     .filter((l) => l.type === "feet" || l.type === "upload")
     .filter((l) => n[l.block])
     .map((l) => {
@@ -2653,7 +1665,7 @@ function ih(e, t, n, a, l, o, r, s) {
     Ma(e, "FONDO", t / 2, n * 0.04, s, i * 0.18, "rgba(60,35,12,0.55)", 700));
   let b = Math.min(d, c) * 0.055,
     y = (f, m) => [p + (d * f) / 100, (c * m) / 100],
-    M = [...Be].sort((f, m) => (f.id === r) - (m.id === r));
+    M = [...DANCERS].sort((f, m) => (f.id === r) - (m.id === r));
   for (let f of M) {
     let m = ey(a, l, o, f.id),
       [v, w] = y(m.x, m.y),
@@ -4522,7 +3534,9 @@ function CDd({
         )}
         {!M && (
           <div className="hud-tl">
-            <span className="hud-chip">{xa[clip.angle] || "V\xEDdeo"}</span>
+            <span className="hud-chip">
+              {CLIP_ANGLE_LABELS[clip.angle] || "V\xEDdeo"}
+            </span>
             {clip.type === "feet" && (
               <span className="hud-chip hud-feet">
                 <i
@@ -4848,8 +3862,10 @@ function CDd({
         {y ? (
           <p className="text-sm text-muted">
             Vídeo subido desde este dispositivo (
-            {xa[clip.angle] ? xa[clip.angle].toLowerCase() : "sin \xE1ngulo"}).
-            En la demo solo se conserva mientras la pestaña esté abierta.
+            {CLIP_ANGLE_LABELS[clip.angle]
+              ? CLIP_ANGLE_LABELS[clip.angle].toLowerCase()
+              : "sin \xE1ngulo"}
+            ). En la demo solo se conserva mientras la pestaña esté abierta.
           </p>
         ) : M ? (
           <Ny
@@ -5039,7 +4055,7 @@ function CBy({ pos, highlight, flip }) {
   return (
     <div className={`board-stage ${flip ? "is-flip" : ""}`} aria-hidden="true">
       <span className="board-stage-front">Público</span>
-      {Be.map((a) => {
+      {DANCERS.map((a) => {
         let l = pos[a.id];
         if (!l) return null;
         let o = flip ? [100 - l[0], 100 - l[1]] : l,
@@ -5593,7 +4609,7 @@ function Cy({ clip, me, mode }) {
       </div>
       <ol className="grid grid-cols-2 gap-2 sm:grid-cols-3">
         {clip.order.map((o, r) => {
-          let s = Be.find((u) => u.id === o);
+          let s = DANCERS.find((u) => u.id === o);
           return (
             <li
               key={o}
@@ -5674,7 +4690,7 @@ function Sh({ codes, onLogin }) {
       <div className="demo-hint">
         <p className="f-label">Solo en la demo · códigos de prueba</p>
         <div className="mt-2 flex flex-wrap gap-2">
-          {Be.map((s) => (
+          {DANCERS.map((s) => (
             <button
               key={s.id}
               type="button"
@@ -5701,7 +4717,7 @@ function Sh({ codes, onLogin }) {
 function Ey({ positions, highlight }) {
   return (
     <span className="mini-stage" aria-hidden="true">
-      {Be.map((n) => {
+      {DANCERS.map((n) => {
         let a = positions[n.id];
         if (!a) return null;
         let l = highlight === n.id;
@@ -5882,7 +4898,7 @@ function Ch({ me, choreos, clipsById, lastClass, seen, onPlay, onNote }) {
         </span>
         <p className="min-w-0 flex-1 text-sm text-ink">
           {"Viniste a la \xFAltima clase, "}
-          {$l.long}
+          {LAST_CLASS_DATE.long}
           {". Lo que se cambi\xF3 ese d\xEDa lleva la etiqueta "}
           <span className="tag-new">Nuevo</span>
           {" por si quieres repasarlo."}
@@ -5895,11 +4911,11 @@ function Ch({ me, choreos, clipsById, lastClass, seen, onPlay, onNote }) {
       <div className="catch-head">
         <p className="f-label">
           {"\xDAltima clase \xB7 "}
-          {$l.short}
+          {LAST_CLASS_DATE.short}
         </p>
         <h2 className="f-display mt-1 text-[2.2rem] uppercase leading-[0.92] [text-wrap:balance]">
           {"Faltaste "}
-          {$l.day}
+          {LAST_CLASS_DATE.day}
           {", "}
           {s.name}
         </h2>
@@ -5952,7 +4968,7 @@ function Ch({ me, choreos, clipsById, lastClass, seen, onPlay, onNote }) {
                         </span>
                         <span className="mt-0.5 block text-[13px] leading-snug text-muted">
                           {y.kind === "clip"
-                            ? `${y.block.name} \xB7 ${xa[y.clip.angle] || "V\xEDdeo"}${y.clip.bpm ? ` \xB7 ${y.clip.bpm} bpm` : ""}`
+                            ? `${y.block.name} \xB7 ${CLIP_ANGLE_LABELS[y.clip.angle] || "V\xEDdeo"}${y.clip.bpm ? ` \xB7 ${y.clip.bpm} bpm` : ""}`
                             : y.text}
                         </span>
                       </span>
@@ -6020,7 +5036,7 @@ function Mh({ choreos, clipsById, lastClass, setLastClass }) {
       <div>
         <p className="f-label">
           {"Despu\xE9s de clase \xB7 "}
-          {$l.short}
+          {LAST_CLASS_DATE.short}
         </p>
         <h2 className="f-display mt-1 text-[1.9rem] uppercase leading-none">
           Última clase
@@ -6029,7 +5045,7 @@ function Mh({ choreos, clipsById, lastClass, setLastClass }) {
       <div className="flex flex-col gap-2">
         <p className="text-[13px] font-semibold text-ink">¿Quién faltó?</p>
         <div className="flex flex-wrap gap-2">
-          {Be.map((b) => {
+          {DANCERS.map((b) => {
             let y = lastClass.absent.includes(b.id);
             return (
               <button
@@ -6128,7 +5144,7 @@ function Eh({ codes, setCodes }) {
         </p>
       </div>
       <ul className="flex flex-col">
-        {Be.map((n) => (
+        {DANCERS.map((n) => (
           <li key={n.id} className="code-row">
             <span
               className="tape-dot"
@@ -6146,7 +5162,7 @@ function Eh({ codes, setCodes }) {
               onClick={() =>
                 setCodes((a) => ({
                   ...a,
-                  [n.id]: x0(Object.values(a)),
+                  [n.id]: generateAccessCode(Object.values(a)),
                 }))
               }
               title="El código anterior deja de funcionar"
@@ -6209,7 +5225,7 @@ function CH({ vocab, setVocab }) {
               <span className="f-label">Término</span>
               <span className="f-label">Cómo lo llamas</span>
               <span className="f-label">Abrev.</span>
-              {N0.map((l) => (
+              {TAP_SOUND_KEYS.map((l) => (
                 <Fragment key={l}>
                   <span className="font-mono text-[12px] text-muted">{l}</span>
                   <input
@@ -6236,13 +5252,13 @@ function CH({ vocab, setVocab }) {
             <div className="vocab-grid is-steps">
               <span className="f-label">Término</span>
               <span className="f-label">Cómo lo llamas</span>
-              {ni.map((l) => (
+              {TAP_STEP_KEYS.map((l) => (
                 <Fragment key={l}>
                   <span className="font-mono text-[12px] text-muted">
-                    {jc[l]}
+                    {TAP_STEP_TERMS[l]}
                   </span>
                   <input
-                    aria-label={`Nombre para ${jc[l]}`}
+                    aria-label={`Nombre para ${TAP_STEP_TERMS[l]}`}
                     id={`vp-${l}`}
                     className="field field-sm"
                     value={vocab.steps[l].name}
@@ -6256,7 +5272,7 @@ function CH({ vocab, setVocab }) {
         <button
           type="button"
           className="btn mt-4"
-          onClick={() => setVocab(My(ai))}
+          onClick={() => setVocab(My(DEFAULT_TAP_VOCAB))}
         >
           Restaurar los nombres de ejemplo
         </button>
@@ -6352,7 +5368,7 @@ function Th({ bank, onOpenUse }) {
                 {n.clip.title}
               </span>
               <span className="block font-mono text-[11px] uppercase tracking-[0.05em] text-muted">
-                {xa[n.clip.angle] || "V\xEDdeo"}
+                {CLIP_ANGLE_LABELS[n.clip.angle] || "V\xEDdeo"}
                 {n.clip.bpm ? ` \xB7 ${n.clip.bpm} bpm` : ""}
                 {" \xB7 "}
                 {n.uses.length === 1
@@ -6448,7 +5464,7 @@ function Ph({ choreos, clipsById, lastClass, seen, hard, onOpenClip }) {
         </div>
       )}
       <div className="follow-grid">
-        {Be.map((d) => {
+        {DANCERS.map((d) => {
           let c = lastClass.absent.includes(d.id),
             h = i.flatMap((M) => si(M, clipsById[M.id] || [], d.id)),
             b = h.filter((M) => (seen[d.id] || []).includes(M.id)).length,
@@ -6906,7 +5922,7 @@ function CH2({
               preserveAspectRatio="none"
               aria-hidden="true"
             >
-              {Be.map((D) => {
+              {DANCERS.map((D) => {
                 if (!T[D.id] || !w[D.id]) return null;
                 let [_, B] = $(T[D.id]),
                   [G, ee] = $(w[D.id]);
@@ -6943,7 +5959,7 @@ function CH2({
               />
             </>
           )}
-          {Be.map((D) => {
+          {DANCERS.map((D) => {
             if (!w[D.id]) return null;
             let [_, B] = $(w[D.id]),
               G = f === D.id,
@@ -7187,7 +6203,7 @@ function CZh({
           </span>
           <span className="mt-0.5 block font-mono text-[11px] uppercase tracking-[0.05em] text-muted">
             {e.linked ? "Del banco \xB7 " : ""}
-            {e.rhythm ? "Txalaparta" : xa[e.angle] || "V\xEDdeo"}
+            {e.rhythm ? "Txalaparta" : CLIP_ANGLE_LABELS[e.angle] || "V\xEDdeo"}
             {e.bpm ? ` \xB7 ${e.bpm} bpm` : ""}
             {e.acapella === !0 ? " \xB7 a capella" : ""}
             {playingNow ? " \xB7 en el reproductor" : ""}
@@ -7450,7 +6466,7 @@ function Ly({
                 Notas personales (cada una ve solo la suya)
               </legend>
               <div className="grid gap-2 sm:grid-cols-2">
-                {Be.map((H) => (
+                {DANCERS.map((H) => (
                   <label
                     key={H.id}
                     className="flex flex-col gap-1 text-[13px] font-semibold text-ink"
@@ -7729,7 +6745,7 @@ function Dh({
       : u
         ? "Pon la fecha de la actuaci\xF3n para ver la cuenta atr\xE1s."
         : "Todav\xEDa no hay fecha de funci\xF3n.",
-    A = T ? Be.filter((q) => !T.auth[q.id]) : [],
+    A = T ? DANCERS.filter((q) => !T.auth[q.id]) : [],
     Y = fd(choreo),
     F = T && T.maxTime ? Y - T.maxTime : 0,
     Z = async () => {
@@ -8047,7 +7063,7 @@ function CZy({ choreo, lg, onSave }) {
         ...lg,
         ...y,
       }),
-    l = Be.filter((y) => !lg.auth[y.id]),
+    l = DANCERS.filter((y) => !lg.auth[y.id]),
     o = on("assets"),
     [r, s] = useState(!1),
     [i, u] = useState(null),
@@ -8259,7 +7275,7 @@ function CZy({ choreo, lg, onSave }) {
           Notas para cada una (vestuario, peinado, lo que lleva)
         </legend>
         <div className="grid gap-2 sm:grid-cols-2">
-          {Be.map((y) => (
+          {DANCERS.map((y) => (
             <label
               key={y.id}
               className="flex flex-col gap-1 text-[13px] font-semibold text-ink"
@@ -8295,7 +7311,7 @@ function CZy({ choreo, lg, onSave }) {
       <div className="flex flex-col gap-1.5">
         <p className="f-label">Autorizaciones de las familias</p>
         <div className="flex flex-wrap gap-2">
-          {Be.map((y) => {
+          {DANCERS.map((y) => {
             let M = !!lg.auth[y.id];
             return (
               <button
@@ -10956,7 +9972,7 @@ function Hh(e, t, n, a) {
       );
     }
     let M = e.formations[d.id] || {},
-      f = Be.filter((m) => M[m.id])
+      f = DANCERS.filter((m) => M[m.id])
         .map((m) => `${hn(m.name)}: ${hn(vo(M[m.id]))}, ${hn(go(M[m.id][1]))}`)
         .join(" \xB7 ");
     s.push(`
@@ -12105,7 +11121,7 @@ function CWd({ vocab, onStart }) {
         role="group"
         aria-label="Pasos que pueden salir"
       >
-        {ni.map((c) => (
+        {TAP_STEP_KEYS.map((c) => (
           <button
             key={c}
             type="button"
@@ -12388,9 +11404,9 @@ var tg = () => ({
     muted: !1,
     voice: !1,
   },
-  choreos: tl(w0),
+  choreos: tl(SAMPLE_CHOREOS),
   clipMeta: {},
-  lastClass: tl(b0),
+  lastClass: tl(SAMPLE_LAST_CLASS),
   seen: {
     nerea: ["c6"],
   },
@@ -12401,9 +11417,9 @@ var tg = () => ({
     sofia: ["c8"],
   },
   codes: {
-    ...k0,
+    ...DEMO_ACCESS_CODES,
   },
-  vocab: tl(ai),
+  vocab: tl(DEFAULT_TAP_VOCAB),
   sync: {},
   sel: {
     otono: {
@@ -12411,7 +11427,7 @@ var tg = () => ({
       clipId: "c5",
     },
   },
-  rhythms: tl(S0),
+  rhythms: tl(SAMPLE_RHYTHMS),
   tallerId: null,
   instruments: {
     ...wr,
@@ -12880,7 +11896,9 @@ function Sd() {
     sl = (R, L) => {
       let j = `k${Date.now().toString(36)}`,
         ne = `${j}-1`,
-        ye = Object.fromEntries(Be.map((In, x) => [In.id, [15 + x * 14, 60]])),
+        ye = Object.fromEntries(
+          DANCERS.map((In, x) => [In.id, [15 + x * 14, 60]]),
+        ),
         Kt = {
           id: j,
           title: R,
@@ -13653,5 +12671,4 @@ function CTb({
     </>
   );
 }
-
-export default Sd;
+export { Sd as App };
