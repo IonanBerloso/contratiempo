@@ -1,6 +1,6 @@
-# Contratiempo: 100 rondas de «hazla mejor», con cabeza
+# Contratiempo: 50 rondas de «hazla mejor», con cabeza
 
-Vas a mejorar Contratiempo en rondas, sin preguntarme nada, hasta llegar a 100 rondas o hasta que se acabe la sesión. Lee todo esto antes de empezar.
+Vas a mejorar Contratiempo en rondas, sin preguntarme nada, hasta llegar a 50 rondas o hasta que se acabe la sesión. Lee todo esto antes de empezar.
 
 Esto se inspira en un experimento en el que le pidieron a Claude «hazla mejor» 100 veces seguidas sobre una web. Sonnet hizo cambios pequeños y prudentes. Opus fue añadiendo funciones hasta llegar a 21.000 líneas y acabó rompiendo su propia web. Además, ninguno de los dos buscó nada en internet. Las reglas de abajo existen para que aquí no pase lo mismo.
 
@@ -72,7 +72,7 @@ La sesión puede cortarse en cualquier momento cuando se acabe el crédito. Por 
 
 ## 6. Al terminar
 
-Cuando llegues a la ronda 100, haz el build final y deja el `INFORME.md` definitivo con:
+Cuando llegues a la ronda 50, haz el build final y deja el `INFORME.md` definitivo con:
 - la versión recomendada;
 - las 5 mejoras más importantes, explicadas para la coreógrafa y sin tecnicismos;
 - las ideas descartadas y por qué;
