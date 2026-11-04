@@ -5,6 +5,7 @@ Techo de tamaño: **25.139 líneas** de `src/` (v0 = 19.338 × 1,3). Rondas múl
 | # | Tipo | Qué cambió | Para quién | Líneas `src/` | Tests | Fuentes |
 |---|------|------------|------------|---------------|-------|---------|
 | 0 | Rescate (fase 0) | Código fuente reconstruido a partir de `original/index.html`: Vite + React 18.3.1 + Tailwind 3.4.17 + `vite-plugin-singlefile`. 75 módulos con nombres claros (`src/components`, `src/components/player`, `src/components/txalaparta`, `src/components/ui`, `src/data`, `src/lib`). Tres funciones duplicadas unificadas (`easeInOutQuad`, `positiveMod`, `plankLabel`, más `deepClone`). Capturas idénticas píxel a píxel al original en 20/20 escenarios (390×844 y 1280×800; coreógrafa y bailarina; portada, coreografía, taller, calentamiento, ruleta). | Mantenimiento | 19.338 | `npm test` 64/64 · `compare` 20/20 | — |
+| 1 | Normal (pulido) | En el móvil la cabecera fija pasa de dos filas (~100 px) a una (~58 px): el selector «Coreógrafa / Bailarina», que solo existe en la demo, se mueve a una barra «Demo · ver como» arriba que se va al hacer scroll; el título se reduce en pantallas estrechas. En escritorio no cambia nada. | Bailarina en casa con el móvil (y coreógrafa en el móvil): ~40 px más de vídeo, mapa y controles en cada pantalla mientras practica. | 19.378 | `npm test` 64/64 | — |
 
 ## Tags
 

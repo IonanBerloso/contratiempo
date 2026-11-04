@@ -8,7 +8,7 @@ import {
 } from "./lib/audio.js";
 import { buildChoreoMedia, buildStepBankIndex } from "./lib/choreography.js";
 import { findDancerById } from "./lib/dancers.js";
-import { isComfortablyInView, prefersReducedMotion } from "./lib/dom.js";
+import { isComfortablyInView, prefersReducedMotion, useMediaQuery } from "./lib/dom.js";
 import { isSpeechSupported } from "./lib/speech.js";
 import { createDefaultState, migrateState } from "./lib/state.js";
 import { loadSavedState, persistState } from "./lib/storage.js";
@@ -35,6 +35,7 @@ import { UpcomingShowCard } from "./components/UpcomingShowCard.jsx";
 import { WarmupPanel } from "./components/WarmupPanel.jsx";
 import { WarmupRunner } from "./components/WarmupRunner.jsx";
 export function App() {
+  const wideHeader = useMediaQuery("(min-width: 640px)");
   const initialState = useMemo(() => migrateState(loadSavedState()), []);
   const [mode, setMode] = useState(initialState.mode);
   const [dancerId, setDancerId] = useState(initialState.me);
@@ -713,14 +714,43 @@ export function App() {
   };
   const isCoreo = mode === "coreo";
   const voiceAvailable = isSpeechSupported();
+  // The coreógrafa/bailarina switch only exists in the demo. On phones it lives in a bar that
+  // scrolls away, so the sticky header fits in one row and leaves room for the player and map.
+  const viewSwitch = (
+    <div className="seg seg-mode" role="radiogroup" aria-label="Vista de la demo">
+      {[
+        ["coreo", "Coreógrafa"],
+        ["bailarina", "Bailarina"],
+      ].map(([modeValue, modeLabel]) => (
+        <button
+          key={modeValue}
+          type="button"
+          role="radio"
+          aria-checked={mode === modeValue}
+          className="seg-btn"
+          onClick={() => setMode(modeValue)}
+        >
+          {modeLabel}
+        </button>
+      ))}
+    </div>
+  );
   return (
     <div className={`app mode-${mode}`}>
+      {!wideHeader && (
+        <div className="demo-bar">
+          <div className="wrap">
+            <span className="f-label">Demo · ver como</span>
+            {viewSwitch}
+          </div>
+        </div>
+      )}
       <header className="hdr">
-        <div className="wrap flex flex-wrap items-center gap-x-5 gap-y-2 py-3">
+        <div className="wrap flex flex-wrap items-center gap-x-3 gap-y-2 py-3 sm:gap-x-5">
           <div className="flex min-w-0 items-baseline gap-3">
             <button
               type="button"
-              className="f-display text-[2rem] uppercase leading-none text-ink"
+              className="f-display text-[1.6rem] uppercase leading-none text-ink sm:text-[2rem]"
               onClick={goHome}
               aria-label="Contratiempo: volver al repertorio"
             >
@@ -779,27 +809,7 @@ export function App() {
                 <span className="hidden sm:inline">Mando</span>
               </button>
             )}
-            <div
-              className="seg seg-mode"
-              role="radiogroup"
-              aria-label="Vista de la demo"
-            >
-              {[
-                ["coreo", "Coreógrafa"],
-                ["bailarina", "Bailarina"],
-              ].map(([modeValue, modeLabel]) => (
-                <button
-                  key={modeValue}
-                  type="button"
-                  role="radio"
-                  aria-checked={mode === modeValue}
-                  className="seg-btn"
-                  onClick={() => setMode(modeValue)}
-                >
-                  {modeLabel}
-                </button>
-              ))}
-            </div>
+            {wideHeader && viewSwitch}
           </div>
         </div>
       </header>

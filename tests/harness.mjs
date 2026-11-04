@@ -29,8 +29,14 @@ const SEED_SCRIPT = `(() => {
   Math.random = () => { s = (s * 1664525 + 1013904223) % 4294967296; return s / 4294967296; };
 })();`;
 
-export async function launch() {
+// network: true routes Chromium through $HTTPS_PROXY (cloud sandbox) so Google Fonts load,
+// for screenshots that look like the published page. Tests run offline.
+export async function launch({ network = false } = {}) {
   const opts = { args: ['--autoplay-policy=no-user-gesture-required'] };
+  if (network && process.env.HTTPS_PROXY) {
+    const u = new URL(process.env.HTTPS_PROXY);
+    opts.proxy = { server: `${u.protocol}//${u.host}`, username: decodeURIComponent(u.username), password: decodeURIComponent(u.password) };
+  }
   try {
     return await chromium.launch(opts);
   } catch {
@@ -47,6 +53,7 @@ export async function openPage(browser, url, { viewport, reducedMotion = 'reduce
     isMobile: false,
     locale: 'es-ES',
     timezoneId: 'Europe/Madrid',
+    ignoreHTTPSErrors: fonts,
   });
   await context.addInitScript(SEED_SCRIPT);
   await context.clock.install({ time: FIXED_NOW });
@@ -58,6 +65,7 @@ export async function openPage(browser, url, { viewport, reducedMotion = 'reduce
   page.on('pageerror', (e) => errors.push(String(e)));
   await page.goto(url);
   await page.waitForSelector('#root > *');
+  if (fonts) await page.evaluate(() => document.fonts.ready);
   await settle(page);
   return { context, page, errors };
 }
