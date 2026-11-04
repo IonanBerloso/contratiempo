@@ -1,16 +1,14 @@
 // Copia de seguridad: export/import JSON {app:'contratiempo', v:4}.
 import { useRef, useState } from "react";
 import { exportRecordedSamples, importRecordedSamples } from "../lib/audio.js";
-import { saveWithDownloads, useClaudeHook } from "../lib/claude.js";
+import { saveFile } from "../lib/claude.js";
 import { localDateKey } from "../lib/time.js";
 import { Icon } from "./ui/Icon.jsx";
 export function BackupPanel({ getState, onImport }) {
-  const downloads = useClaudeHook("downloads");
   const [message, setMessage] = useState(null);
   const [pending, setPending] = useState(null);
   const fileInputRef = useRef(null);
   const downloadBackup = async () => {
-    if (!downloads) return;
     const backup = {
       app: "contratiempo",
       v: 4,
@@ -19,8 +17,7 @@ export function BackupPanel({ getState, onImport }) {
       sonidos: exportRecordedSamples(),
     };
     setMessage(
-      await saveWithDownloads(
-        downloads,
+      await saveFile(
         `contratiempo-copia-${localDateKey(new Date())}.json`,
         JSON.stringify(backup),
       ),
@@ -64,12 +61,10 @@ export function BackupPanel({ getState, onImport }) {
         </p>
       </div>
       <div className="flex flex-wrap gap-2">
-        {downloads && (
-          <button type="button" className="btn" onClick={downloadBackup}>
-            <Icon name="save" />
-            Descargar copia
-          </button>
-        )}
+        <button type="button" className="btn" onClick={downloadBackup}>
+          <Icon name="save" />
+          Descargar copia
+        </button>
         <label className="btn btn-file">
           <Icon name="upload" />
           Cargar una copia

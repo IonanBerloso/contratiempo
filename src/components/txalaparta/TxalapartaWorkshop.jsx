@@ -12,11 +12,7 @@ import {
   setAudioKeepAlive,
   unlockAudio,
 } from "../../lib/audio.js";
-import {
-  saveWithDownloads,
-  slugifyFilename,
-  useClaudeHook,
-} from "../../lib/claude.js";
+import { saveFile, slugifyFilename, useClaudeHook } from "../../lib/claude.js";
 import { positiveMod } from "../../lib/math.js";
 import {
   TXALAPARTA_COUNT_IN_BEATS,
@@ -90,7 +86,6 @@ export function TxalapartaWorkshop({
   const [practiceRole, setPracticeRole] = useState(null);
   const [exportProgress, setExportProgress] = useState(null);
   const [exportMessage, setExportMessage] = useState(null);
-  const downloads = useClaudeHook("downloads");
   const sampler = useClaudeHook("sample");
   const [suggestStatus, setSuggestStatus] = useState(null);
   const [duetOpen, setDuetOpen] = useState(false);
@@ -1183,7 +1178,7 @@ export function TxalapartaWorkshop({
       [kind]: Math.max(1, Math.min(8, count)),
     }));
   const exportAudio = async () => {
-    if (!downloads || exportProgress != null) return;
+    if (exportProgress != null) return;
     const rhythmNow = rhythmRef.current;
     const secPerBeat = 60 / rhythmNow.bpm;
     const loops = 2;
@@ -1223,8 +1218,7 @@ export function TxalapartaWorkshop({
         (progress) => setExportProgress(progress),
       );
       setExportProgress(null);
-      const saveMessage = await saveWithDownloads(
-        downloads,
+      const saveMessage = await saveFile(
         `${slugifyFilename(rhythmNow.name)}.${ext}`,
         blob,
       );
@@ -1957,25 +1951,23 @@ Responde solo con un array JSON de objetos {"b": número, "col": número}. Ejemp
                   }
                 </p>
               )}
-              {downloads && (
-                <div className="flex flex-wrap items-center gap-2">
-                  <button
-                    type="button"
-                    className="btn"
-                    onClick={exportAudio}
-                    disabled={exportProgress != null || !rhythm.layers.length}
-                  >
-                    <Icon name="download" />
-                    {exportProgress != null
-                      ? `Preparando audio… ${Math.round(exportProgress * 100)} %`
-                      : "Guardar audio para el grupo"}
-                  </button>
-                  <span className="text-[12px] text-muted">
-                    Dos vueltas del ritmo, sin metrónomo, para mandar por
-                    WhatsApp.
-                  </span>
-                </div>
-              )}
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={exportAudio}
+                  disabled={exportProgress != null || !rhythm.layers.length}
+                >
+                  <Icon name="download" />
+                  {exportProgress != null
+                    ? `Preparando audio… ${Math.round(exportProgress * 100)} %`
+                    : "Guardar audio para el grupo"}
+                </button>
+                <span className="text-[12px] text-muted">
+                  Dos vueltas del ritmo, sin metrónomo, para mandar por
+                  WhatsApp.
+                </span>
+              </div>
               {exportMessage && (
                 <p className="text-[13px] font-semibold text-ink" role="status">
                   {exportMessage}

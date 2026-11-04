@@ -46,9 +46,25 @@ for (const vp of Object.keys(VIEWPORTS)) {
         await page.getByRole('region', { name: 'Repertorio' }).waitFor();
       });
     }
+    if (view === 'coreo' && vp === 'desktop') {
+      await step(page, errors, vp, `${tag} backup downloads outside claude.ai`, async () => {
+        const [dl] = await Promise.all([
+          page.waitForEvent('download', { timeout: 5000 }),
+          page.getByRole('button', { name: 'Descargar copia' }).click(),
+        ]);
+        if (!/^contratiempo-copia-.*\.json$/.test(dl.suggestedFilename())) throw new Error('unexpected file ' + dl.suggestedFilename());
+      });
+    }
     await step(page, errors, vp, `${tag} open choreography`, async () => {
       await page.locator('.rep-card').first().click();
       await page.getByRole('region', { name: 'Reproductor de práctica' }).waitFor();
+    });
+    await step(page, errors, vp, `${tag} count sheet downloads`, async () => {
+      const [dl] = await Promise.all([
+        page.waitForEvent('download', { timeout: 5000 }),
+        page.getByRole('button', { name: 'Descargar hoja de cuentas' }).first().click(),
+      ]);
+      if (!/^hoja-de-cuentas-.*\.html$/.test(dl.suggestedFilename())) throw new Error('unexpected file ' + dl.suggestedFilename());
     });
     await step(page, errors, vp, `${tag} play in practice player`, async () => {
       const player = page.getByRole('region', { name: 'Reproductor de práctica' });

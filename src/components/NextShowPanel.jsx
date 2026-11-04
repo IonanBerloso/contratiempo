@@ -1,7 +1,7 @@
 // Próxima función: countdown, progress, max time check, full rehearsal / class mode buttons, show-day info, count sheet download.
 import { useState } from "react";
 import { DANCERS } from "../data/dancers.js";
-import { saveWithDownloads, useClaudeHook } from "../lib/claude.js";
+import { saveFile, useClaudeHook } from "../lib/claude.js";
 import { resizeImageToJpeg } from "../lib/images.js";
 import {
   choreoDurationSec,
@@ -32,7 +32,6 @@ export function NextShowPanel({
   const [showDraft, setShowDraft] = useState(null);
   const [logisticsOpen, setLogisticsOpen] = useState(false);
   const [downloadMsg, setDownloadMsg] = useState(null);
-  const downloads = useClaudeHook("downloads");
   const show = choreo.show || null;
   const daysLeft = show ? daysUntil(show.date) : null;
   const doneCount = choreo.blocks.filter((blk) => blk.done).length;
@@ -55,9 +54,8 @@ export function NextShowPanel({
   const overMax =
     logistics && logistics.maxTime ? durationSec - logistics.maxTime : 0;
   const downloadCountSheet = async () => {
-    if (!downloads) return;
     const { filename, html } = countSheet();
-    setDownloadMsg(await saveWithDownloads(downloads, filename, html));
+    setDownloadMsg(await saveFile(filename, html));
   };
   const countSheetButton = (
     <button type="button" className="btn btn-xs" onClick={downloadCountSheet}>
@@ -216,10 +214,10 @@ export function NextShowPanel({
               ? ` · faltan ${missingAuth.length} autorizaciones`
               : ""}
           </button>
-          {downloads && countSheetButton}
+          {countSheetButton}
         </div>
       )}
-      {!isCoreo && downloads && <div>{countSheetButton}</div>}
+      {!isCoreo && <div>{countSheetButton}</div>}
       {downloadMsg && (
         <p className="text-[13px] font-semibold text-ink" role="status">
           {downloadMsg}

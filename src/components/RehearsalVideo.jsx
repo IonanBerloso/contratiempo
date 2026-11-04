@@ -1,10 +1,6 @@
 // Rehearsal video with the counts drawn on top: tap the first 1, set the bpm, export a copy with the overlay.
 import { useEffect, useRef, useState } from "react";
-import {
-  saveWithDownloads,
-  slugifyFilename,
-  useClaudeHook,
-} from "../lib/claude.js";
+import { saveFile, slugifyFilename } from "../lib/claude.js";
 import {
   countOverlayAtTime,
   drawCountOverlay,
@@ -13,7 +9,6 @@ import {
 } from "../lib/rehearsalOverlay.js";
 import { Icon } from "./ui/Icon.jsx";
 export function RehearsalCountsVideo({ choreo, derived, vocab }) {
-  const downloads = useClaudeHook("downloads");
   const [videoFile, setVideoFile] = useState(null);
   const [sync, setSync] = useState({
     offset: null,
@@ -108,7 +103,7 @@ export function RehearsalCountsVideo({ choreo, derived, vocab }) {
     });
   };
   const exportVideo = async () => {
-    if (!downloads || !videoFile) return;
+    if (!videoFile) return;
     const mimeType = pickRecorderMimeType();
     if (mimeType === null) {
       setStatusText(
@@ -221,8 +216,7 @@ export function RehearsalCountsVideo({ choreo, derived, vocab }) {
       });
       setExportProgress(null);
       setStatusText(
-        await saveWithDownloads(
-          downloads,
+        await saveFile(
           `ensayo-con-cuentas-${slugifyFilename(choreo.title)}.${fileExt}`,
           videoBlob,
         ),
@@ -378,7 +372,7 @@ export function RehearsalCountsVideo({ choreo, derived, vocab }) {
             con cuatro toques ya calcula el tempo real del ensayo. Si las
             cuentas van un pelín adelantadas o atrasadas, ajústalas.
           </p>
-          {sync.offset != null && downloads && (
+          {sync.offset != null && (
             <div className="flex flex-wrap items-center gap-2">
               {exportProgress ? (
                 <>
