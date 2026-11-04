@@ -518,6 +518,37 @@ export function PracticePlayer({
     setPlaying((prev) => !prev);
   };
   const restart = () => seek(abLoop.on && abLoop.a != null ? abLoop.a : 0);
+  // Start a block of the whole piece with a 4-beat lead-in (keyboard arrows and the class remote).
+  const goToSegment = (seg) => {
+    unlockAudio();
+    setAbLoop({ a: null, b: null, on: false });
+    seek(Math.max(0, timing.timeAt((seg.start - 1) * 8 - 4)));
+    setPlaying(true);
+  };
+  // ← / →: previous / next block of the whole piece, or previous / next ocho in a clip. Going back
+  // more than two beats into the current one restarts it, like a music player.
+  const jump = (dir) => {
+    if (!timing.timeAt || !timing.beatAt) return;
+    const beat = timing.beatAt(playheadRef.current);
+    if (clip.full && clip.segments?.length) {
+      const segs = clip.segments;
+      let cur = segs.findIndex((seg) => beat < (seg.start - 1 + seg.len) * 8);
+      if (cur < 0) cur = segs.length - 1;
+      const intoCurrent = beat - (segs[cur].start - 1) * 8;
+      const target =
+        dir < 0 && intoCurrent > 2 ? cur : clamp(cur + dir, 0, segs.length - 1);
+      goToSegment(segs[target]);
+    } else {
+      const eightStart = Math.floor(beat / 8) * 8;
+      const targetBeat =
+        dir > 0
+          ? eightStart + 8
+          : beat - eightStart > 2
+            ? eightStart
+            : eightStart - 8;
+      seek(Math.max(0, timing.timeAt(targetBeat)));
+    }
+  };
   const markA = () => {
     const atSec = playheadRef.current;
     setAbLoop((prev) => {
@@ -583,6 +614,7 @@ export function PracticePlayer({
   const shortcutsRef = useRef({});
   shortcutsRef.current = {
     togglePlay,
+    jump,
     markA,
     markB,
     toggleLoop,
@@ -647,15 +679,7 @@ export function PracticePlayer({
       else if (command.cmd === "flip") setStageView((prev) => !prev);
       else if (command.cmd === "block" && timing.timeAt) {
         const blockSeg = findSeg(command.arg);
-        if (!blockSeg) return;
-        unlockAudio();
-        setAbLoop({
-          a: null,
-          b: null,
-          on: false,
-        });
-        seek(Math.max(0, timing.timeAt((blockSeg.start - 1) * 8 - 4)));
-        setPlaying(true);
+        if (blockSeg) goToSegment(blockSeg);
       } else if (command.cmd === "loop") {
         const loopSeg = findSeg(command.arg);
         if (!loopSeg) return;
@@ -691,6 +715,13 @@ export function PracticePlayer({
           return;
         ev.preventDefault();
         shortcutsRef.current.togglePlay();
+      } else if (key === "arrowleft" || key === "arrowright") {
+        // Only when nothing else on the page wants the arrows (e.g. a dancer dot on the map).
+        const panel = panelRef.current;
+        if (target !== document.body && !(panel && panel.contains(target)))
+          return;
+        ev.preventDefault();
+        shortcutsRef.current.jump(key === "arrowleft" ? -1 : 1);
       } else {
         if (key === "m") {
           shortcutsRef.current.toggleMirror();
@@ -1174,7 +1205,9 @@ export function PracticePlayer({
             <kbd>A</kbd> <kbd>B</kbd>
             {" bucle · "}
             <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd>
-            {" velocidad"}
+            {" velocidad · "}
+            <kbd>←</kbd> <kbd>→</kbd>
+            {clip.full ? " bloque" : " ocho"}
           </p>
         </div>
       </div>
