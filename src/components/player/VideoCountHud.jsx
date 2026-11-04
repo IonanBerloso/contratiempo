@@ -1,6 +1,6 @@
 // Practice-player overlay on step videos: count-in, 'Ocho N', big count with '·/y' subdivision and the step being danced.
 import { countInEight, subdivisionMark } from "../../lib/time.js";
-import { vocabStepName } from "../../lib/vocab.js";
+import { vocabStepName } from "../../lib/footwork.js";
 import { CountInBeats } from "../ui/CountInBeats.jsx";
 export function VideoCountHud({ clip, beat, vocab }) {
   if (beat == null) return null;

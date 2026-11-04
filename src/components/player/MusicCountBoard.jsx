@@ -6,7 +6,7 @@ import {
   segmentAtEight,
 } from "../../lib/musicTimeline.js";
 import { countInEight, countLabel } from "../../lib/time.js";
-import { vocabStepName } from "../../lib/vocab.js";
+import { vocabStepName } from "../../lib/footwork.js";
 import { CountInBeats } from "../ui/CountInBeats.jsx";
 function BoardStage({ pos, highlight, flip }) {
   return (

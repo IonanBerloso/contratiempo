@@ -82,69 +82,58 @@ export function RealSoundPanel({ instruments, feetName }) {
       })),
     },
   ];
-  const uploadSingleSound = async (soundItem, audioFile) => {
-    if (audioFile) {
-      setBusyKey(soundItem.key);
-      setStatusMsg(null);
-      try {
-        const { data, rate } = await decodeAudioFileToMono(audioFile);
-        const hits = detectHitOnsets(data, rate);
-        if (hits.length) {
-          saveRecordedSample(
-            soundItem.key,
-            extractHit(data, rate, hits[0], hits[1]),
-            rate,
-          );
-          previewRecordedSample(soundItem.key);
-          setStatusMsg(`${soundItem.label}: sonido real guardado.`);
-        } else {
-          setStatusMsg(
-            "No he oído ningún golpe en ese audio. Prueba a grabar más cerca.",
-          );
-        }
-      } catch {
-        setStatusMsg(
-          "No he podido leer ese archivo de audio. Prueba con otro formato (m4a, mp3, wav).",
-        );
-      }
-      setBusyKey(null);
+  // Decodes an uploaded recording and hands its detected hits to `onHits`, with shared
+  // busy state and error message.
+  const withRecordedHits = async (busyId, audioFile, onHits) => {
+    if (!audioFile) return;
+    setBusyKey(busyId);
+    setStatusMsg(null);
+    try {
+      const { data, rate } = await decodeAudioFileToMono(audioFile);
+      onHits(data, rate, detectHitOnsets(data, rate));
+    } catch {
+      setStatusMsg(
+        "No he podido leer ese archivo de audio. Prueba con otro formato (m4a, mp3, wav).",
+      );
     }
+    setBusyKey(null);
   };
-  const uploadGroupSounds = async (group, groupFile) => {
-    if (groupFile) {
-      setBusyKey(group.id);
-      setStatusMsg(null);
-      try {
-        const { data, rate } = await decodeAudioFileToMono(groupFile);
-        const groupHits = detectHitOnsets(data, rate);
-        const assignCount = Math.min(groupHits.length, group.items.length);
-        for (let hitIdx = 0; hitIdx < assignCount; hitIdx++)
-          saveRecordedSample(
-            group.items[hitIdx].key,
-            extractHit(data, rate, groupHits[hitIdx], groupHits[hitIdx + 1]),
-            rate,
-          );
-        if (groupHits.length) {
-          if (groupHits.length === group.items.length) {
-            setStatusMsg(
-              `Listo: ${assignCount} golpes asignados, del primero al último.`,
-            );
-          } else {
-            setStatusMsg(
-              `He oído ${groupHits.length} golpes y esperaba ${group.items.length}; he asignado ${assignCount}. Si falta alguno, deja un segundo de silencio entre golpe y golpe.`,
-            );
-          }
-        } else {
-          setStatusMsg("No he oído ningún golpe en ese audio.");
-        }
-      } catch {
+  const uploadSingleSound = (soundItem, audioFile) =>
+    withRecordedHits(soundItem.key, audioFile, (data, rate, hits) => {
+      if (!hits.length) {
         setStatusMsg(
-          "No he podido leer ese archivo de audio. Prueba con otro formato (m4a, mp3, wav).",
+          "No he oído ningún golpe en ese audio. Prueba a grabar más cerca.",
         );
+        return;
       }
-      setBusyKey(null);
-    }
-  };
+      saveRecordedSample(
+        soundItem.key,
+        extractHit(data, rate, hits[0], hits[1]),
+        rate,
+      );
+      previewRecordedSample(soundItem.key);
+      setStatusMsg(`${soundItem.label}: sonido real guardado.`);
+    });
+  const uploadGroupSounds = (group, groupFile) =>
+    withRecordedHits(group.id, groupFile, (data, rate, groupHits) => {
+      const assignCount = Math.min(groupHits.length, group.items.length);
+      for (let hitIdx = 0; hitIdx < assignCount; hitIdx++)
+        saveRecordedSample(
+          group.items[hitIdx].key,
+          extractHit(data, rate, groupHits[hitIdx], groupHits[hitIdx + 1]),
+          rate,
+        );
+      if (!groupHits.length)
+        setStatusMsg("No he oído ningún golpe en ese audio.");
+      else if (groupHits.length === group.items.length)
+        setStatusMsg(
+          `Listo: ${assignCount} golpes asignados, del primero al último.`,
+        );
+      else
+        setStatusMsg(
+          `He oído ${groupHits.length} golpes y esperaba ${group.items.length}; he asignado ${assignCount}. Si falta alguno, deja un segundo de silencio entre golpe y golpe.`,
+        );
+    });
   return (
     <section
       className="panel flex flex-col gap-3 p-4 o-4"

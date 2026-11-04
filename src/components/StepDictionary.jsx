@@ -6,7 +6,7 @@ import {
   TAP_STEP_KEYS,
   TAP_STEP_TERMS,
 } from "../data/tapVocabulary.js";
-import { deepClone } from "../lib/utils.js";
+import { deepClone } from "../lib/state.js";
 export function StepDictionary({ vocab, setVocab }) {
   const updateSound = (soundKey, field, value) =>
     setVocab((prevVocab) => ({

@@ -2,13 +2,18 @@
 // the next item, so she does not have to go back to the home screen after every video.
 import { Icon } from "./ui/Icon.jsx";
 
-const itemTitle = (item) => (item.kind === "clip" ? item.clip.title : `Nota para ti en ${item.block.name}`);
+const itemTitle = (item) =>
+  item.kind === "clip" ? item.clip.title : `Nota para ti en ${item.block.name}`;
 
 export function ReviewBar({ items, pos, onGo, onClose }) {
   if (pos == null || !items[pos]) return null;
   const next = items[pos + 1];
   return (
-    <div className="review-bar" role="region" aria-label="Repaso de la última clase">
+    <div
+      className="review-bar"
+      role="region"
+      aria-label="Repaso de la última clase"
+    >
       <div className="wrap review-bar-row">
         <div className="min-w-0 flex-1">
           <p className="f-label">
@@ -26,7 +31,11 @@ export function ReviewBar({ items, pos, onGo, onClose }) {
           </p>
         </div>
         {next ? (
-          <button type="button" className="btn btn-primary" onClick={() => onGo(pos + 1)}>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => onGo(pos + 1)}
+          >
             Siguiente
             <Icon name="arrow" size={14} />
           </button>
@@ -36,7 +45,12 @@ export function ReviewBar({ items, pos, onGo, onClose }) {
             Terminar
           </button>
         )}
-        <button type="button" className="btn review-bar-close" aria-label="Cerrar el repaso" onClick={onClose}>
+        <button
+          type="button"
+          className="btn review-bar-close"
+          aria-label="Cerrar el repaso"
+          onClick={onClose}
+        >
           <Icon name="x" size={14} />
         </button>
       </div>

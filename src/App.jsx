@@ -6,14 +6,21 @@ import {
   setAudioMuted,
   unlockAudio,
 } from "./lib/audio.js";
-import { buildChoreoMedia, buildStepBankIndex, missedClassGroups } from "./lib/choreography.js";
+import {
+  buildChoreoMedia,
+  buildStepBankIndex,
+  missedClassGroups,
+} from "./lib/choreography.js";
 import { findDancerById } from "./lib/dancers.js";
-import { isComfortablyInView, prefersReducedMotion, useMediaQuery } from "./lib/dom.js";
+import {
+  isComfortablyInView,
+  prefersReducedMotion,
+  useMediaQuery,
+} from "./lib/dom.js";
 import { isSpeechSupported } from "./lib/speech.js";
-import { createDefaultState, migrateState } from "./lib/state.js";
+import { createDefaultState, deepClone, migrateState } from "./lib/state.js";
 import { loadSavedState, persistState } from "./lib/storage.js";
 import { localDateKey } from "./lib/time.js";
-import { deepClone } from "./lib/utils.js";
 import { BackupPanel } from "./components/BackupPanel.jsx";
 import { ChoreographyPage } from "./components/ChoreographyPage.jsx";
 import { ClassModeRemote } from "./components/ClassModeRemote.jsx";
@@ -382,7 +389,12 @@ export function App() {
   const reviewItems = useMemo(
     () =>
       dancerId
-        ? missedClassGroups(choreos, clipsByChoreo, lastClass, dancerId).flatMap((group) =>
+        ? missedClassGroups(
+            choreos,
+            clipsByChoreo,
+            lastClass,
+            dancerId,
+          ).flatMap((group) =>
             group.items.map((item) => ({ choreoId: group.choreo.id, item })),
           )
         : [],
@@ -394,7 +406,11 @@ export function App() {
     setReviewPos(index);
     const { choreoId: itemChoreoId, item } = entry;
     if (item.kind === "clip") {
-      openChoreo(itemChoreoId, { blockId: item.clip.block, clipId: item.clip.id, play: true });
+      openChoreo(itemChoreoId, {
+        blockId: item.clip.block,
+        clipId: item.clip.id,
+        play: true,
+      });
     } else {
       markSeen(item.id);
       openChoreo(itemChoreoId, { blockId: item.block.id, focus: "map" });
@@ -742,8 +758,20 @@ export function App() {
   const voiceAvailable = isSpeechSupported();
   // The coreógrafa/bailarina switch only exists in the demo. On phones it lives in a bar that
   // scrolls away, so the sticky header fits in one row and leaves room for the player and map.
+  const warmupPanel = (
+    <WarmupPanel
+      warmup={warmup}
+      setWarmup={setWarmup}
+      mode={mode}
+      onStart={() => setWarmupOpen(true)}
+    />
+  );
   const viewSwitch = (
-    <div className="seg seg-mode" role="radiogroup" aria-label="Vista de la demo">
+    <div
+      className="seg seg-mode"
+      role="radiogroup"
+      aria-label="Vista de la demo"
+    >
       {[
         ["coreo", "Coreógrafa"],
         ["bailarina", "Bailarina"],
@@ -1053,12 +1081,7 @@ export function App() {
                     }
                   />
                   <div className="home-grid">
-                    <WarmupPanel
-                      warmup={warmup}
-                      setWarmup={setWarmup}
-                      mode={mode}
-                      onStart={() => setWarmupOpen(true)}
-                    />
+                    {warmupPanel}
                     <ImprovRoulettePanel
                       vocab={vocab}
                       onStart={setImprovSettings}
@@ -1090,12 +1113,7 @@ export function App() {
                     }
                   />
                   <div className="home-grid">
-                    <WarmupPanel
-                      warmup={warmup}
-                      setWarmup={setWarmup}
-                      mode={mode}
-                      onStart={() => setWarmupOpen(true)}
-                    />
+                    {warmupPanel}
                     <PracticeStatsPanel log={practice[dancerId]} />
                   </div>
                   <RepertoireGrid
@@ -1169,7 +1187,12 @@ export function App() {
         )}
       </main>
       {!isCoreo && dancerId && choreoId && (
-        <ReviewBar items={reviewItems} pos={reviewPos} onGo={openReviewItem} onClose={goHome} />
+        <ReviewBar
+          items={reviewItems}
+          pos={reviewPos}
+          onGo={openReviewItem}
+          onClose={goHome}
+        />
       )}
     </div>
   );

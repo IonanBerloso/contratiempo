@@ -34,6 +34,7 @@ import { SoundScore } from "./SoundScore.jsx";
 import { StageMoveOrder } from "./StageMoveOrder.jsx";
 import { VideoCountHud } from "./VideoCountHud.jsx";
 import { Icon } from "../ui/Icon.jsx";
+import { isTypingTarget, useEscapeKey } from "../../lib/dom.js";
 let lastHandledPlayRequest = 0;
 export function PracticePlayer({
   clip,
@@ -314,16 +315,7 @@ export function PracticePlayer({
       }
     } catch {}
   };
-  useEffect(() => {
-    if (!classMode) return;
-    const onKey = (ev) => {
-      if (ev.key === "Escape") {
-        exitClassMode();
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [classMode]);
+  useEscapeKey(() => exitClassMode(), classMode);
   const ladderStep = () => {
     if (ladderRef.current) {
       setPrefs((prevPrefs) =>
@@ -686,13 +678,7 @@ export function PracticePlayer({
       if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
       const target = ev.target;
       const tag = target && target.tagName;
-      if (
-        tag === "INPUT" ||
-        tag === "TEXTAREA" ||
-        tag === "SELECT" ||
-        (target && target.isContentEditable) ||
-        (target && target.closest && target.closest("[data-no-shortcuts]"))
-      )
+      if (isTypingTarget(target) || target?.closest?.("[data-no-shortcuts]"))
         return;
       const key = ev.key.toLowerCase();
       if (key === " ") {

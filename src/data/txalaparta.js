@@ -33,10 +33,6 @@ export const TXALAPARTA_ROLE_NAMES = {
   tk: "Ttakun",
   hr: "Herren",
 };
-export const DUO_ROLE_COLORS = {
-  tk: "#EE7447",
-  hr: "#38B8CC",
-};
 export const TXALAPARTA_SNAP_BEATS = {
   8: 0.5,
   16: 0.25,

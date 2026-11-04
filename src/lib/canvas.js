@@ -281,15 +281,7 @@ export function drawFeetFrontView(
   };
   const footStates = {};
   for (let foot of ["R", "L"]) {
-    let lastHit = null;
-    let nextHit = null;
-    for (let footEvent of clip.events)
-      if (footEvent.f === foot)
-        if (footEvent.b <= beat + 1e-6) lastHit = footEvent;
-        else {
-          nextHit = footEvent;
-          break;
-        }
+    const { lastHit, nextHit } = footHitsAround(clip, foot, beat);
     let slideDy = 0;
     let lift = 0;
     if (lastHit && (lastHit.s === "brush" || lastHit.s === "scuff")) {
@@ -551,16 +543,18 @@ export function drawStageView(
     ctx.globalAlpha = 1;
   }
 }
-function footPoseAt(clip, foot, beat) {
+// The last hit of `foot` at or before `beat`, and the next one after it.
+function footHitsAround(clip, foot, beat) {
   let lastHit = null;
-  let nextHit = null;
   for (let footEvent of clip.events)
-    if (footEvent.f === foot)
-      if (footEvent.b <= beat + 1e-6) lastHit = footEvent;
-      else {
-        nextHit = footEvent;
-        break;
-      }
+    if (footEvent.f === foot) {
+      if (footEvent.b > beat + 1e-6) return { lastHit, nextHit: footEvent };
+      lastHit = footEvent;
+    }
+  return { lastHit, nextHit: null };
+}
+function footPoseAt(clip, foot, beat) {
+  const { lastHit, nextHit } = footHitsAround(clip, foot, beat);
   const pose = {
     lift: 0,
     dx: 0,

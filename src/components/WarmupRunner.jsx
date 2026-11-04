@@ -9,6 +9,7 @@ import {
 import { formatCountdown, spokenDuration } from "../lib/format.js";
 import { cancelSpeech, speakText } from "../lib/speech.js";
 import { Icon } from "./ui/Icon.jsx";
+import { useEscapeKey } from "../lib/dom.js";
 export function WarmupRunner({ warmup, onClose, onPractice, voice }) {
   const [exerciseIdx, setExerciseIdx] = useState(0);
   const [remaining, setRemaining] = useState(warmup[0] ? warmup[0].secs : 0);
@@ -74,15 +75,7 @@ export function WarmupRunner({ warmup, onClose, onPractice, voice }) {
     const practiceTimer = setInterval(() => onPractice(5), 5e3);
     return () => clearInterval(practiceTimer);
   }, [running, finished]);
-  useEffect(() => {
-    const onKey = (keyEvent) => {
-      if (keyEvent.key === "Escape") {
-        handleExit();
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  useEscapeKey(() => handleExit());
   const handleExit = () => {
     cancelSpeech();
     onClose();

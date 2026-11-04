@@ -6,7 +6,6 @@ import { SAMPLE_RHYTHMS } from "../data/rhythms.js";
 import { DEFAULT_TAP_VOCAB } from "../data/tapVocabulary.js";
 import { DEFAULT_PLANK_COUNTS } from "../data/txalaparta.js";
 import { migrateLegacyRhythm } from "./txalaparta.js";
-import { deepClone } from "./utils.js";
 export const createDefaultState = () => ({
   mode: "bailarina",
   me: "laura",
@@ -146,3 +145,4 @@ export function migrateState(saved) {
   merged.practice = saved.practice || defaults.practice;
   return merged;
 }
+export const deepClone = (value) => JSON.parse(JSON.stringify(value));

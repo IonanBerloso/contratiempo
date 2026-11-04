@@ -48,6 +48,7 @@ import { RhythmBlockAssignPanel } from "./RhythmBlockAssignPanel.jsx";
 import { TxalapartaRhythmGrid } from "./RhythmGrid.jsx";
 import { TxalapartaDuo } from "./TxalapartaDuo.jsx";
 import { Icon } from "../ui/Icon.jsx";
+import { isTypingTarget } from "../../lib/dom.js";
 export function TxalapartaWorkshop({
   rhythm,
   rhythms,
@@ -955,15 +956,8 @@ export function TxalapartaWorkshop({
   useEffect(() => {
     const onKeyDown = (ev) => {
       if (ev.metaKey || ev.ctrlKey || ev.altKey || ev.repeat) return;
-      const target = ev.target;
-      const tag = target && target.tagName;
-      if (
-        tag === "INPUT" ||
-        tag === "TEXTAREA" ||
-        tag === "SELECT" ||
-        (target && target.isContentEditable)
-      )
-        return;
+      const tag = ev.target?.tagName;
+      if (isTypingTarget(ev.target)) return;
       const key = ev.key.toLowerCase();
       if (key.length === 1) {
         const feetIdx = TXALAPARTA_ROLE_KEYS.pi.indexOf(key);

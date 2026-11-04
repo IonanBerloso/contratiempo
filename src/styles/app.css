@@ -1109,7 +1109,11 @@ textarea.note-field {
 }
 .back {
   align-self: flex-start;
+  align-items: center;
   gap: 6px;
+  /* 30px touch target without moving the layout */
+  padding-block: 6px;
+  margin-block: -6px;
   font-family: var(--font-mono);
   font-size: 12px;
   text-transform: uppercase;

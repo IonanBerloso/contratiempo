@@ -1,5 +1,5 @@
 import { easeInOutQuad } from "./math.js";
-import { vocabStepName } from "./vocab.js";
+import { vocabStepName } from "./footwork.js";
 export function findClipsAtEight(clips, eight) {
   const feetClips = clips
     .filter(

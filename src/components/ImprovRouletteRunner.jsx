@@ -9,6 +9,7 @@ import {
 import { buildImprovSequence } from "../lib/improv.js";
 import { cancelSpeech, speakText } from "../lib/speech.js";
 import { Icon } from "./ui/Icon.jsx";
+import { useEscapeKey } from "../lib/dom.js";
 export function ImprovRouletteRunner({
   settings,
   vocab,
@@ -85,15 +86,7 @@ export function ImprovRouletteRunner({
     const practiceTimer = setInterval(() => onPractice(5), 5e3);
     return () => clearInterval(practiceTimer);
   }, [playing]);
-  useEffect(() => {
-    const onKey = (keyEvent) => {
-      if (keyEvent.key === "Escape") {
-        handleExit();
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  useEscapeKey(() => handleExit());
   const handleExit = () => {
     cancelSpeech();
     onClose();

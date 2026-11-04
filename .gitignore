@@ -1,3 +1,4 @@
 node_modules/
 tests/shots/
 *.log
+tests/*.tmp.html

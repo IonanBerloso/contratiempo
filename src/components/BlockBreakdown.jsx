@@ -52,7 +52,11 @@ export function BlockBreakdown(props) {
       </div>
       {isCoreo && (
         <div className="border-t border-line px-4 py-4">
-          <button type="button" className="btn" onClick={() => setJustAddedId(onAddBlock())}>
+          <button
+            type="button"
+            className="btn"
+            onClick={() => setJustAddedId(onAddBlock())}
+          >
             <span aria-hidden="true">+</span>
             {" Añadir bloque"}
           </button>
@@ -256,12 +260,17 @@ function BlockCard({
     block.rhythmId && rhythms
       ? rhythms.find((candidate) => candidate.id === block.rhythmId)
       : null;
-  const [draft, setDraft] = useState(() => (autoEdit ? draftFromBlock(block) : null));
+  const [draft, setDraft] = useState(() =>
+    autoEdit ? draftFromBlock(block) : null,
+  );
   const cardRef = useRef(null);
   const nameRef = useRef(null);
   useEffect(() => {
     if (!autoEdit) return;
-    cardRef.current?.scrollIntoView({ block: "start", behavior: prefersReducedMotion() ? "auto" : "smooth" });
+    cardRef.current?.scrollIntoView({
+      block: "start",
+      behavior: prefersReducedMotion() ? "auto" : "smooth",
+    });
     nameRef.current?.focus({ preventScroll: true });
     nameRef.current?.select();
   }, []);

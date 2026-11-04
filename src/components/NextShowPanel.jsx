@@ -59,6 +59,12 @@ export function NextShowPanel({
     const { filename, html } = countSheet();
     setDownloadMsg(await saveWithDownloads(downloads, filename, html));
   };
+  const countSheetButton = (
+    <button type="button" className="btn btn-xs" onClick={downloadCountSheet}>
+      <Icon name="download" size={13} />
+      Descargar hoja de cuentas
+    </button>
+  );
   return (
     <section
       className="panel show-panel"
@@ -210,30 +216,10 @@ export function NextShowPanel({
               ? ` · faltan ${missingAuth.length} autorizaciones`
               : ""}
           </button>
-          {downloads && (
-            <button
-              type="button"
-              className="btn btn-xs"
-              onClick={downloadCountSheet}
-            >
-              <Icon name="download" size={13} />
-              Descargar hoja de cuentas
-            </button>
-          )}
+          {downloads && countSheetButton}
         </div>
       )}
-      {!isCoreo && downloads && (
-        <div>
-          <button
-            type="button"
-            className="btn btn-xs"
-            onClick={downloadCountSheet}
-          >
-            <Icon name="download" size={13} />
-            Descargar hoja de cuentas
-          </button>
-        </div>
-      )}
+      {!isCoreo && downloads && <div>{countSheetButton}</div>}
       {downloadMsg && (
         <p className="text-[13px] font-semibold text-ink" role="status">
           {downloadMsg}

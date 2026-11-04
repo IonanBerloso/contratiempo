@@ -1,7 +1,7 @@
 // 'Partitura de sonidos': rows of eights in 16th cells showing step phrases and right/left foot sound events, clickable to seek and loop.
 import { useEffect, useMemo, useRef, useState } from "react";
 import { SUBDIVISION_MARKS, countInEight, countLabel } from "../../lib/time.js";
-import { vocabSoundAbbr, vocabStepName } from "../../lib/vocab.js";
+import { vocabSoundAbbr, vocabStepName } from "../../lib/footwork.js";
 import { Icon } from "../ui/Icon.jsx";
 export function SoundScore({ clip, beat, vocab, onSeekBeat, onLoopBeats }) {
   const containerRef = useRef(null);

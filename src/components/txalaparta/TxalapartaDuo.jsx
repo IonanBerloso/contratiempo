@@ -1,7 +1,6 @@
 // Full-screen two-player txalaparta duo (ttakun/herren halves, one or two phones via the room channel), records strikes into new rhythm layers.
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  DUO_ROLE_COLORS,
   TXALAPARTA_ROLE_NAMES,
   TXALAPARTA_SNAP_BEATS,
 } from "../../data/txalaparta.js";
@@ -17,8 +16,10 @@ import {
   plankLabel,
   rhythmPlanks,
   strikeToSound,
+  TXALAPARTA_ROLE_COLORS,
 } from "../../lib/txalaparta.js";
 import { Icon } from "../ui/Icon.jsx";
+import { useEscapeKey } from "../../lib/dom.js";
 export function TxalapartaDuo({
   rhythm,
   instruments,
@@ -292,7 +293,7 @@ export function TxalapartaDuo({
           const age = nowSec - hit.t;
           if (age > windowSec) continue;
           const dotX = width - (age / windowSec) * width;
-          ctx.fillStyle = DUO_ROLE_COLORS[hit.p];
+          ctx.fillStyle = TXALAPARTA_ROLE_COLORS[hit.p];
           ctx.globalAlpha = 1 - (age / windowSec) * 0.6;
           const dotY = hit.p === "tk" ? height * 0.3 : height * 0.7;
           ctx.beginPath();
@@ -306,20 +307,12 @@ export function TxalapartaDuo({
     frameId = requestAnimationFrame(drawStrip);
     return () => cancelAnimationFrame(frameId);
   }, []);
-  useEffect(() => {
-    const onKey = (ev) => {
-      if (ev.key === "Escape") {
-        onClose();
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  useEscapeKey(onClose);
   const renderHalf = (role, flipped) => (
     <div
       className={`duo-half ${flipped ? "is-flip" : ""}`}
       style={{
-        "--c": DUO_ROLE_COLORS[role],
+        "--c": TXALAPARTA_ROLE_COLORS[role],
       }}
     >
       <p className="duo-role f-display">{TXALAPARTA_ROLE_NAMES[role]}</p>
