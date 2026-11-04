@@ -1,0 +1,127 @@
+:root {
+  --bg: #eceef2;
+  --surface: #fff;
+  --surface-2: #e3e6ec;
+  --ink: #12151c;
+  --muted: #586071;
+  --line: #d3d8e1;
+  --accent: #2b3fcf;
+  --accent-ink: #fff;
+  --accent-soft: #dde1fa;
+  --glow: #d9126a;
+  --glow-ink: #fff;
+  --glow-soft: #fbe3ee;
+  --new: #e4ee32;
+  --new-ink: #1a1c0e;
+  --ok: #1e7d4a;
+  --warn: #b4321f;
+  --wood-a: #d8b688;
+  --wood-b: #cfab7a;
+  --wood-seam: #b48d5c;
+  --stage-ink: #2c2116;
+  --label-bg: rgba(255, 250, 242, 0.86);
+  --dim-disc: rgba(255, 252, 246, 0.62);
+  --dim-ink: #6e5c47;
+  --foot-r: #e8831f;
+  --foot-r-ink: #1e1406;
+  --foot-l: #138f9e;
+  --foot-l-ink: #fff;
+  --video: #0c0e12;
+  --tk: #c9481f;
+  --tk-ink: #fff;
+  --hr: #0f7184;
+  --hr-ink: #fff;
+  --pi: #7448d8;
+  --pi-ink: #fff;
+  --font-display:
+    "Archivo", "Arial Narrow", "Roboto Condensed", system-ui, sans-serif;
+  --font-body: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-note: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-mono:
+    "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1016;
+    --surface: #151921;
+    --surface-2: #1e232d;
+    --ink: #e8ebf1;
+    --muted: #9aa2b1;
+    --line: #2a303b;
+    --accent: #8c99ff;
+    --accent-ink: #0d1016;
+    --accent-soft: #252c52;
+    --glow: #ff5aa0;
+    --glow-ink: #23000f;
+    --glow-soft: #3a1626;
+    --new: #e4ee32;
+    --new-ink: #1a1c0e;
+    --ok: #4fc685;
+    --warn: #ff8a73;
+    --wood-a: #6d5338;
+    --wood-b: #644b31;
+    --wood-seam: #4c3824;
+    --stage-ink: #f3e7d6;
+    --label-bg: rgba(22, 16, 10, 0.78);
+    --dim-disc: rgba(255, 245, 230, 0.16);
+    --dim-ink: #d8c7b0;
+    --foot-r: #f49a3e;
+    --foot-r-ink: #1e1406;
+    --foot-l: #2db3c3;
+    --foot-l-ink: #04191c;
+    --video: #07080b;
+    --tk: #f07a4a;
+    --tk-ink: #1d0a02;
+    --hr: #3fb6ca;
+    --hr-ink: #021a1f;
+    --pi: #b794f6;
+    --pi-ink: #1b1030;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1016;
+  --surface: #151921;
+  --surface-2: #1e232d;
+  --ink: #e8ebf1;
+  --muted: #9aa2b1;
+  --line: #2a303b;
+  --accent: #8c99ff;
+  --accent-ink: #0d1016;
+  --accent-soft: #252c52;
+  --glow: #ff5aa0;
+  --glow-ink: #23000f;
+  --glow-soft: #3a1626;
+  --new: #e4ee32;
+  --new-ink: #1a1c0e;
+  --ok: #4fc685;
+  --warn: #ff8a73;
+  --wood-a: #6d5338;
+  --wood-b: #644b31;
+  --wood-seam: #4c3824;
+  --stage-ink: #f3e7d6;
+  --label-bg: rgba(22, 16, 10, 0.78);
+  --dim-disc: rgba(255, 245, 230, 0.16);
+  --dim-ink: #d8c7b0;
+  --foot-r: #f49a3e;
+  --foot-r-ink: #1e1406;
+  --foot-l: #2db3c3;
+  --foot-l-ink: #04191c;
+  --video: #07080b;
+  --tk: #f07a4a;
+  --tk-ink: #1d0a02;
+  --hr: #3fb6ca;
+  --hr-ink: #021a1f;
+  --pi: #b794f6;
+  --pi-ink: #1b1030;
+  color-scheme: dark;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dot {
+    transition: none;
+  }
+  .dot.is-me .disc:after {
+    animation: none;
+    display: none;
+  }
+}
