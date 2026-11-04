@@ -142,6 +142,23 @@ export function listNewForDancer(choreo, clips, dancerId) {
 }
 // What a dancer who missed the last class should review, grouped by choreography and in study
 // order. Shared by the "Faltaste…" list and the review bar so both number items the same way.
+// Finds a clip by id across choreographies: { choreo, clip, block } or undefined.
+export function findClipEntry(choreos, clipsById, clipId) {
+  for (const choreo of choreos) {
+    const clip = (clipsById[choreo.id] || []).find(
+      (candidate) => candidate.id === clipId,
+    );
+    if (clip)
+      return {
+        choreo,
+        clip,
+        block: choreo.blocks.find((b) => b.id === clip.block),
+      };
+  }
+  return undefined;
+}
+export const reviewItemTitle = (item) =>
+  item.kind === "clip" ? item.clip.title : `Nota para ti en ${item.block.name}`;
 export function missedClassGroups(choreos, clipsById, lastClass, dancerId) {
   return choreos
     .filter(

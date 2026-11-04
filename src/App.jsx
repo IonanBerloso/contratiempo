@@ -361,13 +361,7 @@ export function App() {
           (musicProbe) => musicProbe.block === startBlockId,
         )
       ).id;
-    setSelections((prevSelOpen) => ({
-      ...prevSelOpen,
-      [openChoreoId]: {
-        blockId: startBlockId,
-        clipId: startClipId,
-      },
-    }));
+    selectIn(openChoreoId, { blockId: startBlockId, clipId: startClipId });
     setChoreoId(openChoreoId);
     if (openOptions.play) {
       unlockAudio();
@@ -385,6 +379,12 @@ export function App() {
       window.scrollTo(0, 0);
     }
   };
+  const openClip = (clipChoreoId, clip, options) =>
+    openChoreo(clipChoreoId, {
+      blockId: clip.block,
+      clipId: clip.id,
+      ...options,
+    });
   // Going through the "Faltaste…" list in order (dancer view): position in the flat list.
   const [reviewPos, setReviewPos] = useState(null);
   const reviewItems = useMemo(
@@ -426,6 +426,8 @@ export function App() {
       ),
     [],
   );
+  const selectIn = (selChoreoId, selection) =>
+    setSelections((prev) => ({ ...prev, [selChoreoId]: selection }));
   const selectBlock = (nextBlockId) =>
     setSelections((prevSelBlock) => ({
       ...prevSelBlock,
@@ -443,13 +445,7 @@ export function App() {
       playDerived.full,
     ].find((playProbe) => playProbe.id === playClipId);
     if (clipToPlay) {
-      setSelections((prevSelPlay) => ({
-        ...prevSelPlay,
-        [choreoId]: {
-          blockId: clipToPlay.block,
-          clipId: playClipId,
-        },
-      }));
+      selectIn(choreoId, { blockId: clipToPlay.block, clipId: playClipId });
       setPlayRequest((prevReqPlay) => ({
         id: playClipId,
         n: prevReqPlay.n + 1,
@@ -530,10 +526,7 @@ export function App() {
         links: (choreo.links || []).filter((link) => link.block !== removedId),
       };
     });
-    setSelections((prev) => ({
-      ...prev,
-      [choreoId]: { blockId: neighborId, clipId: `m-${neighborId}` },
-    }));
+    selectIn(choreoId, { blockId: neighborId, clipId: `m-${neighborId}` });
   };
   // Moves a block one place earlier (-1) or later (+1); counts and timings follow the new order.
   const moveBlock = (movedId, step) =>
@@ -569,14 +562,7 @@ export function App() {
         },
       };
     });
-    setSelections((prevSelAdd) => ({
-      ...prevSelAdd,
-      [choreoId]: {
-        ...(prevSelAdd[choreoId] || {}),
-        blockId: newBlockId,
-        clipId: `m-${newBlockId}`,
-      },
-    }));
+    selectIn(choreoId, { blockId: newBlockId, clipId: `m-${newBlockId}` });
     return newBlockId;
   };
   const addNewChoreo = (newTitle, newBpm) => {
@@ -610,13 +596,10 @@ export function App() {
       },
     };
     setChoreos((prevChoreosNew) => [...prevChoreosNew, newChoreo]);
-    setSelections((prevSelNew) => ({
-      ...prevSelNew,
-      [newChoreoId]: {
-        blockId: firstBlockId,
-        clipId: `m-${firstBlockId}`,
-      },
-    }));
+    selectIn(newChoreoId, {
+      blockId: firstBlockId,
+      clipId: `m-${firstBlockId}`,
+    });
     setChoreoId(newChoreoId);
     window.scrollTo(0, 0);
   };
@@ -684,13 +667,7 @@ export function App() {
         isNew: true,
       },
     ]);
-    setSelections((prevSelUpload) => ({
-      ...prevSelUpload,
-      [choreoId]: {
-        blockId: uploadBlockId,
-        clipId: uploadId,
-      },
-    }));
+    selectIn(choreoId, { blockId: uploadBlockId, clipId: uploadId });
   };
   const removeUpload = (removeClipId) => {
     setUploads((prevUploadsRm) => {
@@ -704,13 +681,7 @@ export function App() {
     });
     const curSel = selections[choreoId];
     if (curSel && curSel.clipId === removeClipId) {
-      setSelections((prevSelRm) => ({
-        ...prevSelRm,
-        [choreoId]: {
-          ...curSel,
-          clipId: `m-${curSel.blockId}`,
-        },
-      }));
+      selectIn(choreoId, { ...curSel, clipId: `m-${curSel.blockId}` });
     }
   };
   const uploadSong = (songFile) => {
@@ -1116,12 +1087,8 @@ export function App() {
                     lastClass={lastClass}
                     seen={seen}
                     hard={hard}
-                    onOpenClip={(clipChoreoId, clipToOpen) =>
-                      openChoreo(clipChoreoId, {
-                        blockId: clipToOpen.block,
-                        clipId: clipToOpen.id,
-                        focus: "player",
-                      })
+                    onOpenClip={(id, clip) =>
+                      openClip(id, clip, { focus: "player" })
                     }
                   />
                   <StepBankPanel
@@ -1169,12 +1136,8 @@ export function App() {
                     choreos={choreos}
                     clipsById={clipsByChoreo}
                     hardIds={(hard || {})[dancerId] || []}
-                    onOpenClip={(clipChoreoId, clipToOpen) =>
-                      openChoreo(clipChoreoId, {
-                        blockId: clipToOpen.block,
-                        clipId: clipToOpen.id,
-                        play: true,
-                      })
+                    onOpenClip={(id, clip) =>
+                      openClip(id, clip, { play: true })
                     }
                   />
                   <div className="home-grid">

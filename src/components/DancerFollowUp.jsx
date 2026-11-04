@@ -1,6 +1,6 @@
 // 'Quién está al día': hardest steps for the group and per-dancer review progress/'Me cuesta' list (choreographer only).
 import { DANCERS } from "../data/dancers.js";
-import { listNewForDancer } from "../lib/choreography.js";
+import { findClipEntry, listNewForDancer } from "../lib/choreography.js";
 import { findDancerById } from "../lib/dancers.js";
 import { Icon } from "./ui/Icon.jsx";
 export function DancerFollowUp({
@@ -11,15 +11,7 @@ export function DancerFollowUp({
   hard,
   onOpenClip,
 }) {
-  const allClips = [];
-  for (let choreo of choreos)
-    for (let clip of clipsById[choreo.id] || [])
-      allClips.push({
-        choreo,
-        clip,
-      });
-  const findClipEntry = (clipId) =>
-    allClips.find((entry) => entry.clip.id === clipId);
+  const findClip = (clipId) => findClipEntry(choreos, clipsById, clipId);
   const workedChoreos = choreos.filter(
     (candidate) =>
       lastClass.worked.includes(candidate.id) &&
@@ -32,7 +24,7 @@ export function DancerFollowUp({
   const hardest = Object.entries(hardCounts)
     .sort((entryA, entryB) => entryB[1] - entryA[1])
     .map(([hardId, hardTotal]) => ({
-      found: findClipEntry(hardId),
+      found: findClip(hardId),
       n: hardTotal,
       who: Object.keys(hard).filter((dancerKey) =>
         hard[dancerKey].includes(hardId),
@@ -100,7 +92,7 @@ export function DancerFollowUp({
             (seen[dancer.id] || []).includes(catchItem.id),
           ).length;
           const hardClips = (hard[dancer.id] || [])
-            .map(findClipEntry)
+            .map(findClip)
             .filter(Boolean);
           return (
             <div key={dancer.id} className="follow-row">

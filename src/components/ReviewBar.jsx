@@ -1,9 +1,7 @@
 // Bottom bar for a dancer going through "Faltaste…": shows where she is in the list and opens
 // the next item, so she does not have to go back to the home screen after every video.
+import { reviewItemTitle } from "../lib/choreography.js";
 import { Icon } from "./ui/Icon.jsx";
-
-const itemTitle = (item) =>
-  item.kind === "clip" ? item.clip.title : `Nota para ti en ${item.block.name}`;
 
 export function ReviewBar({ items, pos, onGo, onClose }) {
   if (pos == null || !items[pos]) return null;
@@ -23,7 +21,7 @@ export function ReviewBar({ items, pos, onGo, onClose }) {
             {next ? (
               <>
                 <span className="text-muted">Siguiente: </span>
-                {itemTitle(next.item)}
+                {reviewItemTitle(next.item)}
               </>
             ) : (
               "Es lo último que se hizo nuevo."

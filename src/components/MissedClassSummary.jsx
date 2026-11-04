@@ -1,6 +1,11 @@
 // Dancer banner: 'Al día' if she came, otherwise 'Faltaste…' with the ordered list of new clips/personal notes and review progress.
 import { CLIP_ANGLE_LABELS } from "../data/clips.js";
-import { lastClassDate, missedClassGroups } from "../lib/choreography.js";
+import {
+  lastClassDate,
+  missedClassGroups,
+  reviewItemTitle,
+} from "../lib/choreography.js";
+import { CatchItem } from "./ui/CatchItem.jsx";
 import { findDancerById } from "../lib/dancers.js";
 import { Icon } from "./ui/Icon.jsx";
 export function MissedClassSummary({
@@ -89,37 +94,19 @@ export function MissedClassSummary({
                 itemNumber += 1;
                 const isSeen = seenIds.includes(entry.id);
                 return (
-                  <li key={entry.id}>
-                    <button
-                      type="button"
-                      className={`catch-item ${isSeen ? "is-seen" : ""}`}
-                      onClick={() => onOpenItem(index)}
-                    >
-                      <span className="catch-num f-display">{itemNumber}</span>
-                      <span className="min-w-0 flex-1">
-                        <span className="block text-[15px] font-semibold leading-snug text-ink">
-                          {entry.kind === "clip"
-                            ? entry.clip.title
-                            : `Nota para ti en ${entry.block.name}`}
-                        </span>
-                        <span className="mt-0.5 block text-[13px] leading-snug text-muted">
-                          {entry.kind === "clip"
-                            ? `${entry.block.name} · ${CLIP_ANGLE_LABELS[entry.clip.angle] || "Vídeo"}${entry.clip.bpm ? ` · ${entry.clip.bpm} bpm` : ""}`
-                            : entry.text}
-                        </span>
-                      </span>
-                      <span className="catch-state">
-                        {isSeen ? (
-                          <Icon name="check" size={16} />
-                        ) : (
-                          <Icon
-                            name={entry.kind === "clip" ? "play" : "arrow"}
-                            size={14}
-                          />
-                        )}
-                      </span>
-                    </button>
-                  </li>
+                  <CatchItem
+                    key={entry.id}
+                    num={itemNumber}
+                    title={reviewItemTitle(entry)}
+                    detail={
+                      entry.kind === "clip"
+                        ? `${entry.block.name} · ${CLIP_ANGLE_LABELS[entry.clip.angle] || "Vídeo"}${entry.clip.bpm ? ` · ${entry.clip.bpm} bpm` : ""}`
+                        : entry.text
+                    }
+                    icon={entry.kind === "clip" ? "play" : "arrow"}
+                    seen={isSeen}
+                    onClick={() => onOpenItem(index)}
+                  />
                 );
               })}
             </ol>

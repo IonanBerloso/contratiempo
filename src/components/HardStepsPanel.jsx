@@ -1,25 +1,13 @@
 // "Lo que te cuesta": the steps a dancer flagged with «Me cuesta», gathered on her home screen so
 // she can go straight to them when she practises at home.
 import { CLIP_ANGLE_LABELS } from "../data/clips.js";
-import { Icon } from "./ui/Icon.jsx";
+import { findClipEntry } from "../lib/choreography.js";
+import { CatchItem } from "./ui/CatchItem.jsx";
 
 export function HardStepsPanel({ choreos, clipsById, hardIds, onOpenClip }) {
+  const visible = choreos.filter((choreo) => choreo.status !== "Borrador");
   const entries = hardIds
-    .map((clipId) => {
-      for (const choreo of choreos) {
-        if (choreo.status === "Borrador") continue;
-        const clip = (clipsById[choreo.id] || []).find(
-          (candidate) => candidate.id === clipId,
-        );
-        if (clip)
-          return {
-            choreo,
-            clip,
-            block: choreo.blocks.find((b) => b.id === clip.block),
-          };
-      }
-      return null;
-    })
+    .map((clipId) => findClipEntry(visible, clipsById, clipId))
     .filter(Boolean);
   return (
     <section
@@ -35,29 +23,12 @@ export function HardStepsPanel({ choreos, clipsById, hardIds, onOpenClip }) {
       {entries.length ? (
         <ol className="catch-list">
           {entries.map(({ choreo, clip, block }) => (
-            <li key={clip.id}>
-              <button
-                type="button"
-                className="catch-item"
-                onClick={() => onOpenClip(choreo.id, clip)}
-              >
-                <span className="min-w-0 flex-1">
-                  <span className="block text-[15px] font-semibold leading-snug text-ink">
-                    {clip.title}
-                  </span>
-                  <span className="mt-0.5 block text-[13px] leading-snug text-muted">
-                    {choreo.title}
-                    {block ? ` · ${block.name}` : ""}
-                    {CLIP_ANGLE_LABELS[clip.angle]
-                      ? ` · ${CLIP_ANGLE_LABELS[clip.angle]}`
-                      : ""}
-                  </span>
-                </span>
-                <span className="catch-state">
-                  <Icon name="play" size={14} />
-                </span>
-              </button>
-            </li>
+            <CatchItem
+              key={clip.id}
+              title={clip.title}
+              detail={`${choreo.title}${block ? ` · ${block.name}` : ""}${CLIP_ANGLE_LABELS[clip.angle] ? ` · ${CLIP_ANGLE_LABELS[clip.angle]}` : ""}`}
+              onClick={() => onOpenClip(choreo.id, clip)}
+            />
           ))}
         </ol>
       ) : (

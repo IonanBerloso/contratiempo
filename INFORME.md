@@ -1,5 +1,52 @@
 # Informe de las rondas de mejora
 
+## Corte r20 (rondas 11–20)
+
+### Lo que ha mejorado de verdad desde r10
+
+- **La coreógrafa ya puede ordenar la coreografía** (rondas 9 y 11): quitar un bloque y moverlo
+  antes o después. Antes, un bloque nuevo solo podía ir al final y no se podía borrar.
+- **La clase de verdad tiene fecha** (rondas 13 y 19): «¿Qué día fue?» en «Última clase». La bailarina
+  que faltó lee «Faltaste el martes 3» y el mensaje de WhatsApp dice el día correcto. Antes era
+  siempre «el jueves 22». Y un botón quita las marcas «Nuevo» de la clase anterior para apuntar la
+  siguiente.
+- **La bailarina va directa a lo que le cuesta** (ronda 14): los pasos que marca con «Me cuesta»
+  aparecen en su portada, «Lo que te cuesta», y se abren reproduciéndose.
+- **La pantalla grande sirve para dar clase** (rondas 12, 16 y 18): ← / → saltan de bloque (o de
+  ocho) desde el teclado del portátil, sin mando; al ensayar un bloque se ve su formación junto a las
+  cuentas; y al pausar el ▶ ya no tapa las cuentas.
+- **Se lee bien en cualquier móvil** (rondas 15 y 17): todo el texto pasa de 4,5:1 de contraste en
+  modo claro y oscuro (había 7 fallos, uno en el propio punto «TÚ» del mapa en modo oscuro), y la
+  partitura del taller de txalaparta tiene casillas de 31 px para el dedo en vez de 15 px.
+- Revisado sin cambios (ronda 19): 600 pulsaciones aleatorias en el móvil sin errores ni scroll
+  horizontal; la app carga y responde bien con la CPU 4 veces más lenta.
+
+### Lo que sobra
+
+- Lo mismo que en r10: el **mando** y el **dúo en dos móviles** solo funcionan dentro de claude.ai, y
+  el **taller de txalaparta** sigue siendo un componente enorme (≈2.300 líneas).
+- **Demasiados botones en el reproductor** para una bailarina en el móvil. Sigue sin tocarse porque
+  quitar algo sin hablar con la coreógrafa sería adivinar (ver preguntas al final).
+- El botón «Modo clase» del panel de la función también lo ven las bailarinas, que normalmente no
+  proyectan nada.
+
+### Líneas de código (`src/`)
+
+| versión | líneas | nota |
+|---|---|---|
+| v0 | 19.338 | techo 25.139 |
+| r10 | 19.620 | +1,5 % |
+| r20 | 19.896 | +2,9 % sobre v0, 79 % del techo |
+
+En 10 rondas, 6 funciones o arreglos con interfaz nueva y +276 líneas; las podas (15 y 20) unificaron
+listas, selecciones y búsquedas repetidas.
+
+### Versión recomendada ahora
+
+**r20.** Cubre los tres papeles mejor que r10 (coreógrafa ordenando bloques y fechando la clase,
+bailarina con «Lo que te cuesta», clase con teclado y formación en pantalla grande), con capturas
+idénticas en la poda y 97 comprobaciones automáticas en verde.
+
 ## Corte r10 (rondas 1–10)
 
 ### Lo que ha mejorado de verdad desde v0
