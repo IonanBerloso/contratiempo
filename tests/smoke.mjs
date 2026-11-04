@@ -68,10 +68,13 @@ for (const vp of Object.keys(VIEWPORTS)) {
       });
     }
     if (view === 'coreo') {
-      await step(page, errors, vp, `${tag} add a block, then remove it`, async () => {
+      await step(page, errors, vp, `${tag} add a block, move it, remove it`, async () => {
         const tabs = page.getByRole('tablist', { name: 'Bloques' }).getByRole('tab');
         const before = await tabs.count();
         await page.getByRole('button', { name: /Añadir bloque/ }).click();
+        await page.getByRole('button', { name: /antes$/ }).click();
+        const names = await tabs.allInnerTexts();
+        if (!/Bloque/.test(names[names.length - 2])) throw new Error('block did not move up');
         await page.getByRole('button', { name: 'Quitar bloque' }).click();
         await page.getByRole('button', { name: 'Pulsa otra vez para quitarlo' }).click();
         await settle(page, 400);

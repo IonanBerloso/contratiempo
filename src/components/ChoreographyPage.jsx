@@ -180,6 +180,7 @@ export function ChoreographyPage({
             onRemoveBlock={
               choreo.blocks.length > 1 ? actions.removeBlock : null
             }
+            onMoveBlock={actions.moveBlock}
             toggleNew={actions.toggleNew}
             setAngle={actions.setAngle}
             onUpload={actions.onUpload}

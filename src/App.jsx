@@ -534,6 +534,16 @@ export function App() {
       [choreoId]: { blockId: neighborId, clipId: `m-${neighborId}` },
     }));
   };
+  // Moves a block one place earlier (-1) or later (+1); counts and timings follow the new order.
+  const moveBlock = (movedId, step) =>
+    updateChoreo(choreoId, (choreo) => {
+      const blocks = [...choreo.blocks];
+      const from = blocks.findIndex((b) => b.id === movedId);
+      const to = from + step;
+      if (from < 0 || to < 0 || to >= blocks.length) return choreo;
+      [blocks[from], blocks[to]] = [blocks[to], blocks[from]];
+      return { ...choreo, blocks };
+    });
   const addBlock = () => {
     const newBlockId = `${choreoId}-${Date.now().toString(36)}`;
     updateChoreo(choreoId, (choreoAdd) => {
@@ -1016,6 +1026,7 @@ export function App() {
                 copyPrev: copyPrevFormation,
                 updateBlock,
                 removeBlock,
+                moveBlock,
                 addBlock,
                 toggleNew,
                 setAngle: setClipAngle,

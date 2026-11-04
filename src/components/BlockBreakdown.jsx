@@ -249,6 +249,7 @@ function BlockCard({
   onToggleHard,
   autoEdit,
   onRemoveBlock,
+  onMoveBlock,
 }) {
   const [bankOpen, setBankOpen] = useState(false);
   const [bankPick, setBankPick] = useState("");
@@ -277,6 +278,19 @@ function BlockCard({
     nameRef.current?.select();
   }, []);
   const isCoreo = mode === "coreo";
+  // After moving, keep the pressed button on screen: the whole card changes place.
+  const moveAndFollow = (button, step) => {
+    onMoveBlock(block.id, step);
+    requestAnimationFrame(() =>
+      button.scrollIntoView({
+        block: "center",
+        behavior: prefersReducedMotion() ? "auto" : "smooth",
+      }),
+    );
+  };
+  const blockIndex = choreo.blocks.findIndex(
+    (candidate) => candidate.id === block.id,
+  );
   const myNote = !isCoreo && block.personal ? block.personal[myDancerId] : null;
   const personalNotes = Object.entries(block.personal || {}).filter(
     ([, noteText]) => noteText,
@@ -464,7 +478,7 @@ function BlockCard({
               />
               Marcar el bloque como «Nuevo en la última clase»
             </label>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               <button
                 type="button"
                 className="btn btn-primary"
@@ -479,6 +493,34 @@ function BlockCard({
               >
                 Cancelar
               </button>
+              {onMoveBlock && (
+                <span
+                  className="flex gap-1"
+                  role="group"
+                  aria-label="Orden del bloque"
+                >
+                  <button
+                    type="button"
+                    className="btn"
+                    disabled={blockIndex === 0}
+                    onClick={(ev) => moveAndFollow(ev.currentTarget, -1)}
+                    aria-label={`Mover ${block.name} antes`}
+                    title="Mover antes"
+                  >
+                    <span aria-hidden="true">↑</span>
+                  </button>
+                  <button
+                    type="button"
+                    className="btn"
+                    disabled={blockIndex === choreo.blocks.length - 1}
+                    onClick={(ev) => moveAndFollow(ev.currentTarget, 1)}
+                    aria-label={`Mover ${block.name} después`}
+                    title="Mover después"
+                  >
+                    <span aria-hidden="true">↓</span>
+                  </button>
+                </span>
+              )}
               {onRemoveBlock && (
                 <ConfirmButton
                   className="ml-auto"
