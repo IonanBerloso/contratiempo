@@ -33,6 +33,7 @@ import { LastClassLog } from "./components/LastClassLog.jsx";
 import { MissedClassSummary } from "./components/MissedClassSummary.jsx";
 import { PracticeStatsPanel } from "./components/PracticeStatsPanel.jsx";
 import { ReviewBar } from "./components/ReviewBar.jsx";
+import { ConfirmButton } from "./components/ui/ConfirmButton.jsx";
 import { RepertoireGrid } from "./components/RepertoireGrid.jsx";
 import { StepBankPanel } from "./components/StepBankPanel.jsx";
 import { StepDictionary } from "./components/StepDictionary.jsx";
@@ -73,7 +74,6 @@ export function App() {
     id: null,
     n: 0,
   });
-  const [confirmReset, setConfirmReset] = useState(false);
   const playerRef = useRef(null);
   const mapRef = useRef(null);
   useEffect(() => {
@@ -763,17 +763,11 @@ export function App() {
     window.scrollTo(0, 0);
   };
   const resetDemo = () => {
-    if (!confirmReset) {
-      setConfirmReset(true);
-      setTimeout(() => setConfirmReset(false), 4e3);
-      return;
-    }
     uploads.forEach((uploadRevoke) => URL.revokeObjectURL(uploadRevoke.src));
     Object.values(songs).forEach((songRevoke) =>
       URL.revokeObjectURL(songRevoke.src),
     );
     applyState(createDefaultState());
-    setConfirmReset(false);
     window.scrollTo(0, 0);
   };
   const isCoreo = mode === "coreo";
@@ -1195,15 +1189,11 @@ export function App() {
             navegador; los vídeos y canciones subidos, solo mientras la pestaña
             esté abierta.
           </p>
-          <button
-            type="button"
-            className={`btn ${confirmReset ? "btn-warn" : ""}`}
-            onClick={resetDemo}
-          >
-            {confirmReset
-              ? "Pulsa otra vez para restaurar"
-              : "Restaurar datos de ejemplo"}
-          </button>
+          <ConfirmButton
+            label="Restaurar datos de ejemplo"
+            confirmLabel="Pulsa otra vez para restaurar"
+            onConfirm={resetDemo}
+          />
         </footer>
         {!isCoreo && dancerId && choreoId && reviewPos != null && (
           <div className="review-bar-space" aria-hidden="true" />

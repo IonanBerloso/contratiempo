@@ -44,6 +44,7 @@ import { RealSoundPanel } from "./RealSoundPanel.jsx";
 import { RhythmBlockAssignPanel } from "./RhythmBlockAssignPanel.jsx";
 import { TxalapartaRhythmGrid } from "./RhythmGrid.jsx";
 import { TxalapartaDuo } from "./TxalapartaDuo.jsx";
+import { ConfirmButton } from "../ui/ConfirmButton.jsx";
 import { Icon } from "../ui/Icon.jsx";
 import { isTypingTarget } from "../../lib/dom.js";
 export function TxalapartaWorkshop({
@@ -82,7 +83,6 @@ export function TxalapartaWorkshop({
     eight: null,
   });
   const [metronomeOn, setMetronomeOn] = useState(true);
-  const [confirmDelete, setConfirmDelete] = useState(false);
   const [tempoRamp, setTempoRamp] = useState(null);
   const [practiceRole, setPracticeRole] = useState(null);
   const [exportProgress, setExportProgress] = useState(null);
@@ -2318,23 +2318,11 @@ Responde solo con un array JSON de objetos {"b": número, "col": número}. Ejemp
                 <Icon name="copy" />
                 Duplicar
               </button>
-              <button
-                type="button"
-                className={`btn ${confirmDelete ? "btn-warn" : ""}`}
-                onClick={() => {
-                  if (confirmDelete) {
-                    setConfirmDelete(false);
-                    onDelete(rhythm.id);
-                  } else {
-                    setConfirmDelete(true);
-                    setTimeout(() => setConfirmDelete(false), 4e3);
-                  }
-                }}
-              >
-                {confirmDelete
-                  ? "Pulsa otra vez para borrarlo"
-                  : "Borrar este ritmo"}
-              </button>
+              <ConfirmButton
+                label="Borrar este ritmo"
+                confirmLabel="Pulsa otra vez para borrarlo"
+                onConfirm={() => onDelete(rhythm.id)}
+              />
             </div>
           </section>
         </div>

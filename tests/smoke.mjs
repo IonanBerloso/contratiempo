@@ -73,7 +73,7 @@ for (const vp of Object.keys(VIEWPORTS)) {
         const before = await tabs.count();
         await page.getByRole('button', { name: /Añadir bloque/ }).click();
         await page.getByRole('button', { name: 'Quitar bloque' }).click();
-        await page.getByRole('button', { name: 'Sí, quitar el bloque' }).click();
+        await page.getByRole('button', { name: 'Pulsa otra vez para quitarlo' }).click();
         await settle(page, 400);
         if ((await tabs.count()) !== before) throw new Error('block count changed');
       });

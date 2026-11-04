@@ -13,6 +13,7 @@ import {
   formatMinSec,
 } from "../lib/time.js";
 import { ClipThumbnailGlyph } from "./ui/ClipThumbnailGlyph.jsx";
+import { ConfirmButton } from "./ui/ConfirmButton.jsx";
 import { Icon } from "./ui/Icon.jsx";
 export function BlockBreakdown(props) {
   const { choreo, ranges, clips, mode, onAddBlock } = props;
@@ -249,7 +250,6 @@ function BlockCard({
   autoEdit,
   onRemoveBlock,
 }) {
-  const [confirmRemove, setConfirmRemove] = useState(false);
   const [bankOpen, setBankOpen] = useState(false);
   const [bankPick, setBankPick] = useState("");
   const usedClipIds = new Set(
@@ -480,27 +480,16 @@ function BlockCard({
                 Cancelar
               </button>
               {onRemoveBlock && (
-                <button
-                  type="button"
-                  className={`btn ml-auto ${confirmRemove ? "btn-warn" : ""}`}
-                  onClick={() =>
-                    confirmRemove
-                      ? onRemoveBlock(block.id)
-                      : setConfirmRemove(true)
-                  }
-                  onBlur={() => setConfirmRemove(false)}
+                <ConfirmButton
+                  className="ml-auto"
+                  label="Quitar bloque"
+                  confirmLabel="Pulsa otra vez para quitarlo"
+                  onConfirm={() => onRemoveBlock(block.id)}
                 >
                   <Icon name="x" size={14} />
-                  {confirmRemove ? "Sí, quitar el bloque" : "Quitar bloque"}
-                </button>
+                </ConfirmButton>
               )}
             </div>
-            {confirmRemove && (
-              <p className="text-[13px] text-muted" role="status">
-                Se borra con su formación, sus notas y sus vídeos. Pulsa otra
-                vez para confirmar.
-              </p>
-            )}
           </div>
         ) : (
           <>
