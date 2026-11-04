@@ -59,6 +59,14 @@ for (const vp of Object.keys(VIEWPORTS)) {
       await page.locator('.rep-card').first().click();
       await page.getByRole('region', { name: 'Reproductor de práctica' }).waitFor();
     });
+    if (view === 'bailarina') {
+      await step(page, errors, vp, `${tag} map tabs show her mark in every block`, async () => {
+        const tabs = page.getByRole('tablist', { name: 'Bloques' });
+        const n = await tabs.getByRole('tab').count();
+        const marks = await tabs.getByText('Tu marca:').count();
+        if (!n || marks !== n) throw new Error(`${marks} marks for ${n} blocks`);
+      });
+    }
     await step(page, errors, vp, `${tag} count sheet downloads`, async () => {
       const [dl] = await Promise.all([
         page.waitForEvent('download', { timeout: 5000 }),

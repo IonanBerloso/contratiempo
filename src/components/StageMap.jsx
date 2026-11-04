@@ -109,11 +109,11 @@ export function StageMap({
     keyEvent.preventDefault();
     const step = keyEvent.shiftKey ? 5 : 1;
     const dx = (fromStage ? -delta[0] : delta[0]) * step;
-    const me = (fromStage ? -delta[1] : delta[1]) * step;
+    const dy = (fromStage ? -delta[1] : delta[1]) * step;
     const [curX, curY] = formation[nudgedId];
     setPos(block.id, nudgedId, [
       clamp(curX + dx, 4, 96),
-      clamp(curY + me, 5, 95),
+      clamp(curY + dy, 5, 95),
     ]);
   };
   const myPos = myId ? formation[myId] : null;
@@ -169,6 +169,12 @@ export function StageMap({
               {ranges[tabBlock.id].n}
             </span>
             <span className="tab-name">{tabBlock.name}</span>
+            {myId && choreo.formations[tabBlock.id]?.[myId] && (
+              <span className="tab-mark">
+                <span className="sr-only">Tu marca: </span>
+                {shortMarkLabel(choreo.formations[tabBlock.id][myId][0])}
+              </span>
+            )}
             {tabBlock.isNew && (
               <span className="tab-new" title="Nuevo en la última clase" />
             )}
@@ -369,6 +375,11 @@ export function StageMap({
     </div>
   );
 }
+// "3 dcha" / "1 izda" / "0": the dancer's own mark on a block tab, so she sees every block at once.
+const shortMarkLabel = (x) => {
+  const markNum = stageNumber(x);
+  return markNum === 0 ? "0 centro" : `${markNum} ${x < 50 ? "dcha" : "izda"}`;
+};
 function MyStageMark({ block, pos, prevBlock, prevPos }) {
   if (!pos) return null;
   const markNum = stageNumber(pos[0]);
