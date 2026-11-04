@@ -950,6 +950,7 @@ kbd {
 }
 .blk {
   border-top: 1px solid var(--line);
+  scroll-margin-top: 72px;
 }
 .blk.is-active {
   background: color-mix(in srgb, var(--surface-2) 45%, var(--surface));

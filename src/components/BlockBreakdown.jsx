@@ -1,10 +1,11 @@
 // Desglose por bloques: list of block cards with total ochos, duration and clip count.
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CLIP_ANGLE_LABELS } from "../data/clips.js";
 import { DANCERS } from "../data/dancers.js";
 import { countEights } from "../lib/choreography.js";
 import { findDancerById } from "../lib/dancers.js";
 import { formatClockTenths } from "../lib/format.js";
+import { prefersReducedMotion } from "../lib/dom.js";
 import { clamp } from "../lib/math.js";
 import {
   choreoDurationSec,
@@ -16,6 +17,8 @@ import { Icon } from "./ui/Icon.jsx";
 export function BlockBreakdown(props) {
   const { choreo, ranges, clips, mode, onAddBlock } = props;
   const isCoreo = mode === "coreo";
+  // A block added from here opens straight in the editor, with its name selected.
+  const [justAddedId, setJustAddedId] = useState(null);
   return (
     <div className="panel">
       <div className="flex flex-wrap items-baseline justify-between gap-2 px-4 pb-2 pt-4">
@@ -41,6 +44,7 @@ export function BlockBreakdown(props) {
             b={block}
             range={ranges[block.id]}
             {...props}
+            autoEdit={block.id === justAddedId}
             blockClips={clips.filter((clip) => clip.block === block.id)}
             music={props.music.find((track) => track.block === block.id)}
           />
@@ -48,7 +52,7 @@ export function BlockBreakdown(props) {
       </div>
       {isCoreo && (
         <div className="border-t border-line px-4 py-4">
-          <button type="button" className="btn" onClick={onAddBlock}>
+          <button type="button" className="btn" onClick={() => setJustAddedId(onAddBlock())}>
             <span aria-hidden="true">+</span>
             {" Añadir bloque"}
           </button>
@@ -204,6 +208,14 @@ function BlockClipRow({
     </li>
   );
 }
+const draftFromBlock = (block) => ({
+  name: block.name,
+  formation: block.formation,
+  len: block.len,
+  notes: block.notes,
+  personal: { ...(block.personal || {}) },
+  isNew: block.isNew,
+});
 function BlockCard({
   choreo,
   b: block,
@@ -230,6 +242,7 @@ function BlockCard({
   hardMine,
   hardCount,
   onToggleHard,
+  autoEdit,
 }) {
   const [bankOpen, setBankOpen] = useState(false);
   const [bankPick, setBankPick] = useState("");
@@ -243,24 +256,22 @@ function BlockCard({
     block.rhythmId && rhythms
       ? rhythms.find((candidate) => candidate.id === block.rhythmId)
       : null;
-  const [draft, setDraft] = useState(null);
+  const [draft, setDraft] = useState(() => (autoEdit ? draftFromBlock(block) : null));
+  const cardRef = useRef(null);
+  const nameRef = useRef(null);
+  useEffect(() => {
+    if (!autoEdit) return;
+    cardRef.current?.scrollIntoView({ block: "start", behavior: prefersReducedMotion() ? "auto" : "smooth" });
+    nameRef.current?.focus({ preventScroll: true });
+    nameRef.current?.select();
+  }, []);
   const isCoreo = mode === "coreo";
   const myNote = !isCoreo && block.personal ? block.personal[myDancerId] : null;
   const personalNotes = Object.entries(block.personal || {}).filter(
     ([, noteText]) => noteText,
   );
   const isActive = block.id === blockId;
-  const startEdit = () =>
-    setDraft({
-      name: block.name,
-      formation: block.formation,
-      len: block.len,
-      notes: block.notes,
-      personal: {
-        ...(block.personal || {}),
-      },
-      isNew: block.isNew,
-    });
+  const startEdit = () => setDraft(draftFromBlock(block));
   const saveEdit = () => {
     const cleanPersonal = Object.fromEntries(
       Object.entries(draft.personal).filter(
@@ -278,7 +289,7 @@ function BlockCard({
     setDraft(null);
   };
   return (
-    <article className={`blk ${isActive ? "is-active" : ""}`}>
+    <article ref={cardRef} className={`blk ${isActive ? "is-active" : ""}`}>
       <button
         type="button"
         className="block-head"
@@ -318,6 +329,7 @@ function BlockCard({
               >
                 Nombre del bloque
                 <input
+                  ref={nameRef}
                   id={`bn-${block.id}`}
                   className="field"
                   value={draft.name}

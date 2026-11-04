@@ -528,6 +528,7 @@ export function App() {
         clipId: `m-${newBlockId}`,
       },
     }));
+    return newBlockId;
   };
   const addNewChoreo = (newTitle, newBpm) => {
     const newChoreoId = `k${Date.now().toString(36)}`;
