@@ -32,10 +32,7 @@ function buildFullChoreoMusic(choreo, ranges, rhythms, instruments) {
     acapella: [],
     rhythm: null,
     segments: choreo.blocks.map((block) => {
-      const blockRhythm =
-        block.rhythmId && rhythms
-          ? rhythms.find((candidate) => candidate.id === block.rhythmId)
-          : null;
+      const blockRhythm = findBlockRhythm(block, rhythms);
       return {
         id: block.id,
         name: block.name,
@@ -50,11 +47,13 @@ function buildFullChoreoMusic(choreo, ranges, rhythms, instruments) {
     isNew: false,
   };
 }
+const findBlockRhythm = (block, rhythms) =>
+  (block.rhythmId &&
+    rhythms &&
+    rhythms.find((candidate) => candidate.id === block.rhythmId)) ||
+  null;
 function buildBlockMusic(choreo, block, ranges, rhythms, instruments) {
-  const blockRhythm =
-    block.rhythmId && rhythms
-      ? rhythms.find((candidate) => candidate.id === block.rhythmId)
-      : null;
+  const blockRhythm = findBlockRhythm(block, rhythms);
   return {
     id: `m-${block.id}`,
     type: "music",

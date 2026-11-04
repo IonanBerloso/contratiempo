@@ -605,11 +605,11 @@ kbd {
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 500;
-  color: var(--foot-r);
+  color: color-mix(in srgb, var(--foot-r) 55%, var(--ink));
   text-align: center;
 }
 .rlane.is-l {
-  color: var(--foot-l);
+  color: color-mix(in srgb, var(--foot-l) 70%, var(--ink));
 }
 .rcell {
   align-self: stretch;
@@ -843,7 +843,7 @@ kbd {
 }
 .dot.is-me .disc {
   background: var(--glow);
-  color: #fff;
+  color: var(--glow-ink);
   box-shadow:
     0 0 0 3px #fff,
     0 0 0 6px var(--glow),
@@ -859,7 +859,7 @@ kbd {
 }
 .dot.is-me .name {
   background: var(--glow);
-  color: #fff;
+  color: var(--glow-ink);
   font-weight: 700;
 }
 @keyframes pulse {
@@ -999,7 +999,7 @@ kbd {
   border: 1px solid color-mix(in srgb, var(--glow) 35%, transparent);
 }
 .foryou-label {
-  color: var(--glow);
+  color: color-mix(in srgb, var(--glow) 80%, var(--ink));
 }
 .\!clip {
   display: flex !important;
@@ -2067,7 +2067,7 @@ textarea.note-field {
 }
 .status.is-show {
   background: var(--glow-soft);
-  color: var(--glow);
+  color: color-mix(in srgb, var(--glow) 80%, var(--ink));
 }
 .show-panel {
   display: flex;
